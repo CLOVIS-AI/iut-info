@@ -4,7 +4,7 @@ Les cours en IUT Informatique de Bordeaux.
 
 # Comment récupérer le projet ?
 
-Voir en ligne: https://github.com/clovis-ai/iut-info
+Voir en ligne: [sur GitHub](https://github.com/clovis-ai/iut-info)
 
 Télécharger:
 
@@ -17,4 +17,4 @@ Télécharger:
     # 3. Mettre à jour
     $ git pull
 
-Pour signaler des erreurs, aller sur https://github.com/clovis-ai/iut-info/issues et faites 'new issue'.
+Pour signaler des erreurs, aller sur [GitHub:Issues](https://github.com/clovis-ai/iut-info/issues) et faites 'new issue'.
