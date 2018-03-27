@@ -74,9 +74,9 @@ Créer sa Liste à la main:
       .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
 Les paramètres sont:
- - supplier : crée l'objet résultat (vide)
- - accumulator : ajoute un objet au résultat
- - combiner : si jamais deux objets de départ ont été créés, les combine en un
+ - supplier ( -> Collecteur) : crée l'objet résultat (vide)
+ - accumulator (Collecteur, Element -> ) : ajoute un objet au résultat
+ - combiner (Collecteur, Collecteur -> ) : si jamais deux objets de départ ont été créés, les combine en un
 
 ## Flatmap
 
