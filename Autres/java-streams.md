@@ -1,6 +1,6 @@
 # Utiliser les Streams en Java
 
-La plupart du contenu de ce fichier est tiré de (Winterbe)[http://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/].
+La plupart du contenu de ce fichier est tiré de [Winterbe](http://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/).
 
 # Opérations principales sur les Streams
 
