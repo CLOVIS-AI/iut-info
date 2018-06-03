@@ -1,3 +1,13 @@
 private/
+
+# Fichiers OpenOffice & LibreOffice
 *.odt
 .~lock*
+
+# Fichiers LaTeX
+*.aux
+*.log
+*.gz
+*.pdf
+*.log
+
