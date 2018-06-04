@@ -1,4 +1,4 @@
-all: init latex clean
+all: init latex
 
 init:
 	git submodule init
@@ -11,4 +11,4 @@ publish:
 	rsync -avzu */*.pdf ivan@jmpi:/home/public/cours
 
 clean:
-	rm -rf */*.aux */*.log */*.gz *.log
+	rm -rf */*.aux */*.log */*.gz *.log */*.toc
