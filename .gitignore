@@ -10,4 +10,5 @@ private/
 *.gz
 *.pdf
 *.log
+*.toc
 
