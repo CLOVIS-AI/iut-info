@@ -2,9 +2,12 @@
 
 for i in */*.tex; do
 	[ -f $i ] || break
-	cd $( dirname $i)
+	DIR=$( dirname $i)
+	cd $DIR
 	NAME=$( basename $i)
-	pdflatex $NAME
-	pdflatex $NAME
+	echo -n ">> compiling $i ["
+	pdflatex $NAME >> /dev/null; echo -n "="
+	pdflatex $NAME >> /dev/null; echo -n "="
+	echo "]"
 	cd ..
 done
