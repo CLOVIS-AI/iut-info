@@ -7,8 +7,8 @@ init:
 latex: init
 	./buildall.sh
 
-publish:
-	rsync -avzu */*.pdf ivan@jmpi:/home/public/cours
+publish: clean
+	rsync -avzu --include='*/' --include='*.pdf' --exclude='*' --exclude='latex/' --prune-empty-dirs * ivan@jmpi:/home/public/cours
 
 clean:
 	rm -rf */*.aux */*.log */*.gz *.log */*.toc
