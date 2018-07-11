@@ -8,6 +8,8 @@ Les PDFs sont disponibles [ici sur le serveur JMPI](ftp://clovis.online/cours). 
 
 ## Signaler une erreur
 
+Si vous pensez être capable de régler l'erreur vous-même, allez-voir la section suivante.
+
 Créez une nouvelle issue: [ici](https://gitlab-ce.iut.u-bordeaux.fr/icanet/iut-info/issues/new)
 
 Donnez-lui un nom descritif.
