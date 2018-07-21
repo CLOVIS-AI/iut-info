@@ -6,8 +6,8 @@ for i in */*.tex; do
 	cd $DIR
 	NAME=$( basename $i)
 	echo -n ">> compiling $i ["
-	pdflatex $NAME >> /dev/null; echo -n "="
-	pdflatex $NAME >> /dev/null; echo -n "="
+	pdflatex -shell-escape $NAME >> /dev/null; echo -n "="
+	pdflatex -shell-escape $NAME >> /dev/null; echo -n "="
 	echo "]"
 	cd ..
 done
