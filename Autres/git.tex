@@ -1,0 +1,476 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\begin{document}
+
+\title{Utiliser Git}
+\author{Ivan Canet}
+\maketitle
+\begin{abstract}
+Git est un système de versionnage -- il va gérer tous vos projets à l'IUT, pour pouvoir travailler à plusieurs, organiser votre travail, etc.
+
+Vous allez l'utiliser toute votre carrière, et vous devez absolument en connaître les bases (à défaut de le maîtriser).
+
+Ce document n'a pas vocation à présenter tous les détails de Git, mais à montrer ce qui va être utilisé tous les jours.
+\end{abstract}
+
+\tableofcontents
+
+\part{Les bases de Git}
+
+\section{Introduction}
+
+Quels sont les avantages d'un système de version?
+
+\begin{itemize}
+\item Travailler à plusieurs sur un projet
+\item Ne jamais perdre de code
+\item Revenir à d'anciennes versions
+\item Travailler dans une branche pour faire des essais
+\end{itemize}
+
+Pourquoi apprendre Git en particulier?
+
+\begin{itemize}
+\item C'est celui le plus utilisé
+\item Gratuit \& Open Source
+\item Très performant
+\item Vous l'utiliserez toute votre vie!
+\end{itemize}
+
+La raison de lire ce document? Sur votre temps à l'IUT, une `initiation' à Git est prévue sur 2 heures. Ce n'est absolument pas assez pour comprendre les concepts, et surtout, vous pouvez revenir ici dès que vous en avez besoin!
+
+Commençons par installer Git.
+
+\section{Préparation de Git}
+
+\subsection{Installation}
+
+\paragraph{Sous Linux}
+
+Il suffit d'effectuer la commande:
+
+\begin{minted}{bash}
+sudo apt-get install git
+\end{minted}
+
+\paragraph{Sous Windows}
+
+Vous pouvez télécharger Git Bash. Ce n'est pas le seul moyen d'avoir Git sur Windows, mais c'est celui utilisé à l'IUT.
+
+\subsection{Configuration\label{config}}
+
+Oui je sais, ce n'est pas intéressant de faire de la configuration. Mais croyez-moi, cela va vous éviter de très nombreux problèmes.
+
+À RÉDIGER
+
+\section{Création du projet}
+
+Git permet de stocker des projets. En deux mots, Git permet d'enregistrer des versions d'un dossier (et de tous les fichiers qu'il contient). Pour cela, Git ajoute un dossier caché à votre projet, le {\tt .git}. C'est lui qui contient l'historique du projet, etc. Vous n'aurez JAMAIS besoin d'y toucher! C'est même d'ailleurs une bonne habitude: habituez-vous à le laisser tranquille.
+
+Quand le projet est créé, il est contenu dans un dossier (que nous appellerons "racine du projet"). Vous pouvez le déplacer, le renommer, etc, cela n'a absolument aucun impact sur votre projet. Voici un schéma de la structure du projet:
+
+\begin{minted}[linenos=false]{bash}
+racine/
+  fichier1.txt
+  sousdossier/
+    fichier2.txt
+  .git/
+\end{minted}
+
+Tout ce qu'il y a à savoir, c'est que Git ne connaît que le contenu du dossier qui contient le {\tt .git} (la racine du projet). Le dossier "racine" peut être déplacé ou renommé sans problèmes, seul son contenu est pris en compte.
+
+Voyons voir comment créer ce fameux {\tt .git} !
+
+\subsection{Création d'un nouveau projet}
+
+Vous aurez très rarement besoin de créer un nouveau projet vous-même. Dans le cas où vous en auriez besoin, Git propose une très simple commande pour cela:
+
+\begin{minted}{bash}
+git init
+\end{minted}
+
+En réalité, ce qui va souvent arriver, c'est que vous créerez le projet via un site comme GitLab ou GitHub, puis vous en ferez une copie sur votre PC. Voyons comment le faire.
+
+\subsection{Récupération d'un projet existant}
+
+Dans le cas où le projet Git existe déjà (créé par GitLab, GitHub ou un coéquipier) et que vous voulez y accéder, il vous faut une copie locale. On appelle cela un clone.
+
+La syntaxe globale est:
+
+\begin{minted}{bash}
+git clone ADRESSE ENDROIT
+\end{minted}
+
+où {\tt ADRESSE} correspond à l'endroit ou se trouve le fichier, et {\tt ENDROIT} correspond à l'endroit où vous voulez cloner le projet (doit être un dossier vide, par défaut le dossier actuel).
+
+Il existe de nombreuses manières d'écrire l’adresse. Détaillons-les.
+
+\subsubsection[Différents protocoles]{Différents protocoles pour récupérer le projet}
+
+\paragraph{Local} Vous pouvez cloner un projet directement depuis un autre projet sur votre ordinateur. C'est bon à savoir mais ce n'est quasiment jamais utilisé, c'est juste un bon exemple... Pensez à bien sélectionner le {\tt .git} !
+
+\begin{minted}{bash}
+# Exemple
+git clone ~/Documents/.../.git
+\end{minted}
+
+\paragraph{HTTPS}
+
+Le protocole HTTPS est utilisé par GitLab et GitHub. Il ne nécessite pas de configuration, par contre votre nom d'utilisateur et votre mot de passe vous serons demandés à chaque connexion au serveur.
+
+\begin{minted}{bash}
+# Exemple
+git clone https://gitlab-ce.iut.u-bordeaux.fr/icanet/iut-info.git
+\end{minted}
+
+\paragraph{SSH}
+
+Le protocole SSH est aussi utilisé par GitLab et GitHub. Il est beaucoup plus sécurisé et ne nécessite pas de mot de passe. Pour l'utiliser, vous devez générer une clef SSH et l'ajouter à votre compte GitHub / GitLab\footnote{Les étapes sont expliquées sur GitLab, allez en haut à droite dans votre compte, Paramètres, Clés SSH.}.
+
+\begin{minted}{bash}
+# Exemple
+git clone git@gitlab-ce.iut.u-bordeaux.fr:icanet/iut-info.git
+\end{minted}
+
+\paragraph{Git}
+
+Le protocole Git est très peu utilisé et n'est pas décrit ici.
+
+\subsubsection{Que se passe-t-il exactement quand on clone le projet~?}
+
+Quand on clone un projet, Git crée une copie de la version actuelle du projet sur le serveur dans votre dossier local, et se souvient de comment se connecter au serveur. Nous reviendrons là-dessus plus en détail quand nous évoquerons les branches (voir page \pageref{branches}).
+
+\subsection{Paramétrage du projet}
+
+Avoir le projet, c'est bien, mais il faut aussi le paramétrer !
+
+Cela se produit en général en trois étapes principales, le {\tt README}, la licence, et le {\tt .gitignore}.
+
+C'est très souvent la responsabilité de la personne qui crée le projet -- mais ça ne veut pas dire qu'il faut le négliger!
+
+\subsubsection{Le fichier README}
+
+Le fichier {\tt README.md} doit être placé à la racine de votre projet. Il a pour but d'expliquer à vos coéquipiers comment le projet fonctionne (il n'est absolument pas obligatoire, mais en pratique il est toujours utile).
+
+\subsubsection{La licence}
+
+La licence du projet détermine qui peut faire quoi avec votre projet. Pour un projet privé, elle n'est pas importante -- mais les profs aiment beaucoup qu'elle soit spécifiée, et vu que ça ne prend que quelques minutes !
+
+Elle se situe traditionnellement dans le fichier {\tt LICENSE} à la racine du projet. La liste des licences les plus utilisées est disponible sur \href{https://choosealicense.com/}{choosealicense.com} (en anglais).
+
+\subsubsection{Le .gitignore\label{gitignore}}
+
+Le {\tt .gitignore} est le fichier le plus important de toute la configuration. Si vous oubliez de le mettre vous risquez des énormes conflits quand vous travaillerez à plusieurs !
+
+Il a pour but premier de rendre le projet le plus léger possible en disant à Git quels fichiers ne vous intéressent pas. Par exemple, sous NetBeans, le dossier {\tt /build} dans le projet contient le code compilé. Ça ne sert à rien de l'avoir dans le Git, puisque NetBeans peut le reconstruire à la demande !
+
+Le second but du {\tt .gitignore} est d'éviter au maximum les conflits entre coéquipiers. Par exemple, les fichiers de configuration de NetBeans situés dans /nbproject/private sont différents pour chaque personne... si vous le partagez, vous allez casser la configuration de vos coéquipiers (ou la votre sur un autre ordinateur) !
+
+Par contre, les fichiers /nbproject/project.xml et /nbproject/project.properties sont importants puisque sans eux, NetBeans n'arrive plus à reconnaître le projet, il ne faut donc pas les ignorer.
+
+Voici le {\tt .gitignore} pour un projet sous NetBeans :
+
+\begin{minted}{bash}
+# Exécutables
+build/
+dist/
+
+# Fichiers
+*.xml
+*.properties
+!build.xml
+
+# Configuration
+nbproject/
+!nbproject/project.xml
+!nbproject/project.properties
+\end{minted}
+
+Ce fichier doit être placé à la racine du projet NetBeans (pas à la racine du projet Git\footnote{Vous pouvez avoir plusieurs {\tt .gitignore} à différents endroits de votre projet si vous le voulez, mais celui-ci à été écrit pour être placé à la racine du projet NetBeans (les chemins sont relatifs).} !) et doit s'appeler {\tt .gitignore} (sans extension)\footnote{Windows gère mal les fichiers n'ayant pas d'extensions. Pour en créer un sur Windows, créez un fichier normal `fichier.txt' puis renommez-le, par exemple en utilisant ``{\tt rn fichier.txt .gitignore}'' avec Batch ou ``{\tt mv fichier.txt .gitignore}'' avec la console Git Bash.}.
+
+Le point d'exclamation signifie une négation : on ne veut pas les fichiers {\tt XML}, SAUF le fichier {\tt build.xml} (lignes 6 et 8).
+
+\paragraph{Que faire en cas d'oubli~?\label{oubli-gitiginore}}
+
+Le fichier {\tt .gitignore} n'est pas rétroactif ! Si vous l'ajoutez APRÈS avoir ajouté un fichier au projet, ce fichier ne sera pas ignoré, même s'il est contenu dans le {\tt .gitignore}.
+
+Dans ce cas, vous devez dire à Git que le(s) fichier(s) que vous voulez ignorer sont supprimés. Il y a deux méthodes:
+
+\begin{itemize}
+\item Supprimer les fichiers du projet complètement:% sans --cached
+
+\begin{minted}{bash}
+git rm FICHIERS
+\end{minted}
+
+\item Supprimer les fichiers de Git, mais les garder localement (ils sont supprimés de l'historique mais pas du projet):% avec --cached
+
+\begin{minted}{bash}
+git rm --cached FICHIERS
+\end{minted}
+\end{itemize}
+
+\section{Synchronisation}
+
+Comme nous l'avons dit plus haut, Git est système distribué. Dans les faits, cela signifie que chaque personne a une copie complète du projet. Si la version du serveur est corrompue pour une raison ou pour une autre (pas besoin de vous inquiéter, ça n'arrive jamais~!), n'importe quelle personne ayant cloné le projet peut la republier. Si vous supprimez votre dossier accidentellement (ça par contre ça arrive), vous pouvez redemander au serveur sa version. Vos modifications non-synchronisées sont perdues, mais pas le projet entier !
+
+En fait, quand vous allez travailler sur le projet, vous n'allez pas travailler \textit{sur la version du serveur} mais \textit{sur votre propre version} (on appelle ça une branche, on en reparlera beaucoup plus en détails plus tard).
+
+C'est une distinction importante à comprendre: quand vous modifiez un fichier, la modification n'est PAS envoyée en serveur en direct (contrairement à Google Drive par exemple). Voici pourquoi ce choix n'a pas été fait:
+
+\begin{itemize}
+\item Git a été créé quand les connexions internets étaient très mauvaises, ce n'était pas possible de synchroniser en direct
+\item Des ancêtres de Git fonctionnaient sans copie (Perforce \& CVS, par exemple): on travaillait directement sur la version du serveur. Un des résultat était que deux personnes ne pouvaient pas travailler sur le même fichier en même temps... Alors qu'avec Git, aucun problème.
+\end{itemize}
+
+Il est donc important de savoir se synchroniser avec le serveur, puisque ça ne se fait pas tout seul !
+
+Petite note avant de continuer, on dit ``se synchroniser avec le serveur'', mais en soit, vous pouvez vous synchroniser avec n'importe qui. C'est juste que souvent, on aime bien tout regrouper à un seul endroit.
+
+\subsection{Envoyer la copie locale au serveur}
+
+Imaginez que vous ayez fait une amélioration de votre projet. Vous voulez envoyer vos modifications au serveur.
+
+La version locale et la version du serveur sont différentes, mais la votre est meilleure.
+Nous allons donc l'envoyer au serveur.
+
+\begin{minted}{bash}
+git push
+\end{minted}
+
+Pourquoi est-ce aussi simple? En fait, vous avez cloné le projet depuis un serveur, pas vrai? Et bien, Git se ``souvient'' quelle était son adresse.
+
+Attention cependant, cela ne va fonctionner que s'il n'y a pas de conflit. Qu'est-ce qu'un conflit? En fait, quand vous envoyez votre version au serveur, il existe plusieurs situations:
+
+\begin{itemize}
+\item Vous avez des modifications en avance sur le serveur: pas de problème, votre version est plus récente donc le serveur mets à jour sa version pour qu'elle soit identique à la votre.
+\item Vous avez divergé: cela arrive si le serveur a été modifié depuis votre dernière synchronisation. Dans ce cas-là, le serveur est bloqué; s'il prend votre version, ses modifications sont perdues, et s'il prend sa version, vos modifications sont perdues. Le serveur va alors rejeter votre envoi (vous aurez un message du genre ``push rejected, fetch first''). Dans ce cas, continuez à lire.
+\end{itemize}
+
+\subsection{Récupérer la copie du serveur}
+
+De temps en temps, vous voudrez vous remettre à jour par rapport au serveur (par exemple pour récupérer le travail de vos coéquipiers).
+
+Cela se passe en deux étapes, il faut d'abord récupérer l'historique des modifications, puis les appliquer à votre version.
+
+\begin{minted}{bash}
+git fetch
+\end{minted}
+
+Cette commande permet de récupérer les modifications présentes sur le serveur, mais ne va pas les appliquer! Votre copie locale n'est absolument pas modifiée. Vous pouvez donc le faire aussi souvent que vous le voulez.
+
+On a vu la première étape, mais je ne vais pas vous montrer comment appliquer les modifications. Pourquoi, parce que c'est une commande compliquée que vous n'avez pas besoin de connaître, et parce qu'il existe une commande magique qui fait les deux étapes en même temps!
+
+\begin{minted}{bash}
+git pull
+\end{minted}
+
+Cette commande est un raccourci pour ``git fetch'' + la commande que je ne vous ai pas montré. En pratique, c'est toujours elle que l'on va utiliser, mais il est bon de connaître l'existence de fetch.
+
+Dans certains cas par contre, cela ne va pas marcher! Quels sont ces cas?
+
+\begin{itemize}
+\item Si votre version est en avance sur la version du serveur: il ne se passe rien, puisque vous avez déjà toutes les modifications présentes sur le serveur!
+\item Si votre version est en retard sur la version du serveur: votre version locale est remplacée par celle du serveur, et maintenant votre version est identique à celle du serveur!
+\item Si vos versions ont divergé, on dit qu'il y a conflit. Voyons comment régler les conflits.
+\end{itemize}
+
+\subsubsection{Régler les conflits\label{régler-conflits}}
+
+Lors d'un conflit, Git va essayer de le régler tout seul, comme un grand. Il fait ça en observant les modifications des deux versions (la votre et celle du serveur). Il y a alors deux cas:
+
+\begin{itemize}
+\item Si toutes les modifications sont dans des fichiers différents, ou même des lignes différentes dans un même fichier, Git fusionne les deux versions tout seul.
+\item Si une même ligne (ou un groupe de même lignes) a été modifiée par les deux personnes, Git est incapable de choisir la meilleure version : il plante et vous demande votre avis.
+
+Si cela arrive, Git vous donne la liste des fichiers dans lequel des conflits non-résolus existent encore, puis s'arrête. Vous pouvez aussi récupérer cette liste via ``git status'', ils apparaissent avec la mention ``both modified'' (on en reparlera plus tard).
+
+Vous devez alors aller vous-même régler les conflits. C'est très simple: dans les fichiers concernés, Git a ``marqué'' les parties conflictuelles. Illustrons la situation avec un exemple:
+
+Imaginons que vous avez créé un fichier ``animaux.txt'' qui contient une liste d'animaux:
+
+\begin{minted}{text}
+vache
+poule
+mouton
+//autre chose
+\end{minted}
+
+Vous avez envoyé ce fichier au serveur avec ``git push'' sans problèmes. Maintenant vous vous dites qu'il serait mieux au pluriel. Vous ajoutez donc un `s' à chaque animal, votre fichier est maintenant:
+
+\begin{minted}{text}
+vaches
+poules
+moutons
+//autre chose
+\end{minted}
+
+Jusque-là tout va bien, mais entre-temps, Fred a aussi modifié le fichier, il a ajouté les pigeons!
+
+Voici la version de Fred:
+
+\begin{minted}{text}
+vache
+poule
+mouton
+pigeon
+//autre chose
+\end{minted}
+
+Comme Fred a déjà envoyé sa version au serveur, le serveur refuse que vous envoyiez la votre, et annonce qu'on conflit est présent. Git vous a marqué le conflit: vous allez trouver le fichier ressemblant à quelque chose comme cela:
+
+\begin{minted}{text}
+<<<<<<<<< HEAD
+vaches
+poules
+moutons
+=========
+vache
+poule
+mouton
+pigeon
+>>>>>>>>> 153de48dzd15fe
+//autre chose
+\end{minted}
+
+Cela mérite de faire une pause pour bien expliquer ce qu'il se passe. Git a trouvé deux versions du fichier et ne sait pas comment les fusionner. Donc il vous demande votre avis, en vous donnant les premières versions. Il délimite le début d'un conflit avec ``<'' et la fin avec ``>''. Au début, il affiche ``HEAD'', cela veut dire ``votre version''. À la fin, il affiche un nombre en hexadécimal, c'est l'identifiant de la modification de Fred, on en reparlera quand on expliquera les commits. Les deux versions sont séparées par des ``=''.
+
+Pour régler le conflit, il suffit de corriger le fichier pour qu'il redevienne normal. Vous pouvez faire ce que vous voulez: prendre votre version et abandonné celle de Fred, ou faire un mélange des deux. Comme Fred est votre ami, vous allez bien faire et tout fusionner. Le résultat ressemble à ça:
+
+\begin{minted}{text}
+vaches
+poules
+moutons
+pigeons
+//autre chose
+\end{minted}
+
+On a bien ajouté le pigeon, et tout est au pluriel. C'est bon, le conflit est réglé!
+\end{itemize}
+
+Maintenant que vous savez comment régler les conflits, il faut officialiser le fin du conflit. Pour ce faire, faites simplement un nouveau commit (si le conflit a été réglé automatiquement, Git va directement ouvrir votre éditeur et demander un message) (vous ne savez pas le faire? Ça tombe bien, c'est le chapitre suivant!).
+
+\paragraph{Cas particuliers: fins de lignes \& permissions}
+Avant de passer à la suite, il est important de noter quelques cas particuliers. Git gère mal les conflits de permissions (lecture-écriture-exécution) ou de changement de fin de lignes (CRLF sous Windows, LF sous Linux et CR sous MacOS)\footnote{Vous n'aurez pas ce problème si vous avez suivi mes conseils de configuration, voir page \pageref{config}.}. Dans ce cas, Git vous mettre le fichier entier conflictuel et vous devrez parcourir vous-même le fichier entier. C'est extrêmement rébarbatif donc assurez-vous que votre Git soit bien configuré et de ne modifier les permissions que si vous êtes sûrs que c'est nécessaire (je veux dire, pas une fois tous les deux jours).
+
+\section{Enregistrements}
+
+Il est temps de faire des modifications à votre projet pour de vrai!
+
+En fait, quand vous allez envoyer / recevoir des informations du / au serveur, vous n'allez pas lui envoyer tous vos fichiers. Il est temps de détailler la partie la plus importante de Git: l'officialisation des modifications -- on appelle ça un commit.
+
+\subsection{Staged et Unstaged}
+
+Avant de parler des commits eux-même, il faut évoquer la manière dont Git comprend le projet. Votre projet (local) contient deux parties: les fichiers, et l'historique (contenu dans le {\tt .git}). À n'importe quel moment, vous allez pouvoir dire ``je veux que la version actuelle du projet soit ajoutée à l'historique''.
+
+Mais vous pouvez être intéressé par le fait de choisir quels fichiers vont faire partie de votre prochaine version ou non. Peut-être qu'un fichier est prêt, un autre non.
+
+Un fichier peut donc être dans trois `états' du point de vue de Git:
+
+\begin{itemize}
+\item Ignoré: Git ne fait même pas attention à l'existence du fichier, le plus souvent parce que le fichier est inclus dans un fichier ``.gitignore'' (voir page \pageref{gitignore}).
+\item Unstaged: Git sait que le fichier a été créé, mais ne le prend pas en compte.
+\item Staged: La version actuelle du fichier sera incluse dans votre prochaine modification.
+\end{itemize}
+
+Vous pouvez savoir quel est le statut de chaque fichier en utilisant ``git status'', qui liste aussi les commandes pour passer un fichier d'un état à un autre. Listons-les ici.
+
+\begin{itemize}
+\item Unstaged $\rightarrow$ Staged: \mintinline{bash}{git add FICHIERS}\footnote{Vous pouvez aussi utiliser {\tt git add .} pour ajouter tous les fichiers, mais je vous conseille de le faire uniquement si vous êtes sûr de vous, vous risquez d'ajouter quelque chose que vous ne voulez pas ajouter.}
+\item Staged $\rightarrow$ Unstaged: \mintinline{bash}{git checkout -- FICHIERS}
+\item Ignoré $\rightarrow$ Staged: \mintinline{bash}{git add -f FICHIERS}, mais vous l'utiliserez très rarement, si vous l'avez ignoré ce n'est pas pour rien
+\item Staged $\rightarrow$ Ignoré: voir \ref{oubli-gitiginore} \textit{\nameref{oubli-gitiginore},} page \pageref{oubli-gitiginore}.
+\end{itemize}
+
+Il existe de nombreuses autres commandes qui permettent en rapport avec l'état des fichiers. Par exemple, vous pouvez demander à Git de vous montrer tout ce qui a été modifié dans les fichiers Unstaged avec {\tt git diff} (vous pouvez aussi donner des noms de fichiers pour ne voir que ceux-ci).
+
+\subsection{Commit}
+
+Qu'est-ce qu'une mise à jour sous Git?
+
+Simplement dit, c'est une capture de l'état (complet ou partiel) du projet à un moment donné.
+
+C'est comme cela que l'on ``officialise'' une modification sous Git -- un commit a un auteur, une date, et un contenu.
+
+Vous pouvez créer un commit avec:
+
+\begin{minted}{bash}
+git commit
+\end{minted}
+
+L'auteur du commit, c'est vous. La date et l'heure, Git la mets automatiquement. Le contenu, c'est l'ensemble des fichiers ``Staged'' (en vert dans {\tt git status}), ils sont chacun représentés par leur chemin relatif (à partir de la racine du projet), leur mode (permissions) et leur contenu. Un commit contient aussi un message. Quand vous effectuez la commande précédente, Git ouvre votre éditeur et vous demande un message. Pour gagner du temps, vous pouvez aussi donner le message directement:
+
+\begin{minted}{bash}
+git commit -m 'Votre message'
+\end{minted}
+
+Pour gagner du temps, vous pouvez aussi choisir directement quels fichiers vous voulez ajouter:\footnote{Ou \mintinline{bash}{git commit -am 'Votre message'} pour choisir tous les fichiers.}
+
+\begin{minted}{bash}
+git commit -m 'Votre message' -- FICHIERS
+\end{minted}
+
+C'est l'équivalent de:
+
+\begin{minted}{bash}
+git add FICHIERS
+git commit -m 'Votre message'
+\end{minted}
+
+À propos du message... je sais que c'est tentant de mettre un truc à la con, mais je le déconseille fortement. La première ligne du message doit décrire précisément ce qui a été modifié dans le projet, avec un phrase courte au passé. Par exemple ``réglé bug où l'utilisateur ne pouvait plus se déconnecter''. Il est important que le message soit court et clair. Si vous voulez ajouter plus de détails, vous pouvez le faire à partir de la 3\ieme~ligne.
+
+C'est bon, vous pouvez {\tt pull} et {\tt push} vos commits! Vous connaissez enfin les bases complètes de Git! Il est temps d'un gros résumé.
+
+\section{Résumé: le workflow}
+
+Résumons toutes les étapes de l'utilisation de Git.
+
+\begin{itemize}
+\item Installation de Git et paramétrage (alias et config...)
+\item Création du projet et paramétrage (.gitignore...)
+\end{itemize}
+
+La journée de travail typique ressemble à:
+
+\begin{minted}{bash}
+git pull # le matin
+# Faire des modifs
+git add MODIFS
+git commit -m 'Message'
+# Retourner ligne 2 autant de fois que nécessaire
+git push # À la fin quand tous les problèmes sont réglés
+\end{minted}
+
+J'insiste bien, ne {\tt git push} jamais si votre code ne compile pas! Sinon, votre coéquipier va devoir régler des conflits dans un code qui ne marche pas...
+
+Prenez aussi l'habitude de faire des commits souvent. Ça fait pas de mal et c'est plus pratique, à la fois pour comprendre ce que les autres ont fait, mais aussi pour régler les conflits.
+
+Et surtout, n'oubliez pas de {\tt push} quand vous avez fini. Presque à chaque séance de projet, il y a toujours quelqu'un dans la salle qui a oublié de push, du coup le groupe est coincé à devoir refaire ce qui a déjà été fait. C'est dommage.
+
+\section{Depuis un IDE}
+
+\paragraph{NetBeans}
+
+\paragraph{IntelliJ}
+
+\paragraph{Visual Studio}
+
+\paragraph{Atom}
+
+\part{Travailler avec des branches\label{branches}}
+
+\part{GitLab et GitHub}
+
+\part{Git avancé}
+
+\section{Les alias\label{alias}}
+
+\section{Les étiquettes / tags}
+
+\section{Les submodules}
+
+\end{document}
