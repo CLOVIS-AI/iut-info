@@ -57,6 +57,12 @@ Il suffit d'effectuer la commande:
 sudo apt-get install git
 \end{minted}
 
+Je vous conseille aussi d'installer le packet {\tt bash-completion} (pour avoir l'auto-complétion). Il est installé par défaut sur plusieurs Linux.
+
+\begin{minted}{bash}
+sudo apt-get install bash-completion
+\end{minted}
+
 \paragraph{Sous Windows}
 
 Vous pouvez télécharger Git Bash. Ce n'est pas le seul moyen d'avoir Git sur Windows, mais c'est celui utilisé à l'IUT.
@@ -65,7 +71,95 @@ Vous pouvez télécharger Git Bash. Ce n'est pas le seul moyen d'avoir Git sur W
 
 Oui je sais, ce n'est pas intéressant de faire de la configuration. Mais croyez-moi, cela va vous éviter de très nombreux problèmes.
 
-À RÉDIGER
+\subsubsection{Identité}
+
+La première étape est obligatoire, elle permet à Git de vous connaître (c'est votre identité).
+
+\begin{minted}{bash}
+git config --global user.name 'Votre Nom Ici'
+git config --global user.email 'votre.addresse@etu.u-bordeaux.fr'
+\end{minted}
+
+On utilise la commande \mintinline{bash}{git config} avec l'option {\tt global} qui permet de le donner comme configuration globale à votre ordinateur. Vous pouvez enlever cette option pour avoir une configuration différente d'un projet à l'autre (mais ça ne vous servira probablement pas au sein de l'IUT).
+
+\subsubsection{Utilisation des alias\label{alias}}
+
+Une commande qui peut vous servir souvent:
+
+\begin{minted}{bash}
+git config --global alias.NOM 'COMMANDE'
+\end{minted}
+
+Cette commande vous permet de créer un alias (un raccourci). Comme cela, vous pouvez faire des abréviations pour vos commandes. Par exemple:
+
+\begin{minted}{bash}
+git config --global alias.ca 'commit -a'
+\end{minted}
+
+vous permet d'utiliser la commande ``\mintinline{bash}{git ca}'' au lieu de ``\mintinline{bash}{git commit -a}''.
+
+Vous pouvez faire vos propres alias vous-même, mais je vous en conseille quelques-un qui vous serons très pratiques:
+
+\begin{minted}{bash}
+# Liste des alias disponibles
+git config --global alias.aliases "config --get-regexp '^alias\.'"
+
+# Abréviations
+git config --global alias.st 'status'
+git config --global alias.co 'checkout'
+git config --global alias.a 'add'
+git config --global alias.c 'commit'
+git config --global alias.cm 'commit -m' # Inclue le message
+git config --global alias.p 'pull -p' # Supprime branches locales
+git config --global alias.ps 'push'
+git config --global alias.f 'fetch -p' # Supprime branches locales
+
+# Liste des tags
+git config --global alias.tags 'tag -l -n1 --sort=taggerdate'
+
+# Joli affichage de l'historique
+git config --global alias.glog "log --graph --oneline --decorate=short --branches='*'"
+\end{minted}
+
+Maintenant, vous pouvez utiliser:
+
+\begin{minted}{bash}
+git aliases # Liste des alias
+git tags # Liste des tags dans l'ordre chronologique
+git p # Pull
+git glog # Affichage de l'historique
+git glog -10 # Affichage des 10 derniers commits
+\end{minted}
+
+\subsubsection{Autres configurations}
+
+Voici d'autres configurations que nous vous conseillons.
+
+\begin{minted}{bash}
+# Pousser uniquement la branche actuelle lors de git push
+git config --global push.default simple
+\end{minted}
+
+\paragraph{Spécial Linux}
+
+\begin{minted}{bash}
+# Nano au lieu de VIM (pour ceux qui ne veulent pas apprendre VIM)
+git config --global core.editor nano
+# Utilisation des fins de lignes LF (défaut sous Linux)
+git config --global core.autocrlf true
+\end{minted}
+
+\paragraph{Spécial Windows}
+
+\begin{minted}{bash}
+# Bloc-note au lieu de VIM
+# (pour ceux qui ne veulent pas apprendre VIM)
+git config --global core.editor notepad
+# Conversion des CRLF en LF en interne, conversion inverse en sortie
+git config --global core.autocrlf input
+\end{minted}
+
+La ligne 5 (conversion CRLF) est très importante si vous travaillez à la fois sur des ordinateurs Linux \& Windows, puisque Linux utilise LF comme fin de ligne et Windows utilise CRLF. De cette manière, tous les CRLF seront transformés en LF en interne, et la version partagée ne contiendra que des LF ; mais en local, votre ordinateur continue d'utiliser CRLF.
 
 \section{Création du projet}
 
@@ -242,9 +336,9 @@ Nous allons donc l'envoyer au serveur.
 git push
 \end{minted}
 
-Pourquoi est-ce aussi simple? En fait, vous avez cloné le projet depuis un serveur, pas vrai? Et bien, Git se ``souvient'' quelle était son adresse.
+Vous avez cloné le projet depuis un serveur, Git se ``souvient'' quelle était son adresse.
 
-Attention cependant, cela ne va fonctionner que s'il n'y a pas de conflit. Qu'est-ce qu'un conflit? En fait, quand vous envoyez votre version au serveur, il existe plusieurs situations:
+Attention cependant, cela ne va fonctionner que s'il n'y a pas de conflit. Qu'est-ce qu'un conflit? Quand vous envoyez votre version au serveur, il existe plusieurs situations:
 
 \begin{itemize}
 \item Vous avez des modifications en avance sur le serveur: pas de problème, votre version est plus récente donc le serveur mets à jour sa version pour qu'elle soit identique à la votre.
@@ -337,9 +431,9 @@ pigeon
 //autre chose
 \end{minted}
 
-Cela mérite de faire une pause pour bien expliquer ce qu'il se passe. Git a trouvé deux versions du fichier et ne sait pas comment les fusionner. Donc il vous demande votre avis, en vous donnant les premières versions. Il délimite le début d'un conflit avec ``<'' et la fin avec ``>''. Au début, il affiche ``HEAD'', cela veut dire ``votre version''. À la fin, il affiche un nombre en hexadécimal, c'est l'identifiant de la modification de Fred, on en reparlera quand on expliquera les commits. Les deux versions sont séparées par des ``=''.
+Cela mérite de faire une pause pour bien expliquer ce qu'il se passe. Git a trouvé deux versions du fichier et ne sait pas comment les fusionner. Donc il vous demande votre avis, en vous donnant les premières versions. Il délimite le début d'un conflit avec ``<'' et la fin avec ``>''. Au début, il affiche ``HEAD'', cela veut dire ``votre version''\footnote{Plus de détails page \pageref{head}, \textit{\nameref{head}}.}. À la fin, il affiche un nombre en hexadécimal, c'est l'identifiant de la modification de Fred\footnote{Plus de détails page \pageref{commit}, \textit{\nameref{commit}}.}. Les deux versions sont séparées par des ``=''.
 
-Pour régler le conflit, il suffit de corriger le fichier pour qu'il redevienne normal. Vous pouvez faire ce que vous voulez: prendre votre version et abandonné celle de Fred, ou faire un mélange des deux. Comme Fred est votre ami, vous allez bien faire et tout fusionner. Le résultat ressemble à ça:
+Pour régler le conflit, il suffit de corriger le fichier pour qu'il redevienne normal. Vous pouvez faire ce que vous voulez: prendre votre version et abandonner celle de Fred, prendre celle de Fred et abandonner la votre, ou faire un mélange des deux. Comme Fred est votre ami, vous allez bien faire et tout fusionner. Le résultat ressemble à ça:
 
 \begin{minted}{text}
 vaches
@@ -355,7 +449,7 @@ On a bien ajouté le pigeon, et tout est au pluriel. C'est bon, le conflit est r
 Maintenant que vous savez comment régler les conflits, il faut officialiser le fin du conflit. Pour ce faire, faites simplement un nouveau commit (si le conflit a été réglé automatiquement, Git va directement ouvrir votre éditeur et demander un message) (vous ne savez pas le faire? Ça tombe bien, c'est le chapitre suivant!).
 
 \paragraph{Cas particuliers: fins de lignes \& permissions}
-Avant de passer à la suite, il est important de noter quelques cas particuliers. Git gère mal les conflits de permissions (lecture-écriture-exécution) ou de changement de fin de lignes (CRLF sous Windows, LF sous Linux et CR sous MacOS)\footnote{Vous n'aurez pas ce problème si vous avez suivi mes conseils de configuration, voir page \pageref{config}.}. Dans ce cas, Git vous mettre le fichier entier conflictuel et vous devrez parcourir vous-même le fichier entier. C'est extrêmement rébarbatif donc assurez-vous que votre Git soit bien configuré et de ne modifier les permissions que si vous êtes sûrs que c'est nécessaire (je veux dire, pas une fois tous les deux jours).
+Avant de passer à la suite, il est important de noter quelques cas particuliers. Git gère mal les conflits de permissions (lecture-écriture-exécution) ou de changement de fin de lignes (CRLF sous Windows, LF sous Linux et CR sous MacOS). Dans ce cas, Git peut vous mettre le fichier entier conflictuel et vous devrez parcourir vous-même le fichier entier. C'est extrêmement rébarbatif donc assurez-vous que votre Git soit bien configuré (cf.~\textit{\nameref{config}}, page \pageref{config}) et de ne modifier les permissions que si vous êtes sûrs que c'est nécessaire (je veux dire, pas une fois tous les deux jours).
 
 \section{Enregistrements}
 
@@ -363,7 +457,7 @@ Il est temps de faire des modifications à votre projet pour de vrai!
 
 En fait, quand vous allez envoyer / recevoir des informations du / au serveur, vous n'allez pas lui envoyer tous vos fichiers. Il est temps de détailler la partie la plus importante de Git: l'officialisation des modifications -- on appelle ça un commit.
 
-\subsection{Staged et Unstaged}
+\subsection{Staged et Unstaged\label{staged-unstaged}}
 
 Avant de parler des commits eux-même, il faut évoquer la manière dont Git comprend le projet. Votre projet (local) contient deux parties: les fichiers, et l'historique (contenu dans le {\tt .git}). À n'importe quel moment, vous allez pouvoir dire ``je veux que la version actuelle du projet soit ajoutée à l'historique''.
 
@@ -388,7 +482,7 @@ Vous pouvez savoir quel est le statut de chaque fichier en utilisant ``git statu
 
 Il existe de nombreuses autres commandes qui permettent en rapport avec l'état des fichiers. Par exemple, vous pouvez demander à Git de vous montrer tout ce qui a été modifié dans les fichiers Unstaged avec {\tt git diff} (vous pouvez aussi donner des noms de fichiers pour ne voir que ceux-ci).
 
-\subsection{Commit}
+\subsection{Commit\label{commit}}
 
 Qu'est-ce qu'une mise à jour sous Git?
 
@@ -453,24 +547,438 @@ Et surtout, n'oubliez pas de {\tt push} quand vous avez fini. Presque à chaque 
 
 \section{Depuis un IDE}
 
-\paragraph{NetBeans}
+Personnellement, je préfère faire la majorité de mon travail en commandes, mais certaines personnes préfèrent utiliser un IDE. Voici comment réaliser directement dans l'IDE les tâches les plus simples (commits, push et pull).
 
-\paragraph{IntelliJ}
+\subsection{NetBeans}
 
-\paragraph{Visual Studio}
+Dans l'arbre des fichiers, vous pouvez:
 
-\paragraph{Atom}
+\begin{itemize}
+\item Faire un commit pour un fichier: clic-droit sur le fichier, Git, Commit file.
+\item Faire un commit pour plusieurs fichiers: clic-droit sur un dossier, Git, Commit, puis sélectionner les fichiers.
+\end{itemize}
+
+\subsection{IntelliJ}
+
+\subsection{Visual Studio}
+
+\subsection{Atom}
 
 \part{Travailler avec des branches\label{branches}}
 
+Jusque-là, vous avez découvert la manière d'utiliser Git de base. Cela vous sera probablement suffisant ici à l'IUT, mais je vous déconseille de vous arrêter là. Oui, vous savez \textit{utiliser} Git, mais vous n'en profitez pas.
+
+Pourquoi continuer à lire?
+\begin{itemize}
+\item Les branches permettent d'utiliser Git de manière beaucoup plus coopérative et efficace.
+\item Vous aurez beaucoup, beaucoup moins de conflits. Croyez-moi.
+\end{itemize}
+
+\section{Qu'est-ce qu'une branche ?}
+
+Avant de pouvoir commencer à les utiliser, il faut comprendre ce qu'elles sont.
+
+Comme vous l'avez vu précédemment, Git gère le projet par ``commits''. Un commit, c'est une ``capture de l'état d'un projet à un instant donné'' -- c'est-à-dire la date, l'auteur, et le contenu des fichiers.
+
+\subsection{Introduction}
+
+Si vous effectuez \mintinline{bash}{git log --graph --oneline --decorate=short}, vous verrez l'historique du projet. Si c'est un projet qui existe depuis longtemps, il y a probablement eu des conflits ; dans ce cas, vous verrez quelque chose comme ça:
+
+\begin{minted}{bash}
+* ce23c9f Préparation pour le HTML
+*   753fb53 Merge branch 'master'
+|\  
+| * ad6bfcb Message plus précis: pas besoin d issue si on fait une MR
+| *   5490b8e Typo 'acceuil' dans README
+| |\  
+| | * 2068086 Erreur pas jolie Bravo
+| |/  
+* | 9aa09e2 Added .idea/ to .gitignore
+|/  
+* 2a5d7a8 Mise à jour du README
+* bd95463 Cours du 15 juin 2018
+\end{minted}
+
+Ici, chaque ligne est un commit. On voit bien que les commits ont un ``enbranchement'' à la ligne 11 et à la ligne 8, et que les branches ``fusionnent'' à la ligne 5 et à la ligne 2.
+
+Dans cet, exemple, 3 branches ont existé. Par convention, la branche principale s'appelle ``master''\footnote{Elle est créée automatiquement par Git avec ce nom lors de la création du projet. Rien ne vous empêche de la renommer ou de la supprimer, mais c'est déconseillé parce que tout le monde a pris l'habitude qu'elle s'appelle comme ça.}, c'est celle la plus à gauche. Les deux autres sont des branches temporaires, qui ont étés supprimées depuis (quand elles ont été fusionnées)\footnote{Fusionner une branche ne la supprime pas, plus de détails sur la fusion sont donnés page \pageref{end-branch}, ``\nameref{end-branch}''.}.
+
+Avant de continuer, revenons aux commits eux-même.
+
+\subsection{Approfondissement des commits}
+
+Comme vous l'avez vu, chaque commit est identifié par un numéro en Hexadécimal. Ce nombre identifie le commit parce qu'il est généré à partir de tout son contenu -- changer le moindre caractère de l'un des fichiers change le nombre\footnote{Pour ceux qui veulent aller encore plus loin, c'est un hash en SHA-1, créé par la NSA. SHA-1 n'est plus considéré comme cryptographiquement protégé, mais ce n'est pas grave dans le cas de Git.}, on l'appelle le ``hash'' du commit.
+
+Chaque commit connaît le hash de son parent (le commit précédent). Cela veut dire que vous pouvez remonter tout l'historique du projet à partir de n'importe quel commit, jusqu'à la création du projet (le premier commit est le seul qui a le droit de ne pas avoir de parent\footnote{En fait, ce n'est absolument pas vrai et Git est complètement capable de gérer plusieurs ``racines''. Par contre, c'est considéré comme une pratique très avancée et cela rend beaucoup de fusions très compliquées : la preuve, le noyau de Linux (pour lequel Git a été créé) contient 768~459 commits, dont seulement 4~racines.}). Cela permet de pouvoir régler les conflits plus facilement (Git est capable de remonter jusqu'au premier parent commun, puis redescendre en appliquant toutes les modifications des deux branches, on en reparlera page \pageref{end-branch}, ``\nameref{end-branch}''), mais cela permet aussi à Git de vérifier l'authenticité du projet. Puisque le hash change qu'elle que soit la modification de n'importe quel commit, Git se rend compte immédiatement des corruptions. Par exemple, si le serveur est corrompu et que vous essayez de ``git pull'', Git vous préviendras que la version du serveur est invalide\footnote{Si vous avez joué avec les Bitcoins ou les Ethereums, vous remarquerez peut-être que les commits et les blocs ont beaucoup en commun ; c'est normal, ils fonctionnent selon la même théorie : une référence vers le parent et l'utilisation de hashs. Bitcoin utilise l'algorithme SHA-256, qui est plus puissant et plus solide que SHA-1... mais c'est le même principe, cela s'appelle un Arbre de Merkle.}.
+
+Revoici l'exemple précédent :
+
+\begin{minted}{bash}
+* ce23c9f Préparation pour le HTML
+*   753fb53 Merge branch 'master'
+|\  
+| * ad6bfcb Message plus précis: pas besoin d'issue si on fait une MR
+| *   5490b8e Typo 'acceuil' dans README
+| |\  
+| | * 2068086 Erreur pas jolie Bravo
+| |/  
+* | 9aa09e2 Added .idea/ to .gitignore
+|/  
+* 2a5d7a8 Mise à jour du README
+* bd95463 Cours du 15 juin 2018
+\end{minted}
+
+Dans cet exemple :
+
+\begin{description}
+\item[ce23c9] Parent : {\tt 753fb53}
+\item[2068086] Parent : {\tt 2a5d7a8}
+\item[bd95463] Orphelin, c'est le premier commit !
+\item[753fb53] Deux parents : {\tt 9aa09e2} et {\tt ad6bfcb}, c'est un commit ``de fusion'' ; idem pour 5490b8e
+\end{description}
+
+On trouve donc trois types de commits:
+
+\begin{itemize}
+\item Commit ``normal'', un parent
+\item Commit racine, pas de parent
+\item Commit de fusion (``merge commit''), 2 parents\footnote{Techniquement, un commit de fusion peut avoir plus de deux parents, mais c'est très rare et ce n'est fait que par des experts, cela s'appelle un ``commit-pieuvre'' (octopus commit) Dans le noyau Linux, c'est assez courant en raison de l'expérience des lieutenants et de Torvalds, sur les environ 700~000 commits, il y a 1~549 commits-pieuvre, dont le plus gros a 66 parents ! Pour un exemple de projet plus ``normal'', le repo de Rails comporte 63~000~commits dont 0~commit-pieuvre.}
+\end{itemize}
+
+Maintenant, qu'est-ce qu'une branche?
+
+\subsection{Les branches}
+
+\subsubsection{Introduction}
+
+Vous voyez bien que la racine de l'arbre est un commit solitaire, mais les commits les plus à l'extrémité (les ``feuilles'') peuvent être très nombreuses:
+
+\begin{minted}{bash}
+      1 2 master
+A-B-C-----F
+   \--D
+     \--E
+\end{minted}
+
+Sur ce schéma, on voit bien l'historique, ce projet a une racine (A) et trois feuilles (F, D et E).
+
+En fait, les branches sont juste une manière de se souvenir de l'existence des feuilles. Par exemple, dans le schéma précédent, la branche ``master'' représente le commit F, la branche ``1'' représente le commit D, et la branche ``2'' représente le commit E.
+
+\subsubsection{Ajouter un nouveau commit à une branche}
+
+L'idée est très simple: si vous êtes actuellement sur la branche ``1'' et que vous faites un nouveau commit, l'historique deviendra:
+
+\begin{minted}{bash}
+        2 master 1
+A-B-C-----F
+   \--D----------G
+     \--E
+\end{minted}
+
+On remarque que le nouveau commit (G) est bien dans la branche ``1''. Le parent de G est D (qui été précédemment le commit sur lequel pointait 1). 1 s'est déplacée et pointe maintenant sur le nouveau commit le plus récent, G. On remarque que, à part la branche 1 qui s'est déplacée, absolument aucune modification n'a été effectuée aux commits précédents: le contenu des autres branches est identique, le contenu de l'ancienne branche 1 est identique.
+
+\subsubsection{Duplication des branches}
+
+En fait, même si vous ne vous en êtes pas rendu compte, vous utilisez des branches depuis que vous avez commencé Git. En réalité, chaque machine qui a une copie du repo (chaque clone + l'original) contient aussi une copie de toutes les branches.
+
+Si l'on reprend l'exemple précédent:
+
+\begin{minted}{bash}
+origin       1 2 master
+local        1 2 master
+       A-B-C-----F
+          \--D
+            \--E
+\end{minted}
+
+On retrouve les mêmes branches qu'avant, sur la ligne ``local''. Ce sont les versions des branches sur votre machine.
+
+Les nouvelles branches qui viennent d'apparaître sont les versions des branches sur le serveur ``origin''\footnote{De même que la branche par défaut s'appelle ``master'', le serveur par défaut (l'adresse que vous avez utilisé lors du clone) est appelé ``origin''. Vous pouvez la renommer etc comme vous le souhaitez, cela n'a pas d'impact.}. On les appelle `serveur/branche', donc ici, `origin/master', `origin/1` et `origin/2' pour être sûr de ne pas les confondre avec les branches locales. Les branches locales n'ont pas de préfixe, elles s'appellent toujours `master', `1' et `2'.
+
+Reprenons le scénario précédent, avec à nouveau un commit dans le branche 1 :
+
+\begin{minted}{bash}
+origin       1 2 master
+local          2 master 1
+       A-B-C-----F
+          \--D----------G
+            \--E
+\end{minted}
+
+Jusque-là, vous ne devez pas être surpris : on a modifié la branche locale mais on n'a pas communiqué la modification au serveur (on n'a pas utilisé `push' ou similaire). Le serveur ne sait pas que l'on créé un nouveau commit, donc ses branches ne changent pas.
+
+Maintenant, poussons la branche 1 (avec {\tt git push}). Le serveur reçoit que la branche 1 pointe sur G, alors que origin/1 pointe sur D. Il essaie de trouver un ancêtre commun à G et D.
+
+Ici, il découvre que D est un ancêtre direct de G, donc il est dans un cas simple: 1 est en avance sur origin/1, donc il déplace origin/1 sur G.
+
+Maintenant, on a :
+
+\begin{minted}{bash}
+origin         2 master 1
+local          2 master 1
+       A-B-C-----F
+          \--D----------G
+            \--E
+\end{minted}
+
+Et c'est bon, le serveur est synchronisé !
+
+Normalement, ce que je viens de vous expliquer devrait beaucoup vous faire penser à la page \pageref{régler-conflits}, ``\nameref{régler-conflits}''. C'est normal... c'est la même chose ! Jusqu'ici, vous aviez des conflits entre master et origin/master, maintenant vous pouvez avoir des conflits entre d'autres branches (mais croyez-moi, cela va permettre d'en avoir moins souvent).
+
+Pourquoi est-ce que cela permet d'avoir moins de conflits ? C'est très simple. Les conflits ``ennuyants'', c'est-à-dire ceux qui arrivent quand deux personnes modifient la même partie d'un fichier, ne peuvent arriver que si deux personnes modifient la même partie d'un fichier !
+
+En fait, la stratégie est très simple : chaque personne a sa propre branche attitrée. Voici les avantages:
+
+\begin{itemize}
+\item Chaque personne travaille dans sa propre version du projet, donc il n'y a jamais de cas où deux personnes modifient le même code.
+\item Si votre commit ne compile pas, ce n'est pas grave, vous pouvez quand même l'envoyer au serveur. Vous êtes dans votre propre branche donc cela n'embêtera pas vos coéquipiers, et comme ça vous pouvez récupérer votre travail chez vous pour le continuer plus tard.
+\end{itemize}
+
+\section{HEAD\label{head}}
+
+\subsection{Introduction}
+
+{\tt HEAD} n'est pas à proprement parlé une branche, mais il fonctionne de manière similaire.
+
+Git maintient deux ``zones'', l'arbre et l'espace de travail. L'``arbre'' désigne la représentation interne du projet (stockée dans le .git, contient l'historique etc.), et l'``espace de travail'' désigne tout simplement l'endroit où vous travaillez: vos fichiers.
+
+\subsection{Savoir où se trouve HEAD} Quand vous affichez l'historique\footnote{Grâce à l'alias {\tt glog}, cf. \textit{\nameref{alias}}, page \pageref{alias}.}, Git vous montre la position de HEAD:
+
+\begin{minted}{bash}
+> git glog
+* 703b003 (HEAD -> master) Added .out files to gitignore...
+* 97732d2 Added command "make help"
+\end{minted}
+
+Comme vous le voyez, Git affiche que HEAD pointe sur {\tt master} (ligne 2).
+
+Cela veut dire que le contenu des fichiers que vous voyez dans le projet correspondent à la branche {\tt master}, qui elle-même correspond au commit {\tt 703b003} ; c'est donc ce commit que vous voyez dans vos fichiers.
+
+\subsection{Déplacer HEAD\label{move-head}}
+
+Comme promis depuis le début de ce document, nous allons enfin pouvoir explorer l'historique, retourner dans le passé, etc.
+
+Puisque HEAD représente les fichiers visibles, il suffit de déplacer HEAD. Cela se fait avec la commande \mintinline{bash}{git checkout}.
+
+À noter que l'on ne peut pas déplacer HEAD tout le temps. Par exemple, Git refuse de déplacer HEAD si un des fichiers présent dans l'état Staged est différent de l'arrivée, parce que ce fichier serait perdu.
+Dans ce cas, vous devez soit abandonner les modifications\footnote{Cf. \nameref{staged-unstaged}, page \pageref{staged-unstaged}.},
+faire un commit\footnote{Cf. \nameref{commit}, page \pageref{commit}.},
+ou utiliser {\tt git stash}\footnote{Cf. \nameref{stash}, page \pageref{stash}.}.
+
+\subsubsection{Retourner voir un ancien commit \& headless mode}
+
+Pour retourner à un ancien commit, il suffit d'exécuter:
+
+\begin{minted}{bash}
+git checkout COMMIT_HASH
+# Par exemple:
+git checkout 703b003
+\end{minted}
+
+Vous êtes maintenant en mode ``tête détachée'' (headless). Cela signifie que votre HEAD pointe sur un commit et non sur une branche.
+
+Pour revenir au présent en mode normal, il suffit de retourner sur une branche:
+
+\begin{minted}{bash}
+git checkout NOM
+# Exemple: retour à la branche master
+git checkout master
+\end{minted}
+
+En mode headless, il est dangereux de créer des nouveaux commits! En effet, ils seront dans l'arbre mais dans aucune branche. Si vous changez de branche, vous ne pourrez plus jamais retourner au commit (sauf si vous connaissez son hash).
+
+Pour éviter ce problème, vous pouvez créer une nouvelle branche \textit{à partir de l'ancien commit}, puis vous déplacer sur cette branche. Comme cela, tous nouveaux commits seront placés sur cette branche.
+
+\begin{minted}{bash}
+git checkout -b NOM COMMIT_HASH
+# Exemple:
+git checkout -b ancien 703b003
+\end{minted}
+
+\subsubsection{Changer de branche}
+
+Pour passer d'une branche à l'autre, vous pouvez simplement utiliser:
+
+\begin{minted}{bash}
+git checkout NOM
+# Exemple: aller sur la branche master
+git checkout master
+\end{minted}
+
+\section{Commandes sur les branches}
+
+Jusque-là, nous avons vu la théorie à propos des branches. Il est temps de parler réellement de leur utilisation.
+
+Quand nous avons parlé des branches, plus tôt, nous avons surtout parlé du cas où les branches sont publiées sur le serveur... mais rien ne vous y oblige! Vous pouvez avoir des branches locales qui ne serve qu'à vous.
+
+\subsection{Créer une branche}
+
+La nouvelle branche sera créée à partir du commit actuel:
+
+\begin{minted}{bash}
+git branch NOM
+# Exemple:
+git branch test-implementation-scores
+\end{minted}
+
+Pour créer une branche à partir d'un autre commit que celui actuel:
+
+\begin{minted}{bash}
+git checkout -b NOM COMMIT_HASH
+# Exemple:
+git checkout -b old 703b003
+\end{minted}
+
+À noter que cela crée la branche, mais ne vous déplace pas dedans. Pour passer d'une branche à l'autre, il suffit d'utiliser \mintinline{bash}{git checkout NOM}.
+
+\subsection{Publication de la branche}
+
+Dans la partie précédente, vous venez de créer une branche locale. Pour la publier sur le serveur (ou n'importe quel hôte distant) vous pouvez effectuer (dans la branche que vous voulez publier):
+
+\begin{minted}{bash}
+git push --set-upstream origin NOM
+\end{minted}
+
+en remplaçant NOM par le nom que vous voulez donner à la branche côté serveur (le nom côté serveur et local peut être différent).
+
+Si vous utilisez d'autres hôtes qu'{\tt origin}, vous pouvez simplement remplacer le nom de l'hôte.
+
+Cela permet à vos partenaires d'accéder à la branche aussi.
+
+\subsection{Supprimer ou fusionner une branche\label{end-branch}}
+
+La raison pour laquelle on crée une branche est souvent de tester des nouvelles fonctionnalités, avec comme but de fusionner la branche à votre branche principale quand tout fonctionne.
+
+Vous pouvez donc soit supprimer la branche (si vous n'en voulez plus), soit la fusionner (si le résultat vous plaît).
+
+\subsubsection{Supprimer une branche locale}
+
+Attention, cette commande supprime la branche de votre côté mais ne la supprime pas côté serveur (si elle était publiée)!
+
+\begin{minted}{bash}
+git branch -d NOM
+# Exemple:
+git branch -d scores
+\end{minted}
+
+Cette commande est ``safe'': elle ne supprimera la branche que si la branche a déjà été fusionnée (donc aucun travail ne sera perdu lors de la suppression). Pour supprimer la branche même si elle n'est pas fusionnée, il suffit d'utiliser {\tt -D} au lieu de {\tt -d}\footnote{Pour ceux qui aiment les détails, {\tt -d} est un alias pour \mintinline{bash}{--delete} et {\tt -D} est un alias pour \mintinline{bash}{--delete --force}.}
+
+\begin{minted}{bash}
+git branch -D NOM
+\end{minted}
+
+\paragraph{À savoir} Pour effectuer ces commandes, il faut être dans une autre branche!
+
+\subsubsection{Supprimer une branche distante}
+
+Pour supprimer une branche distante, vous pouvez utiliser:
+
+\begin{minted}{bash}
+git push --delete origin NOM
+\end{minted}
+
+en remplaçant NOM par le nom de la branche, et en changeant {\tt origin} si vous utilisez plusieurs serveurs.
+
+À noter que cela ne supprime que la branche distante, et non la version locale. Pour supprimer les deux, utilisez:
+
+\begin{minted}{bash}
+git push --delete origin NOM
+git branch -d NOM
+\end{minted}
+
+\subsubsection{Merge}
+
+Pour fusionner la branche à une autre, vous pouvez utiliser:
+
+\begin{minted}{bash}
+git merge BRANCHE
+\end{minted}
+
+Cela fusionnera la branche BRANCHE à la branche actuelle. Vous pouvez maintenant supprimer BRANCHE.
+
+\subsubsection{Rebase}
+
+Au contraire de Merge, Rebase est une opération destructrice qui modifie l'arbre. Vous pouvez l'utiliser sans problèmes si la branche à fusionner n'est que locale, mais si vous l'avez publié, cela va poser de nombreux problèmes aux autres utilisateurs de votre projet.
+
+Nous vous conseillons de ne jamais utiliser Rebase, sauf si vous êtes sûr de ce que vous faites.
+
+Rebase a pour effet de supprimer la branche et tous ses commits, de les combiner en un, et d'ajouter ce ``commit de fusion'' à la branche actuelle.
+
+\begin{minted}{bash}
+git checkout RÉSULTAT
+git rebase BRANCHE
+\end{minted}
+
+Cela va rembobiner tous les commits présents dans BRANCHE depuis son ancêtre commun avec RÉSULTAT, puis les réappliquer dans l'ordre à RÉSULTAT.
+
+Tout le contenu de BRANCHE est donc présent dans RÉSULTAT, sans fusion, avec un historique linéaire plus propre.
+
+Attention une fois encore, ne faites JAMAIS un Rebase sur du travail qui est disponible sur un serveur / pour un coéquipier!
+
+\paragraph{Conflit pendant un Rebase}
+Si un conflit survient pendant un Rebase, vous pouvez utiliser:
+
+\begin{minted}{bash}
+git rebase --skip # Ignorer le conflit
+git rebase --continue # Après avoir réglé le conflit, pour continuer
+git rebase --abort # Abandonner le rebase
+\end{minted}
+
 \part{GitLab et GitHub}
+
+GitLab et GitHub sont des sites qui permettent de hoster un dépôt Git. Ils donnent de nombreuses fonctions en plus.
+
+\section{Les forks : projets à grande échelle}
+
+Habituellement, Git utilise un projet unique dans lequel tout le monde travaille, dans des branches différentes. Avec l'arrivée des sites comme GitLab et GitHub, ce n'est pas pratique, parce que cela empêche d'utiliser les permissions.
+
+Quand vous créez votre projet, vous ne voulez pas que n'importe qui vienne le modifier. Vous allez donc le rendre public, mais interdire que quiconque puisse y pousser (comportement par défaut).
+
+Cependant, vous pouvez vouloir autoriser au public de proposer des modifications (que vous vérifierez avant de les intégrer). C'est pour cela que les forks existent.
+
+Un fork, c'est une copie complète du projet. Au contraire d'une branche, qui ne copie que le contenu du projet, un fork est une vraie copie (comme si vous faisiez un copié-collé à la main, avec un nouveau {\tt .git} etc.).
+
+\subsection{Dans les projets Open Source}
+
+Dans les projets publics, les forks sont utilisés pour proposer des modifications.
+
+Par exemple, voici la démarche à suivre pour proposer une modification à ce cours.
+
+\begin{enumerate}
+\item Allez sur le GitLab du projet.
+\item Connectez-vous à votre compte.
+\item Cliquez en haut de la page sur le bouton ``fork''. Le site vous guide à travers les étapes.
+\item Clonez votre projet
+\item Optionnel mais conseillé: créez une nouvelle branche et publiez-la
+\item Faites les modifications que vous voulez intégrer
+\item {\tt git push}
+\item Quand vous êtes satisfait de vos modifications, retournez sur le GitLab du projet (l'original, pas le fork), dans le menu de gauche, allez dans ``merge~request''
+\item Créez une nouvelle Merge Request (pour GitHub: Pull Request), avec comme source votre branche dans votre fork et comme destination la branche d'origine
+\item Validez tout.
+\end{enumerate}
+
+Les propriétaires du projet pourront ensuite analyser vos modifications. Si elles leur plaisent, ils peuvent les intégrer au projet.
+
+Dans tous les cas, lisez vos mails! Une Merge Request n'est presque jamais acceptée directement, il y aura probablement des petites modifications à faire.
+
+\subsection{Dans les entreprises}
+
+Pour les projets ayant beaucoup de collaborateurs (par exemple le noyau Linux), il peut être nécessaire de créer plusieurs équipes. Dans ce cas-là, chaque équipe travaille sur un fork différent, et le coordinateur va fusionner les forks ensemble petit-à-petit. Comme cela, chaque équipe peut travailler indépendamment des autres.
+
+\section{Merge et Pull Request}
+
+\section{Le workflow}
+
+\subsection{GitHub}
+
+\subsection{GitLab}
 
 \part{Git avancé}
 
-\section{Les alias\label{alias}}
+\section{Les étiquettes / tags\label{tags}}
 
-\section{Les étiquettes / tags}
+\section{Stash\label{stash}}
 
-\section{Les submodules}
+\section{Les submodules\label{submodules}}
 
 \end{document}
