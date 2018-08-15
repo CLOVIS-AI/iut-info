@@ -11,11 +11,12 @@ private/
 *.pdf
 *.log
 *.toc
-
-# Fichiers IntelliJ
-.idea/
+*.out
 */_minted*
 *.dvi
 *.lg
 *.html
 *.idv
+
+# Fichiers IntelliJ
+.idea/
