@@ -12,3 +12,10 @@ publish: clean
 
 clean:
 	rm -rf */*.aux */*.log */*.gz *.log */*.toc */*.out */*.dvi */*.html */*.idv */*.lg */_minted*
+
+help:
+	echo "client: Remove temp files"
+	echo "init: Prepare folders"
+	echo "latex: init + Compile LaTeX files"
+	echo "publish: clean + Publish to clovis.online"
+	echo "help: This page"
