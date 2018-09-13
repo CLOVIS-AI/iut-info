@@ -1,0 +1,50 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\begin{document}
+
+\title{Probabilités \& Statistiques}
+\author{Ivan Canet}
+\maketitle
+
+\tableofcontents
+
+\section{Dénombrement}
+
+On distingue deux manières de dénombrer ;
+
+\begin{itemize}
+\item Lorsque l'ordre est important, on dit qu'il s'agit d'un \textbf{arrangement},
+\item Lorsque l'ordre n'est pas important, on dit qu'il s'agit d'une \textbf{combinaison}.
+\end{itemize}
+
+\subsection{Arrangement}
+
+\paragraph{Exemple}
+On décide de choisir 5 chevaux parmi 5. Le nombre de possibilités est $20 \times 19 \times 18 \times 17 \times 16$, ce qui est égal à $\frac{20!}{15!}$, dont on peut déduire $\frac{20!}{(20-5)!}$.
+
+\paragraph{Formule \& notation}
+On note ``$p$ éléments parmi $n$'' $A_n^p$, et la valeur est $A_n^p = \frac{n!}{(n-p)!}$.
+
+\subsection{Combinaison}
+
+\paragraph{Exemple}
+En reprenant l'exemple précédent des 5 chevaux parmi 20; si l'ordre n'est pas important, alors on peut regrouper toutes les possibilités où les mêmes chevaux ont été tirés dans un ordre différent. Il y a 5 chevaux, donc il y a $5!$ cas où les mêmes chevaux ont été tirés. Il faut donc enlever ces cas, ce qui donne un nombre de possibilités de $\frac{A_n^p}{p!}$.
+
+\paragraph{Formule \& notation}
+On note ``$p$ éléments parmi $n$'' $n \choose p$, de formule ${n \choose p} = \frac{n!}{p! (n-p)!}$.
+
+\subsection{Triangle de Pascal}
+
+\section{Applications}
+
+\paragraph{Application}
+Comme une fonction, mais tous les éléments de l'ensemble de départ doivent absolument avoir une image (on ne peut pas avoir de valeurs interdites).
+
+\paragraph{Application surjective}
+Tout élément de l'ensemble d'arrivée a au moins un antécédent.
+
+\end{document}
