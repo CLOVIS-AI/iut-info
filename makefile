@@ -1,21 +1,27 @@
-all: init latex
+all: init pdf html
 
 init:
 	git submodule init
 	git submodule update
 
+pdf: latex
 latex: init
-	./buildall.sh
+	@./latex/build --no-print-logs PDF */*.tex
+
+html: init
+	@./latex/build --no-print-logs HTML */*.tex
 
 publish: clean
 	rsync -avzu --exclude='private/' --include='*/' --include='*.pdf' --exclude='*' --exclude='latex/' --prune-empty-dirs * ivan@clovis.online:/home/public/cours
 
 clean:
-	rm -rf */*.aux */*.log */*.gz *.log */*.toc */*.out */*.dvi */*.html */*.idv */*.lg */_minted*
+	@./latex/build --no-print-logs CLEAN */*.tex
 
 help:
-	echo "client: Remove temp files"
-	echo "init: Prepare folders"
-	echo "latex: init + Compile LaTeX files"
-	echo "publish: clean + Publish to clovis.online"
-	echo "help: This page"
+	@echo "clean:    Remove temp files"
+	@echo "init:     Prepare submodules"
+	@echo "latex:    init + Compile LaTeX files into PDF"
+	@echo "pdf:      Same as 'latex'"
+	@echo "html:     init + Compile LaTeX files into HTML"
+	@echo "publish:  clean + Publish to clovis.online"
+	@echo "help:     This page"
