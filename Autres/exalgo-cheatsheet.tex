@@ -1,0 +1,189 @@
+\documentclass[10pt,a4paper,french]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\begin{document}
+
+\newminted[exalgo]{text}{mathescape,escapeinside=||}
+
+\title{Ex-Algo: Syntax Cheatsheet}
+\author{Ivan Canet}
+\maketitle
+
+\begin{abstract}
+Ce document résume toute la syntaxe connue d'Ex-Algo, avec des exemples. Le but est de regrouper ce qui est connu en un seul document facile à parcourir.
+
+Ce document n'est pas un cours d'ex-algo : juste une liste de toutes les syntaxes.
+\end{abstract}
+\tableofcontents
+
+\section{Syntaxes élémentaires}
+
+\subsection{Fonctions et Actions}
+
+En Ex-Algo, nous écrirons toujours le code dans une Fonction ou une Action.
+
+Comme en maths, une Fonction peut prendre des paramètres et donne un résultat. Une Action et peut aussi prendre des paramètres, mais elle ne peut pas donner de résultat.
+
+\subsubsection{Déclaration et appel}
+
+\paragraph{Déclaration d'une Action}
+\begin{exalgo}
+Action uneAction(PARAMÈTRES)
+Début
+	# ... le code de l Action
+Fin
+\end{exalgo}
+
+\paragraph{Exemple d'Action}
+\begin{exalgo}
+Action bonjour()
+Début
+	Écrire "Hello World"
+Fin
+\end{exalgo}
+
+\paragraph{Déclaration d'une Fonction}
+\begin{exalgo}
+Fonction uneFonction(PARAMÈTRES)
+Début
+	# ... le code de la Fonction, avec un Retourner
+Fin
+\end{exalgo}
+
+\paragraph{Exemple de Fonction}
+$carré: x \rightarrow x^2$.
+\begin{exalgo}
+Fonction carré(E x: Réel): Réel
+Début
+	Retourner x^2
+Fin
+\end{exalgo}
+
+\subsubsection{Paramètres}
+
+\paragraph{Mode}
+Les paramètres ont un ``mode'':
+\begin{description}
+\item[Entrée (E)] La Fonction/Action récupère la valeur du paramètre. Elle peut le modifier, mais les modifications ne seront pas visibles après qu'elle se termine.
+\item[Sortie (S)] La Fonction/Action va modifier le paramètre, et sa nouvelle valeur sera accessible à la fin de l'appel. Il est interdit d'initialiser la variable avant le début de la fonction (elle doit être vide lors de l'appel)
+\item[Entrée-Sortie (ES)] La Fonction/Action récupère la valeur du paramètre. Elle peut le modifier, et les modifications existeront toujours après qu'elle se termine.
+\end{description}
+
+\paragraph{Syntaxe des paramètres}
+\begin{exalgo}
+...(MODE NOM: TYPE, MODE NOM: TYPE,...)...
+\end{exalgo}
+
+\paragraph{Exemple de paramètres}
+Cet exemple n'est rien de plus, ce code devrait être une Fonction et retourner le résultat pour être plus propre.
+\begin{exalgo}
+Action max(E premier: Réel,
+           E second: Réel,
+           S résultat: Réel)
+Début
+    Si premier |$\geq$| second
+        résultat |$\leftarrow$| premier
+    Sinon
+        résultat |$\leftarrow$| second
+Fin
+\end{exalgo}
+
+\subsubsection{Variables}
+
+Les variables permettent de stocker des différentes données.
+
+\paragraph{Déclaration de variables}
+Les variables sont déclarées au début d'une fonction/action:
+\begin{exalgo}
+Action test()
+Variables
+    i: Entier
+Début
+    Pour i de 1 à n Faire
+        Écrire i
+Fin
+\end{exalgo}
+
+\paragraph{Constantes}
+Les constantes sont déclarées comme les variables, mais peuvent être assignées sur place:
+\begin{exalgo}
+Action test()
+Constantes
+    t: ChaîneDeCaractères |$\leftarrow$| "Tour: "
+Variables
+    i: Entier
+Début
+    Pour i de 1 à n Faire
+        Écrire t, i
+Fin
+\end{exalgo}
+
+\subsubsection{Types}
+
+\paragraph{Liste des types primitifs}
+\begin{description}
+\item[Réel -- $\mathbb{R}$]
+\item[Entier -- $\mathbb{N}$]
+\item[Caractère]
+\item[ChaîneDeCaractères]
+\end{description}
+
+\subsection{Conditionnelles}
+
+\subsubsection{Si}
+
+\paragraph{Syntaxe}
+\begin{exalgo}
+Si CONDITION Alors
+    CODE
+SinonSi CONDITION Alors
+    CODE
+Sinon
+    CODE
+\end{exalgo}
+
+\paragraph{Rien}
+Si un morceau de code est vide, on peut utiliser Rien:
+\begin{exalgo}
+Si CONDITION Alors
+    Rien
+\end{exalgo}
+
+\subsubsection{Selon que}
+
+\paragraph{Utilisation générale}
+\begin{exalgo}
+Selon Que
+    CONDITION
+        CODE
+    CONDITION
+        CODE
+    Sinon
+        CODE
+\end{exalgo}
+
+\paragraph{Utilisation pour dénombrement d'une variable}
+\begin{exalgo}
+Selon que n vaut
+    VALEUR
+        CODE
+    VALEUR
+        CODE
+    Sinon
+        CODE
+\end{exalgo}
+
+\subsection{Boucles}
+
+\subsection{Divers}
+
+\section{Structures de données}
+
+\subsection{Tableaux}
+
+\section{•}
+
+\end{document}
