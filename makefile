@@ -12,7 +12,7 @@ html: init
 	@./latex/build --no-print-logs HTML */*.tex
 
 publish: clean
-	rsync -avzu --exclude='private/' --include='*/' --include='*.pdf' --exclude='*' --exclude='latex/' --prune-empty-dirs * ivan@clovis.online:/home/public/cours
+	rsync -avzu --exclude='private/' --exclude='latex/' --include='*/' --include='*.pdf' --exclude='*' --prune-empty-dirs * ivan@clovis.online:/home/public/cours
 
 clean:
 	@./latex/build --no-print-logs CLEAN */*.tex
