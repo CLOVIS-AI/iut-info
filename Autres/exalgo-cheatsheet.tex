@@ -128,7 +128,18 @@ Fin
 \item[Réel -- $\mathbb{R}$]
 \item[Entier -- $\mathbb{N}$]
 \item[Caractère]
-\item[ChaîneDeCaractères]
+\item[ChaîneDeCaractères] On peut concaténer des chaînes de caractères et des caractères.
+\end{description}
+
+\paragraph{Opérateurs}
+\begin{description}
+\item[$\mathbb{R} + \mathbb{R}$] Addition
+\item[$\mathbb{R} - \mathbb{R}$] Soustraction
+\item[$\mathbb{R} \times \mathbb{R}$] Produit
+\item[$\mathbb{R} \div \mathbb{R}$] Quotient
+\item[$\mathbb{R}~\%~\mathbb{R}$] Modulo (reste de la division entière)
+\item[$\urcorner Booléen$] Négation
+\item[$Booléen \wedge Booléen$] Et
 \end{description}
 
 \subsection{Conditionnelles}
@@ -178,11 +189,73 @@ Selon que n vaut
 
 \subsection{Boucles}
 
+\subsubsection{Répéter}
+
+\begin{exalgo}
+Répéter n fois
+    Écrire "Bonjour"
+\end{exalgo}
+
+\subsubsection{Pour}
+
+\paragraph{Par pas de 1}
+\begin{exalgo}
+Pour i de 1 à n Faire
+    Écrire "Bonjour"
+\end{exalgo}
+
+\paragraph{Utiliser un autre pas}
+\begin{exalgo}
+Pour i de 1 à n par pas de 2 Faire
+    Écrire "Bonjour"
+\end{exalgo}
+
+\subsubsection{Pour chaque}
+\begin{exalgo}
+Pour chaque c |$\in$| "Bonjour" Faire
+    Écrire c
+\end{exalgo}
+
+\subsubsection{Tant que}
+
+\begin{exalgo}
+Tant que i |$\leq$| n Faire
+    Écrire i
+\end{exalgo}
+
 \subsection{Divers}
+
+\begin{description}
+\item[Écrire]
+\item[Lire] Demander une valeur à l'utilisateur.
+Signature:
+\begin{exalgo}
+Action Lire(S v: ?) # fonctionne pour n'importe quel type
+\end{exalgo}
+Utilisation:
+\begin{exalgo}
+Lire m
+\end{exalgo}
+La raison pour laquelle la valeur n'est pas donnée en retour est probablement parce que cela ne permettrait pas d'inférer le type attendu ?
+\end{description}
 
 \section{Structures de données}
 
 \subsection{Tableaux}
+
+Un tableau de taille $n$ va de 1 à $n$.
+
+\paragraph{Déclaration}
+\begin{exalgo}
+unTableau: Tableau[TAILLE] de |$\mathbb{Z}$|
+\end{exalgo}
+
+\paragraph{Lecture et écriture}
+\begin{exalgo}
+Écrire unTableau[1]
+Lire n
+unTableau[1] |$\leftarrow$| n
+\end{exalgo}
 
 \section{•}
 
