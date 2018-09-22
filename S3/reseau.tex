@@ -1,0 +1,28 @@
+\documentclass[10pt,a4paper,french]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\begin{document}
+
+\title{Réseau}
+\author{Ivan Canet}
+\maketitle
+
+\begin{abstract}
+Ceci est l'introduction du document.
+\end{abstract}
+\tableofcontents
+
+\section{Adresse IP}
+
+Une adresse IPv4 est constituée de 32 bits, elle est utilisée pour communiquer entre machines sur le réseau.
+
+Dans un réseau local, on ``bloque'' le début de l'adresse et on utilise que la fin, par exemple l'adresse de réseau `221.164.0.0/24' bloque les 24 premiers bits, ce qui veut dire que les adresses de ce réseau vont de `221.164.0.1' à `221.164.0.254'.
+
+Dans un réseau, l'adresse finissant par un 0 est l'adresse du réseau (l'adresse de la box/routeur) et l'adresse finissant par 255 est l'adresse de broadcast, qui permet d'envoyer un paquet à tout le monde.
+
+Le réseau `127.0.0.0/8' est un faux réseau qui revient sur soi-même, il est pratique pour tester les applications en réseau, etc. Toutes les adresses commençant par 127 ne partent donc pas sur le réseau, souvent on utilise `127.0.0.1'.
+
+\end{document}
