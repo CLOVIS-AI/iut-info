@@ -11,7 +11,7 @@ latex: init
 html: init
 	@./latex/build --no-print-logs HTML */*.tex
 
-publish: clean
+publish: pdf clean
 	rsync -avzu --exclude='private/' --exclude='latex/' --include='*/' --include='*.pdf' --exclude='*' --prune-empty-dirs * ivan@clovis.online:/home/public/cours
 
 clean:
