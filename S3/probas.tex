@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{../latex/clovisai}
+\usepackage{array}
 
 \begin{document}
 
@@ -11,6 +12,8 @@
 \maketitle
 
 \tableofcontents
+
+\part{Cours}
 
 \section{Dénombrement}
 
@@ -39,6 +42,30 @@ On note ``$p$ éléments parmi $n$'' $n \choose p$, de formule ${n \choose p} = 
 
 \subsection{Triangle de Pascal}
 
+Le triangle de Pascal (voir \autoref{tab:pascal}) se construit grâce à un tableau dans lequel chaque case vaut la valeur de celle du dessus plus celle en diagonale au dessus à gauche.
+
+\begin{table}
+\caption{\label{tab:pascal} Triangle de Pascal}
+\centering
+\begin{tabular}{l|cccccccccc}
+n $\backslash$ p & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
+\hline
+1  & 1 & 1 &   &   &   &   &   &   &   &   \\
+2  & 1 & 2 & 1 &   &   &   &   &   &   &   \\
+3  & 1 & 3 & 3 & 1 &   &   &   &   &   &   \\
+4  & 1 & 4 & 6 & 4 & 1 &   &   &   &   &   \\
+5  & 1 & 5 & 10 & 10 & 5 & 1 &   &   &   &   \\
+6  & 1 & 6 & 15 & \textbf{20} & 15 & 6 & 1 &   &   &   \\
+7  & 1 & 7 & 21 & 35 & 35 & 21 & 7 & 1 &   &   \\
+8  & 1 & 8 & 28 & 56 & 70 & 56 & 28 & 8 & 1 &   \\
+9 & 1 & 9 & 36 & 84 & 126 & 126 & 84 & 36 & 9 & 1 \\
+\end{tabular}
+\end{table}
+
+On peut l'utiliser pour retrouver que $\parmi{4}{6}=20$.
+
+On retrouve aussi que $\parmi{p}{n} = \parmi{p}{n-1} + \parmi{p-1}{n-1}$.
+
 \section{Applications}
 
 \paragraph{Application}
@@ -47,16 +74,163 @@ Comme une fonction, mais tous les éléments de l'ensemble de départ doivent ab
 \paragraph{Application surjective}
 Tout élément de l'ensemble d'arrivée a au moins un antécédent.
 
-\paragraph{Loi binomiale}
-(cf. exo 10) On reconnaît une loi binomiale de paramètres $n=10$ (nombre de répétions successives et indépendantes) et $P=\frac{1}{12}$ (probabilité d'un succès lors d'une expérience). On l'écrit $B(n,p)$. La variable $X \leadsto B(n,p)$ permet de trouver la probabilité $P(X=k)={n \choose k} p^k (1-p)$.
+\section{Probabilités}
 
-\paragraph{Exemple loi binomiale}
-Lors d'un lancer, j'ai une chance sur trois d'atteindre la cible. Je fais 13 lancers. Quelle est la probabilité que je touche cette cible exactement 7 fois?
+\subsection{Événements, Univers, Cardinal}
 
-On a $n=13$, $p=\frac{1}{3}$ et $k=7$, donc $P(X=7)={13 \choose 7} (\frac{1}{3})^7 (1-\frac{1}{3})^6$.
+\paragraph{Un événement élémentaire} est un élément qui ne peut pas être séparé entre d'autres éléments (eg. dans un lancer de dés, ``tirer 1'' est un événement élémentaire).
+
+\paragraph{Un événement non-élémentaire} peut être défini comme un ensemble d'événements élémentaires (eg. dans un lancer de dés, ``tirer un nombre pair'' est un événement non-élémentaire).
+
+\paragraph{L'univers} est l'ensemble de tous les événements élémentaires, on le note $\Omega$.
+
+\paragraph{Le cardinal} est le nombre d'événements élémentaires dans un événement non-élémentaire (la taille), on le note $card(X)$ où $X$ est l'ensemble.
+
+\paragraph{Calcul de probabilité} La probabilité d'un événement $E$ est notée $P(E)$ et vaut $P(E) = \frac{card(E)}{card(\Omega}$.
+
+\hrulefill
+
+\subsection{Variables discrètes et continues}
+
+\subsubsection{Variables discrètes}
+
+On note $E(X)$ l'espérance (la moyenne).
+
+\[
+E(X) = \sum_{i=1}^n x_i P(x_i)
+\]
+
+La fonction de répartition, $F(k)$, est la probabilité que plusieurs événements se réalisent.
+
+\[
+F(k) = P(X \leq k) = \sum_{i=1}^k P(x_i)
+\]
+
+La variance est notée $V(X)$ ;
+
+\[
+V(X) = E[(X-E(X))^2]
+\]
+
+L'écart-type est noté $\sigma(X)$ ;
+
+\[
+\sigma(X) = \sqrt{V(X)}
+\]
+
+\subsubsection{Variables continues}
+
+L'espérance $E(X)$ est:
+
+\[
+E(X)= \int_a^x f(t) \text{d} t
+\]
+
+La fonction de répartition $F(u)$ est:
+
+\[
+F(u) = \int_a^u f(t) \text{d} t
+\]
+
+\subsection{Loi binomiale}
+
+Dans le cas d'une suite d'expériences élémentaires indépendantes à deux issues possibles, on utilise la loi binomiale.
+
+On note $p$ la probabilité d'une réussite et $n$ le nombre d'expériences (par exemple pour 12 lancers de pièce: $p=1/2$ et $n=12$). On note cette loi $B(n; p)$, dite ``de Bernouilli''. On peut alors créer la variable aléatoire suivant cette loi : \[ X \suit B(n; p) \]
+
+On peut calculer la probabilité qu'il y ai $k$ succès (où $k \in [0; n]$):
+
+\[
+P(X=k) = \parmi{k}{n} p^k (1-p)^{n-k}
+\]
+
+\paragraph{Exemple}
+Pour un lancer de 4 fléchettes successivement avec une probabilité de réussite de $0.6$, on a $p=0.6$ et $n=4$ donc la probabilité de toucher exactement 3 fois est \[ P(X=3) = \parmi{3}{4} \times 0.6^3 \times 0.4^1 \].
+
+L'espérance $E(X)$ s'écrit: \[E(X)=n \times p\]
+
+L'écart-type $\sigma(X)$ s'écrit: \[\sigma(X)=\sqrt{np(1-p)}\]
+
+La variance $V(X)$ s'écrit: \[V(X) = \sigma(X)^2\]
+
+\paragraph{Loi poisson}
+Dans le cas où il s'agit d'un événement rare (la probabilité $p$ est faible et le nombre d'essais $n$ est élevé), on peut approximer la loi binomiale par la loi poisson ; on a donc:
+
+\[
+P(X = k) \approx \lim_{n \to \infinity} P(X_n = k) = \exp(-\lambda) \frac{\lambda^k}{k!}
+\] où $\lambda$ est le nombre de fois que l'événement se produit en moyenne.
+
+\paragraph{Exemple}
+
+
+\subsection{Loi normale}
+
+\hrulefill
 
 \paragraph{Probabilité conditionnelle}
 $P_B(A)=\frac{P(A \cap B)}{P(B)}$ : ``La probabilité de A quand B est vérifiée''.
+
+\subsection{Variables aléatoires}
+
+\subsubsection{Titre à écrire TODO}
+
+\paragraph{Espérance}
+
+L'espérance est la moyenne des probabilités : $E(X) = \sum x_i P(X=x_i)$.
+
+Pour deux variables aléatoires $X$ et $Y$, $E(X+Y) = E(X) + E(Y)$.
+
+Par contre, $E(X \times Y) = E(X) \times E(Y)$ uniquement si les deux événements sont indépendants.
+
+\subsubsection{Exemple}
+
+On jette un dé non truqué, on note la variable $X$ qui vaut le double de sa valeur. L'univers est $\Omega=\lbrace 2, 4, 6, 8, 10, 12 \rbrace$. Voir le \autoref{tab:var-alea-1}.
+
+\begin{table}
+\caption{\label{tab:var-alea-1} Exemple de variable aléatoire: double du nombre tiré par un dé}
+\centering
+\begin{tabular}{c|cccccc}
+$X=x_i$ & 2 & 4 & 6 & 8 & 10 & 12\\
+\hline
+$P(X=x_i)$ & $1/6$ & $1/6$ & $1/6$ & $1/6$ & $1/6$ & $1/6$\\
+\end{tabular}
+\end{table}
+
+On pose une variable $Y$ qui vaut 1 si le résultat est pair et 3 si le résultat est impair. Puisque les chances sont équiprobables, $P(Y=1) = \frac{1}{2}$ et $P(Y=3) = \frac{1}{2}$.
+
+On s'intéresse à $X+Y$ et $X \times Y$. Le cas où $Y=3$ et $X=2$ est impossible, parce que cela veut dire que le nombre d'origine du lancer de dé était 1 et pair. On mets 0 à chacune de ces possibilités; voir \autoref{tab:var-alea-2} et \autoref{tab:var-alea-3}.
+
+\begin{table}
+\caption{\label{tab:var-alea-2} Somme de deux variables aléatoires}
+\centering
+\begin{tabular}{c|cc}
+$X \backslash Y$ & 1 & 3\\
+\hline
+2 & 3 & 0\\
+4 & 0 & 7\\
+6 & 7 & 0\\
+8 & 0 & 11\\
+10 & 11 & 0\\
+12 & 0 & 15\\
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:var-alea-3} Probabilités de $P(X+Y = x_i)$}
+\centering
+\begin{tabular}{c|cccc}
+$x_i$ & 3 & 7 & 11 & 15\\
+\hline
+$P(X+Y=x_i)$ & 1/6 & 2/6 & 2/6 & 1/6\\
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+\part{Exercices}
 
 \paragraph{Exercice 10}
 Désignons par $f_n$ le nombre de manières de jeter une pièce $n$ fois sans que deux piles successifs n'apparaissent.
@@ -146,5 +320,29 @@ Les cardinaux sont $card(A)=11$ (il n'y a pas d'ordre donc on ne compte pas $(6;
 On a aussi $card(A \cap B)=10$ donc $P(A \cap B)=\frac{10}{36}$.
 
 Donc $P_B(A) = \frac{P(A \cap B)}{P(B)} = \frac{10 / 36}{30 / 36} = \frac{1}{3}$.
+
+\paragraph{Exercice 7}
+On a deux événements, B ``Les deux dernières sont des piques'' et A ``La première carte tirée est une pique''. Puisqu'un pioche 3 cartes, $card(\Omega) = \arrang{3}{52} = \frac{52!}{49!}$.
+
+On cherche la probabilité $P_B(A)$. On sait qu'elle vaut $P_B(A) = \frac{P(A \inter B)}{P(B)}$ ; on sait que $A \inter B$ est ``Les trois cartes tirées sont des piques'', ce qui est simple à calculer, $card(A\inter B) = \arrang{3}{13}$ donc $P(A\inter B) = \frac{card(A\inter B)}{card(\Omega)} = \frac{13! \times 49!}{10! \times 52!}$.
+
+On cherche ensuite $P(B)$ : soit la première carte est un pique ($13 \times 12 \times 11$), soit elle n'est pas un pique ($39 \times 13 \times 12$) ; donc
+
+\[
+P(B) = \frac{13 \times 12 \times 11 + 39 \times 13 \times 12}{52 \times 51 \times 50} = \frac{11}{50}
+\]
+
+$A$ et $B$ sont-ils indépendants ? $P_B(A)=\frac{11}{50}$ et $P(A)=\frac{1}{4}$ donc les deux événements ne sont pas indépendants.
+
+\paragraph{Exercice 8}
+On commence par dessiner l'arbre. On ajoute toutes les possibilités arrivant à $D$ pour trouver la somme $P(D)=0.027$, idem pour $P_D(A)=0.37$.
+
+\paragraph{Exercice 3}
+Soit $X$ la variable aléatoire comptant le nombre de personnes sur lesquelles le médicament n'a aucun effet. $X$ prend les valeurs $[0, 5]$. On a donc $X \suit B(5; 0.95)$. On cherche $P(X \geq 4) = P(X = 4) + P(X = 5) = \parmi{4}{5} 0.95^4 0.05^1 + \parmi{5}{5} 0.95^5 0.05^0$.
+
+\paragraph{Exercice 4}
+On a $n = 10$ et $p = \frac{9}{10}$. On pose une variable aléatoire $X \suit B(10; 0.9)$.
+
+
 
 \end{document}
