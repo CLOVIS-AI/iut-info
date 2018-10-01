@@ -25,4 +25,62 @@ Dans un réseau, l'adresse finissant par un 0 est l'adresse du réseau (l'adress
 
 Le réseau `127.0.0.0/8' est un faux réseau qui revient sur soi-même, il est pratique pour tester les applications en réseau, etc. Toutes les adresses commençant par 127 ne partent donc pas sur le réseau, souvent on utilise `127.0.0.1'.
 
+Chaque machine peut se connecter à plusieurs `interfaces' : elles correspondent aux différentes prises sur la carte réseau. Par exemple, la première prise ethernet est nommée `eth0', puis `eth1', etc.
+
+\section{Commandes utiles}
+
+On utilise {\tt dev} pour ``device''.
+
+\paragraph{Afficher adresses IP et interfaces}
+
+\begin{minted}{bash}
+ip a
+ifconfig
+\end{minted}
+
+\paragraph{Afficher les interfaces activées}
+
+\begin{minted}{bash}
+ip link ls up
+\end{minted}
+
+\paragraph{Assigner une adresse IP et un masque à une interface}
+
+\begin{minted}{bash}
+ip a add 192.168.74.101/24 dev eth0
+ifconfig eth0 192.168.74.101 netmask 255.255.255.0
+\end{minted}
+
+\paragraph{Activer le mode routeur}
+
+\begin{minted}{bash}
+sysctl -w net.ipv4.ip\_forward=1
+\end{minted}
+
+\paragraph{Voir la table de routage}
+
+\begin{minted}{bash}
+ip r
+
+\end{minted}
+
+\paragraph{Ajouter une route par défaut}
+
+\begin{minted}{bash}
+ip r add default via 192.168.74.254
+route add -net default gw 192.168.74.254
+\end{minted}
+
+\paragraph{Ajouter une route}
+
+\begin{minted}{bash}
+route add -net 22.33.44.0 netmask 255.255.255.0 gw 11.22.33.55
+\end{minted}
+
+\paragraph{Activer/Désactiver une interface}
+
+\begin{minted}{bash}
+ip link set dev eth0 up|down
+\end{minted}
+
 \end{document}
