@@ -50,14 +50,15 @@ Pour éviter qu'un fichier header soit utilisé en plusieurs fois, on leur assig
 CFLAGS = --std=c11 -Wall -Wextra -pedantic
 EXEC = main // Remplacer par le fichier contenant le main
 
-all: $(EXEC)
+$(EXEC): *.o
 
 %.o: %.c
 
-$(EXEC): *.o
-
 clean:
 	rm *.o
+
+distclean: clean
+	rm $(EXEC)
 \end{minted}
 
 \part{Syntaxe}
