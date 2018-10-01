@@ -1,0 +1,138 @@
+\documentclass[10pt,a4paper,french]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\newacronym{moa}{MOA}{Maîtrise d'Ouvrage}
+\newacronym{moe}{MOE}{Maîtrise d'Œuvre}
+
+\makeindex
+\makeglossaries
+
+\begin{document}
+
+\title{Gestion de projet}
+\author{Ivan Canet}
+\maketitle
+
+\begin{abstract} % ARTICLE ONLY
+Ceci est l'introduction du document.
+\end{abstract}
+
+\tableofcontents
+
+\part{Cours}
+
+\section{Projet}
+
+\begin{cquote}{Norme ISO 10006: 2003}
+Un projet est un processus unique, qui consiste en un ensemble d'activités coordonnées et maîtrisées, comportant des dates de début et de fin, entreprises dans le but d'attendre un object précis, sous des contraintes de délais, de coûts et de ressources.
+\end{cquote}
+
+\begin{cquote}{Lexique de gestion Dalloz}
+En sciences de gestion, le projet désigne une forme d'organisation de la production mise en œuvre pour la conception et la réalisation ... de produits innovants. Un groupe projet est constitué ... d'une équipe pluridisciplinaire mise sous la responsabilité d'un chef de projet. Il permet de travailler à partir des compétences acquises dans les différents secteurs de l'entreprise.
+\end{cquote}
+
+Les critères justifiant un processus de gestion sont:
+\begin{itemize}
+\item La nature du projet à réaliser
+\item La complexité technique du produit attendu
+\item Le périmètre à couvrir: les fonctions couvertes dans l'entreprise
+\item La caractère plus ou moins innovant du produit à réaliser
+\end{itemize}
+
+Il faut bien faire la différence entre la gestion du projet et la gestion du produit.
+
+Les étapes de création du produit sont:
+\begin{enumerate}
+\item Analyse: organiser l'analyse, rédaction du cahier des charges
+\item Conception: rédaction du cahier de spécifications, planification du développement
+\item Développement
+\item Tests: permet de valider la conception
+\item Recette: permet de valider la conformité aux demandes du client (l'analyse)
+\end{enumerate}
+
+Les attentes des parties prenantes diffèrent selon que :
+\begin{itemize}
+\item La \gls{moa} et la \gls{moe} appartiennent à la même organisation ?
+\item Le client a-t-il des exigences/habitudes ?
+\item Le client est-il familier avec le projet ?
+\item Le secteur d'activité est-il soumis à des normes ?
+\end{itemize}
+
+On fait la différence entre les normes, les standards et les bonnes pratiques :
+\begin{description}
+\item[Norme\mainentry{Norme}] Les normes sont des règles décidées par des organismes connus (eg. l'AFNOR en France, ou l'ISO). Elles sont facultatives, mais vivement conseillées.
+\item[Standard\mainentry{Standard}] Une habitude que la majorité utilise (eg. les prises USB)
+\item[Bonnes pratiques\mainentry{Bonnes pratiques}] Recommandé par de grandes entreprises
+\item[Certification\mainentry{Certification}] Preuve que l'on maîtrise une bonne pratique, délivrée par des organisation (eg. la certification PMI pour les employés)
+\end{description}
+
+\section{Charte de projet}
+
+Le but de la charte de projet est:
+\begin{itemize}
+\item Autoriser formellement un projet ou une nouvelle phase de projet
+\item Identifier le responsable du projet ainsi que les responsabilités et autorités appropriées de celui-ci
+\item Documenter les besoins commerciaux, les objectifs, les résultats attendus et les aspects économiques du projet.
+\end{itemize}
+
+\begin{cquote}{NF ISO 21500}
+La charte du projet établit un lien entre le projet et les objectifs stratégiques de l'organisation, et il convient d'identifier les éventuels mandats, obligations, hypothèses et contraintes appropriés.
+\end{cquote}
+
+Il faut en premier se demander qui sont les parties prenantes, on peut le savoir en organisant des groupes de discussions qualitatifs:
+\begin{itemize}
+\item Qui est impacté par le projet?
+\item Qui est impacté par les résultats du projet?
+\item Leur rôle?
+\item Leurs attentes et intérêts?
+\item Leur pouvoir d'influence?
+\item Leurs degré de connaissance du projet?
+\item Leurs rapports entre elles?
+\end{itemize}
+
+Pour chaque tâche, on peut alors choisir quelles parties prenantes sont ``responsable'' de tâches, ``réalisatrices'', ``consultées'' ou ``informées''.
+
+Il ne faut pas oublier l'utilisateur final, qui est toujours une partie prenante!
+
+\begin{cquote}{PMBOK}
+Un travail d'analyse et de partage d'idées est requis pour construire un registre complet et de définir la position de chaque partie prenante vis-à-vis du projet: partisan, opposant, neutre, indifférent, fortement impliqué, ou fortement opposé.
+
+Le registre des parties prenantes est un tableau vivant qui est modifiable tout au long du projet. Il va nous servir à gérer les communications, l'implication des parties prenantes et la conduite du changement.
+\end{cquote}
+
+Ce qu'on retrouve dans une charte de projet (elle doit toujours faire moins de 10 pages):
+\begin{itemize}
+\item Introduction
+\item Documents de référence
+\item Présentation du projet
+\item Équipe de projet et les parties prenantes
+\item Attentes auxquelles doit répondre le projet
+\item Objectifs généraux du projet et des bénéfices attendus
+\item Critères de succès du projet
+\item Risques
+\item Hypothèses (eg. un exemple d'interface)
+\item Contraintes
+\item Exclusions
+\item Facteurs clé de succès
+\item Organisation du projet
+\item Registre des parties prenantes (en annexe)
+\end{itemize}
+
+\subsection{Objectifs}
+
+\begin{cquote}{}
+Aux origines du projet, il y a un besoin initial avéré qui permet d'assigner au projet des objectifs à atteindre et des indicateurs de réussite.
+\end{cquote}
+
+Il faut reformuler le besoin, identifier les objectifs (stratégique, performance, économique, délai) et préciser les indicateurs qui permettront de s'assurer de la réussite du projet.
+
+\appendix % Annexes, ARTICLE & BOOK
+\part{Annexes}
+%\bibliography{•} % THE .BIB FILE HERE, WITHOUT THE EXTENSION
+\printglossaries
+\printindex
+
+\end{document}
