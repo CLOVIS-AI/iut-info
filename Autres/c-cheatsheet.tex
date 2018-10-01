@@ -1,0 +1,251 @@
+\documentclass[10pt,a4paper,french]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\makeindex
+\makeglossaries
+
+\begin{document}
+
+\title{Cheatsheet C/C++}
+\author{Ivan Canet}
+\maketitle
+
+\begin{abstract} % ARTICLE ONLY
+Feuille d'aide pour la syntaxe de C/C++.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+\subsection{Fichiers et compilation}
+
+En C et en C++, la compilation est séparée en deux étapes.
+\begin{enumerate}
+\item Traduction en code machine,
+\item Édition des liens.
+\end{enumerate}
+
+Cela est fait pour que la compilation soit plus rapide : on ne recompile que ce qui n'est pas déjà compilé.
+
+Pour cela, les fichiers sources ({\tt .c}) sont transformés en fichiers de liens ({\tt .o}). Chaque fichier source est compilé indépendamment : le problème est que les fichiers dépendent souvent les uns des autres (avec {\tt include}). Pour régler le problème, on crée des fichiers headers ({\tt .h}) qui contiennent les signatures des fonctions. Comme ça, la compilation est plus indépendante.
+
+Pour éviter qu'un fichier header soit utilisé en plusieurs fois, on leur assigne une variable de préprocesseur:
+
+\begin{minted}{c}
+#ifndef NOM_DU_FICHIER.h
+#define NOM_DU_FICHIER.h
+
+// Les signatures de fonctions
+
+#endif
+\end{minted}
+
+\subsection{Makefile}
+
+\begin{minted}{makefile}
+CFLAGS = --std=c11 -Wall -Wextra -pedantic
+EXEC = main // Remplacer par le fichier contenant le main
+
+all: $(EXEC)
+
+%.o: %.c
+
+$(EXEC): *.o
+
+clean:
+	rm *.o
+\end{minted}
+
+\part{Syntaxe}
+
+\section{Allocation statique}
+
+\subsection{Variables}
+
+\begin{minted}{c}
+int a;        // Déclaration seule
+int a = 2;    // Déclaration et initialisation
+a = 3;        // Modification
+\end{minted}
+
+\subsection{Pointeurs}
+
+\begin{minted}{c}
+int a;
+int *pa;      // Déclaration d'un pointeur d'entiers
+pa = &a;      // Récupération de l'adresse de 'a' dans 'pa'
+int b = *pa;  // Récupération de la valeur pointée par 'pa', donc 'a'
+\end{minted}
+
+\subsection{Tableaux et chaînes de caractères}
+
+\begin{minted}{c}
+int a[] = {0, 1, 2, 3};  // Déclaration et initialisation de tableau d'entiers
+int b[10];               // Déclaration d'un tableau vide
+\end{minted}
+
+En réalité, un tableau est un pointeur caché, donc:
+
+\begin{minted}{c}
+int a[] = {0};           // Un tableau d'une case
+int *b  = {0};           // Exactement la même chose
+int indice = 0;
+int c = a[indice];       // Récupération d'une case à un indice
+int d = *(b+indice);     // Exactement la même chose
+\end{minted}
+
+Les chaînes de caractères sont des tableaux de {\tt char} qui se finissent par le caractère de code ASCII 0.
+
+\begin{minted}{c}
+char *a = {'H', 'e', 'l', 'l', 'o', 0}; // Déclaration d'une chaîne de caractères
+char *b = "Hello";                       // Même chose
+\end{minted}
+
+Puisque les tableaux sont des pointeurs cachés, on peut faire:
+
+\begin{minted}{c}
+char *a = "Hello";
+int *b = *a;
+while(*b++ != 0)
+    // Quelque chose avec *b
+\end{minted}
+
+\subsection{Structures}
+
+Déclaration de structure:
+
+\begin{minted}{c}
+struct Temps {
+    int heure;
+    int minute;
+    int seconde;
+};
+\end{minted}
+
+Création d'une variable de type {\tt Temps}:
+
+\begin{minted}{c}
+struct Temps t = {
+    .heure = 1,
+    .minute = 2,
+    .seconde = 3
+};
+\end{minted}
+
+Accès à un élément de la structure:
+
+\begin{minted}{c}
+printf("L'heure est: %s", &t.heure); // On passe une adresse
+struct *Temps pt = &t;
+printf("L'heure est: %s", t->heure); // Syntaxe simplifiée pour (*t).heure
+\end{minted}
+
+\subsection{Typedef}
+
+On peut utiliser typedef pour créer un type customisé (un alias):
+
+\begin{minted}{c}
+typedef int Matrice[3][3];
+Matrice rotation = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+\end{minted}
+
+\section{Allocation dynamique}
+
+On veut allouer dynamiquement des structures (comme exemple, cela marche pour tout):
+
+\begin{minted}{c}
+struct Temps {
+    int heure;
+    int minute;
+    int seconde;
+};
+\end{minted}
+
+Première étape: créer un pointeur qui va servir de tableau de temps:
+
+\begin{minted}{c}
+struct *Temps heures;
+int taille = 32;
+\end{minted}
+
+Deuxième étape: on utilise {\tt malloc} (dans {\tt memory.h}) pour réserver la place dans la mémoire:
+
+\begin{minted}{c}
+heures = malloc(taille * sizeof(struct Temps));
+if(heures == NULL)
+    // malloc a raté, il y a un problème
+    doSomething();
+\end{minted}
+
+Quand on a fini d'utiliser le tableau, il ne faut pas oublier de le libérer:
+
+\begin{minted}{c}
+free(heures);  // Suppression du contenu
+heures = NULL; // Suppression du pointeur
+\end{minted}
+
+\subsection{Réallocation dynamique}
+
+On peut utiliser {\tt realloc} pour changer la taille réservée.
+
+\begin{minted}{c}
+heures = realloc(heures, 30 * sizeof(struct Temps));
+\end{minted}
+
+Si la taille est disponible au même endroit, la nouvelle taille est réservée. Si la taille n'est pas disponible au même endroit, l'espace précédemment réservé est copié et un nouveau pointeur est renvoyé au nouvel endroit. Si jamais aucun endroit n'est trouvé, {\tt realloc} renvoie un pointeur vide.
+
+\section{Fichiers}
+
+Les descripteurs de fichiers correspondent au type {\tt FILE*}, on peut l'ouvrir grâce à {\tt fopen} :
+
+\begin{minted}{c}
+FILE * f = fopen("donnees.txt", "rw");
+\end{minted}
+
+Le mode d'écriture peut être:
+\begin{description}
+\item[Read (r)] Lecture seule, le fichier doit exister.
+\item[Write (w)] Écriture seule, le fichier est créé s'il n'existe pas, et vidé s'il existe.
+\item[Append (a)] Écriture seule, le fichier est créé s'il n'existe pas, on écrit à la fin.
+\item[Read-write (rw)] Lecture et écriture.
+\end{description}
+
+Il faut penser à fermer le fichier avec:
+
+\begin{minted}{c}
+fclose(f);
+\end{minted}
+
+Les fonctions disponibles pour les fichiers sont:
+
+\begin{minted}{c}
+int fprintf(FILE *f, const char *format, ...valeurs); // Écriture
+int  fscanf(FILE *f, const char *format, ...adresses); // Lecture
+char *fgets(char *s, int max, FILE *f); // Lecture d'une chaîne de caractères
+char *fputs(char *s, FILE *f); // Écriture d'une chaîne
+int   fgetc(FILE *f); // Lecture d'un caractère
+int   fputc(FILE *f); // Écriture d'un caractère
+\end{minted}
+
+On peut aussi lire une ligne entière avec:
+
+\begin{minted}{c}
+// La ligne est écrite dans ligne, sa taille est donnée dans n.
+// On peut donner des éléments déjà initialisés, s'il peut les réutiliser il le fera,
+// sinon il en alloue des nouveaux.
+// Les caractères de fin de ligne sont inclus.
+ssize_t getline (char **ligne, size_t *n, FILE *f);
+\end{minted}
+
+\appendix % Annexes, ARTICLE & BOOK
+\part{Annexes}
+
+%\bibliography{•} % THE .BIB FILE HERE, WITHOUT THE EXTENSION
+\printindex
+\printglossaries
+
+\end{document}
