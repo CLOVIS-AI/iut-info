@@ -109,7 +109,7 @@ F(k) = P(X \leq k) = \sum_{i=1}^k P(x_i)
 La variance est notée $V(X)$ ;
 
 \[
-V(X) = E[(X-E(X))^2]
+V(X) = E[(X-E(X))^2] = E(X^2) - E(X)^2
 \]
 
 L'écart-type est noté $\sigma(X)$ ;
@@ -153,17 +153,70 @@ L'écart-type $\sigma(X)$ s'écrit: \[\sigma(X)=\sqrt{np(1-p)}\]
 
 La variance $V(X)$ s'écrit: \[V(X) = \sigma(X)^2\]
 
-\paragraph{Loi poisson}
-Dans le cas où il s'agit d'un événement rare (la probabilité $p$ est faible et le nombre d'essais $n$ est élevé), on peut approximer la loi binomiale par la loi poisson ; on a donc:
+\subsection{Loi poisson}
+Dans le cas où il s'agit d'un événement rare (la probabilité $p$ est faible et le nombre d'essais $n$ est élevé), on peut approximer la loi binomiale par la loi poisson pour obtenir la probabilité de réussite dans un intervalle de temps (eg. apparition de pannes dans un réseau informatique). La loi de poisson correspond à la loi binomiale $B(n, \frac{\lambda}{n})$. On peut donc trouver :
 
 \[
 P(X = k) \approx \lim_{n \to \infinity} P(X_n = k) = \exp(-\lambda) \frac{\lambda^k}{k!}
-\] où $\lambda$ est le nombre de fois que l'événement se produit en moyenne.
+\] où $\lambda$ est le nombre de fois que l'événement se produit en moyenne ($E(X) = \lambda$).
 
-\paragraph{Exemple}
+On peut chercher soit ``le nombre de réalisations dans un intervalle donné'' ou ``le temps entre deux réalisations d'un événement''.
 
+Deux événements successifs doivent être indépendants.
+
+L'événement doit être suffisamment rare pour ne pas se réaliser plusieurs fois en un petit intervalle de temps.
+
+Quand il y a plus de 20 tentatives ($n$), avec une probabilité plus petite que 0.1 ($p$), et il faut que la moyenne ($np$) soit plus petit que 5. Dans ce cas : \[B(n; p) \approx P(np)\]
+
+\subsection{Loi géométrique}
+
+La loi géométrique est une variante de la loi binomiale : au lieu de chercher le ``nombre de réussites en $n$ essais'', on cherche ``combien d'essais sont nécessaires pour obtenir une réussite''.
+
+\[
+P(X = n) = q^{n-1} p
+\] où $p$ est la probabilité, $q$ la probabilité de l'échec (donc $q = 1-p$) et $P(X = n)$ est la probabilité de réussir au $n$\ieme~tirage.
+
+On peut couper la formule entre $q^{n-1}$ qui est la probabilité d'avoir $n-1$ échecs à la suite, puis $p$ la probabilité d'avoir un succès (``avoir un succès au bout du $n$\ieme~tirage'' = ``avoir $n-1$ échecs'' puis ``réussir une fois'').
+
+On trouve l'espérance: \[E(X) = \frac{1}{q}\]
+
+La variance: \[V(X) = \frac{q}{p^2}\]
+
+L'écart-type: \[\sigma(X) = \frac{\sqrt{q}}{p}\]
+
+La loi géométrique est une loi sans mémoire : on peut ignorer le passé : donc on peut ignorer les probabilités conditionnelles.
 
 \subsection{Loi normale}
+
+La loi normale a deux paramètres: \[N(E, \sigma)\].
+
+On peut donc approximer une loi binomiale par une loi normale: \[ B(n, p) \approx N(np, \sqrt{npq}) \] dès que $n \geq 30$, $np \geq 15$ et $nq \geq 15$.
+
+On peut aussi approximer une loi poisson par une loi normale: \[P(\lambda) \approx N(\lambda, \sqrt{\lambda})\] dès que $\lambda \geq 16$.
+
+Cela permet de trouver des cas comme $P(X \leq k)$ où $k$ est un entier.
+
+\paragraph{Remarque}
+Pour $k$ un entier, $P(X = k) = 0$.
+
+\paragraph{Correction de continuité}
+Puisque l'on passe d'une loi discrète à une loi continue, il faut transformer les valeurs: \[ P(X > n) = P(X \geq n+1) \approx P(X \geq n+0.5) \]
+par exemple, $P(X > 300)$ devient $P(X \geq 300.5)$.
+
+\subsection{Choisir la loi}
+
+La loi d'origine est soit:
+
+\begin{itemize}
+\item Une loi binomiale dans la plupart des cas, de paramètres $p$ la probabilité et $n$ le nombre d'essais,
+\item Une loi poisson dans les cas où les événements sont rares, de paramètre $\lambda$ la moyenne de réussites dans une période donnée,
+\item Une loi géométrique si on cherche le nombre d'essais nécessaires pour le premier échec (ou la première réussite),
+\item S'il s'agit d'événements dépendants, on peut aussi utiliser les probabilités conditionnelles.
+\end{itemize}
+
+Cela permet de calculer les probabilités de la forme $P(X = k)$ où $k \in \setN$.
+
+Ensuite si l'on cherche des probabilités de la forme $P(X \leq k)$ ou $P(X \geq k)$, on va approximer par une loi normale.
 
 \hrulefill
 
@@ -343,6 +396,32 @@ Soit $X$ la variable aléatoire comptant le nombre de personnes sur lesquelles l
 \paragraph{Exercice 4}
 On a $n = 10$ et $p = \frac{9}{10}$. On pose une variable aléatoire $X \suit B(10; 0.9)$.
 
+\paragraph{Exercice 5}
+Sur 10 pièces fabriquées, une est défectueuse.
 
+La probabilité qu'il y ai au plus 5 pièces défectueuses: $X \suit B(50; 0.1)$ et on cherche $P(X \leq 5) = P(X=0) + P(X=1) + \cdots + P(X=5)$. Ici on ne peut pas l'approximer par une loi normale, parce que les cas ne sont pas vérifiés.
+
+On cherche $P(X = k) \geq 0.95$ avec $k = 50$ et $p=9/10$. On écrit donc $\parmi{50}{n} (\frac{3}{10})^{50} (\frac{1}{10})^{1-50} \geq 0.95$.
+
+\paragraph{Exercice 6}
+Une machine est composée de 50 éléments, qui ont une probabilité de $0.01$ de se casser. Si 4 se cassent, la machine est cassée.
+
+On pose la loi binomiale $B(50, 0.01)$. On cherche $P(X < 4)=P(X=0) + P(X=1) + \cdots + P(X=3)$.
+
+Puisque $n$ est grand et $p$ est petit, on peut utiliser une loi poisson: $P(0.5) \approx B(50, 0.01)$. En posant $Y \suit P(0.5)$, on a $P(Y < 4) = e^{0.5} \times \frac{0.5^4}{4!}$.
+
+\paragraph{Exercice 7}
+On a $N$ appels par heure. On suppose une loi de Poisson.
+
+On prend l'heure comme unité de temps. Pour une heure, on a $\lambda = N$, donc $X \suit P(N)$. On cherche donc 3 appels par minute, donc 180 appels en une heure. $P(X=180)=e^{-180} \times \frac{N^{180}}{180!}$.
+
+On approxime en loi normale: $Y \suit N(N, \sqrt{N})$ donc $P(Y \geq 3)$ est corrigé en $P(Y > 2.5)$. On utilise ensuite une table pour trouver le résultat.
+
+\paragraph{Exercice 8}
+On considère un hamster dans 5 compartiments.
+
+Soit $X$ la variable aléatoire qui correspond au numéro de l'essai où le hamster sort. $X$ suit une loi géométrique de paramètres $p = \frac{1}{5}$. Donc, $P(X=1) = 1/5$, $P(X=3) = (\frac{4}{5})^2 \frac{1}{5}$ et $P(X=7) = (\frac{4}{5})^6 \frac{1}{5}$.
+
+Si le hamster est doué de mémoire: 
 
 \end{document}
