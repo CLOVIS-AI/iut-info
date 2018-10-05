@@ -22,9 +22,9 @@ Ceci est l'introduction du document.
 
 \tableofcontents
 
-\part{Cours}
+\part{Charte de Projet}
 
-\section{Projet}
+\section{Qu'est-ce qu'un projet ?}
 
 \begin{cquote}{Norme ISO 10006: 2003}
 Un projet est un processus unique, qui consiste en un ensemble d'activités coordonnées et maîtrisées, comportant des dates de début et de fin, entreprises dans le but d'attendre un object précis, sous des contraintes de délais, de coûts et de ressources.
@@ -128,6 +128,94 @@ Aux origines du projet, il y a un besoin initial avéré qui permet d'assigner a
 \end{cquote}
 
 Il faut reformuler le besoin, identifier les objectifs (stratégique, performance, économique, délai) et préciser les indicateurs qui permettront de s'assurer de la réussite du projet.
+
+\part{Plan de projet}
+
+\begin{cquote}{NF ISO 21500}
+L'objectif du plan de projet est de renseigner la raison pour laquelle le projet est entrepris, ce qui va être fourni, ce que cela coûtera, et la manière dont il sera mis en œuvre, maîtrisé et clos.
+\end{cquote}
+
+Pour cela, on va le faire en 5 parties:
+\begin{enumerate}
+\item Les objectifs et le calendrier du projet,
+\item Les risques,
+\item Le plan de communication et la gestion du management
+\item Le budget,
+\item Le pilotage.
+\end{enumerate}
+
+\section{Les objectifs et le calendrier du projet}
+
+Le point de départ est le besoin du client. On commence par réaliser les spécifications fonctionnelles pour structurer l'œuvre.
+
+\subsection{Compréhension et analyse du besoin}
+
+On peut utiliser les techniques suivantes:
+\begin{itemize}
+\item Quoi, où, quand, comment, pourquoi, combien,
+\item Méthodes des 9 cases,
+\item Diagrammes Use-Case en UML.
+\end{itemize}
+
+\subsubsection{Techniques des 9 cases}
+
+On commence par identifier les besoins en largeur (les thèmes qui seront utilisés) puis en profondeur (les détailler).
+
+\begin{tabular}{c|ccc}
+& Quel est le problème? & Qui est impacté? & Visualiser la solution \\
+\hline
+Question ouverte & 1 & 4 & 7 \\
+Combien, quand, où & 2 & 5 & 8 \\
+Si je comprends bien... & 3 & 6 & 9 \\
+\end{tabular}
+
+\subsubsection{Analyse fonctionnelle}
+
+On peut aussi utiliser l'analyse fonctionnelle (voir la norme NF X50-151).
+
+Il s'agit de répondre aux questions suivantes:
+\begin{itemize}
+\item À qui le produit rend-il service?
+\item Sur qui ou quoi le produit agit-il?
+\item Dans quel but?
+\end{itemize}
+
+On recherche ensuite les fonctions de service (``Quelles actions le produit doit-il réaliser pour répondre à chaque élément du besoin d'un utilisateur'') et les fonctions d'adaptations (``À quelles contraintes sont soumises les fonctions de services pour pouvoir interagir avec l'environnement du produit (les interacteurs)?'').
+
+Il ne faut pas oublier la maintenance.
+
+On fait ensuite la liste des résultats à obtenir.
+
+\subsubsection{Hiérarchisation des besoins}
+
+On examine le bénéfice attendu, le coût de réalisation et les risques.
+
+\paragraph{Loi de Pareto}
+Dans un cas où ``20\% des produits représentent 80\% du chiffre d'affaire'', on se concentre sur ces 20\%. Cela permet de réduire les coups.
+
+\paragraph{Matrice de hiérarchisation en fonction des risques et valeurs}
+On classe les objectifs selon leur ``risque'' et selon leur ``valeur'' ; on a donc une matrice de 4 zones: ``prioritaire'', ``secondaire'', ``à éviter'', ``reporté''.
+
+\paragraph{MoSCoW}
+\begin{itemize}
+\item `Must have' : fonctions indispensables
+\item `Should have' : fonctions souhaitables mais non-prioritaires
+\item `Could have' : fonctions possibles
+\item `Should have but won't have' : fonctions éliminées, reportées 
+\end{itemize}
+
+\paragraph{Matrice de Kano}
+On sépare les fonctions `obligatoires' (le client n'est pas content si elles ne sont pas là), `attractives' (le client ne se rend pas compte qu'elles ne sont pas là, mais elles ont un gros bonus sur l'impression du client), `proportionnelles' (standard).
+
+\subsection{Structuration du projet}
+
+On sépare le produit en des sous-tâches: par exemple, l'application, la documentation, le déploiement. On peut ensuite séparer l'application entre le client et le serveur, puis entre les différents écrans.
+
+On peut ensuite créer les tâches correspondant à chacune des feuilles.
+
+On décide alors qui est responsable de quelle tâche pour la réalisation, le contrôle, etc.
+
+On peut alors séparer les tâches en sous-tâches plus petites, puis on calcule les charges, on continue avec le PERT (pour repérer le chemin critique et les tâches parallélisables) puis le Gantt.
 
 \appendix % Annexes, ARTICLE & BOOK
 \part{Annexes}
