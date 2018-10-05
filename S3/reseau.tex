@@ -61,7 +61,6 @@ sysctl -w net.ipv4.ip\_forward=1
 
 \begin{minted}{bash}
 ip r
-
 \end{minted}
 
 \paragraph{Ajouter une route par défaut}
@@ -74,6 +73,7 @@ route add -net default gw 192.168.74.254
 \paragraph{Ajouter une route}
 
 \begin{minted}{bash}
+ip r add 22.33.44.0/24 via 11.22.33.55
 route add -net 22.33.44.0 netmask 255.255.255.0 gw 11.22.33.55
 \end{minted}
 
@@ -81,6 +81,33 @@ route add -net 22.33.44.0 netmask 255.255.255.0 gw 11.22.33.55
 
 \begin{minted}{bash}
 ip link set dev eth0 up|down
+ifup|ifdown eth0
 \end{minted}
+
+\section{Configurer de manière pérenne}
+
+Il faut modifier le fichier {\tt etc/network/interfaces}.
+
+\subsection{Pour un client}
+
+\begin{minted}{bash}
+auto eth0
+iface eth0 inet static
+	address 10.1.1.22                    # IP de la machine
+	netmask 255.255.255.0                # Masque de sous-réseau
+	gateway 10.1.1.254                   # Route par défaut
+\end{minted}
+
+\subsection{Pour un routeur}
+
+\begin{minted}{bash}
+auto eth0
+iface eth0 inet static
+	address 10.1.1.254                   # IP de la machine
+	netmask 255.255.255.0                # Masque de sous-réseau
+	up sysctl -w net.ipv4.ip_forward=1   # Activer le port forwarding
+\end{minted}
+
+On utilise {\tt up} pour lancer une commande au démarrage de l'interface (ici, l'activation du port forwarding, mais on peut mettre n'importe quelle commande).
 
 \end{document}
