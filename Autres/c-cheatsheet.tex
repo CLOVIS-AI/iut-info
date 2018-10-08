@@ -156,6 +156,8 @@ Matrice rotation = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 \section{Allocation dynamique}
 
+\subsection{Allocation}
+
 On veut allouer dynamiquement des structures (comme exemple, cela marche pour tout):
 
 \begin{minted}{c}
@@ -177,17 +179,22 @@ Deuxième étape: on utilise {\tt malloc} (dans {\tt memory.h}) pour réserver l
 
 \begin{minted}{c}
 heures = malloc(taille * sizeof(struct Temps));
-if(heures == NULL)
-    // malloc a raté, il y a un problème
+if(heures == NULL) // malloc a raté, il y a un problème
     doSomething();
 \end{minted}
+
+\subsection{Libération}
 
 Quand on a fini d'utiliser le tableau, il ne faut pas oublier de le libérer:
 
 \begin{minted}{c}
 free(heures);  // Suppression du contenu
-heures = NULL; // Suppression du pointeur
+heures = NULL; // Suppression du pointeur (on utilise 'nullptr' en C++)
 \end{minted}
+
+\paragraph{Différences en C++}
+
+En C++ on appelle {\tt delete} au lieu de {\tt free}.
 
 \subsection{Réallocation dynamique}
 
@@ -198,6 +205,183 @@ heures = realloc(heures, 30 * sizeof(struct Temps));
 \end{minted}
 
 Si la taille est disponible au même endroit, la nouvelle taille est réservée. Si la taille n'est pas disponible au même endroit, l'espace précédemment réservé est copié et un nouveau pointeur est renvoyé au nouvel endroit. Si jamais aucun endroit n'est trouvé, {\tt realloc} renvoie un pointeur vide.
+
+\section{Paramètres}
+
+\subsection{Passage par copie}
+
+Par défaut les variables sont copiées d'une fonction à une autre:
+
+\begin{minted}{c}
+void println(int a){
+    printf(a + '\n');
+}
+
+int a = 2;
+println(a);
+\end{minted}
+
+\subsection{Passage par pointeur}
+
+On copie le pointeur, pas la variable. Pour des tableaux ou des structures, c'est beaucoup mieux.
+
+\begin{minted}{c}
+void println(int *a){
+    printf(*a + '\n');
+}
+
+int a = 2;
+println(&a);
+\end{minted}
+
+\subsection{Passage par référence (C++)}
+
+Exactement comme le passage par pointeur, mais en plus lisible.
+
+\begin{minted}{c}
+void println(int &a){
+    printf(a + '\n');
+}
+
+int a = 2;
+println(a);
+\end{minted}
+
+\section{Classes (C++)}
+
+\subsection{Syntaxe}
+
+On prend l'exemple d'une classe {\tt Piece}.
+
+\subsubsection{Déclaration}
+
+\begin{minted}{cpp}
+// Header
+class Piece
+{
+    ...
+}
+\end{minted}
+
+\subsubsection{Attributs et méthodes}
+
+Elles sont déclarées dans le header:
+
+\begin{minted}{cpp}
+// Header
+class Piece
+{
+private:
+    int a;     // Attribut privé
+
+public:
+    Piece();   // Constructeur par défaut
+    void do(); // Méthode publique
+}
+\end{minted}
+
+Puis on peut les déclarer dans le fichier source:
+
+\begin{minted}{cpp}
+void Piece::do(){
+    // ...
+}
+\end{minted}
+
+\subsection{Constructeurs}
+
+\subsubsection{Déclaration}
+
+On peut déclarer un constructeur:
+
+\begin{minted}{cpp}
+// Header
+Piece(...);                  // Remplacer ... par les paramètres
+\end{minted}
+
+\subsubsection{Appel statique}
+
+\begin{minted}{cpp}
+Piece tmp(...);              // Appel statique
+\end{minted}
+
+\subsubsection{Appel dynamique}
+
+\begin{minted}{cpp}
+Piece *tmp = new Piece(...); // Appel dynamique, ne pas oublier de delete le pointeur !
+delete tmp;                  // Comme ceci
+\end{minted}
+
+\subsubsection{Constructeur par défaut}
+
+\paragraph{Génération automatique}
+La version de base 
+
+\subsubsection{Constructeur par copie}
+
+Pour la classe Piece, la constructeur par copie a pour signature:
+
+\begin{minted}{cpp}
+Piece::Piece(const Piece &autre);
+\end{minted}
+
+\paragraph{Génération automatique}
+
+Il est généré par le compilateur quand il est absent. Attention: la version générée copie les champs, mais s'ils sont des pointeurs (eg. des \mintinline{c}{*char}), ceux-ci ne sont pas copiés (la copie n'est pas récursive).
+
+Si on écrit le constructeur par copie à la main, il faut absolument réécrire aussi le destructeur et l'opérateur~`='~!
+
+\paragraph{Empêcher l'existence du constructeur par copie}
+
+Si on veut interdire l'utilisation du constructeur par copie, on peut le déclarer de cette manière:
+
+\begin{minted}{cpp}
+// Header
+Piece(const Piece &autre) = delete;
+\end{minted}
+
+\subsection{Destructeur}
+
+\subsection{Opérateurs}
+
+\subsubsection{Cas général}
+
+On déclare une fonction :
+
+\begin{minted}{cpp}
+const int & Piece::operator[](int i);
+\end{minted}
+
+Puis on peut l'appeler:
+
+\begin{minted}{cpp}
+Piece tmp;
+int a = tmp[0];
+\end{minted}
+
+\subsubsection{Opérateur =}
+
+On prend comme exemple une classe {\tt Piece}.
+
+\begin{minted}{cpp}
+// Header
+Piece &operator=(const Piece &autre);
+
+// Exemple d'implémentation
+
+\end{minted}
+
+\paragraph{Construction d'un nouveau objet}
+
+Attention ! Dans l'exemple suivant, l'opérateur = \textbf{n'est pas} appelé:
+
+\begin{minted}{cpp}
+Piece p1();    // Constructeur par défaut
+Piece p2 = p1; /* Pas d'appel de operator= !
+                  C'est le constructeur par copie qui est appelé ! */
+\end{minted}
+
+\part{API}
 
 \section{Fichiers}
 
