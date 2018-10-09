@@ -139,7 +139,6 @@ Dans le cas d'une suite d'expériences élémentaires indépendantes à deux iss
 On note $p$ la probabilité d'une réussite et $n$ le nombre d'expériences (par exemple pour 12 lancers de pièce: $p=1/2$ et $n=12$). On note cette loi $B(n; p)$, dite ``de Bernouilli''. On peut alors créer la variable aléatoire suivant cette loi : \[ X \suit B(n; p) \]
 
 On peut calculer la probabilité qu'il y ai $k$ succès (où $k \in [0; n]$):
-
 \[
 P(X=k) = \parmi{k}{n} p^k (1-p)^{n-k}
 \]
@@ -155,7 +154,6 @@ La variance $V(X)$ s'écrit: \[V(X) = \sigma(X)^2\]
 
 \subsection{Loi poisson}
 Dans le cas où il s'agit d'un événement rare (la probabilité $p$ est faible et le nombre d'essais $n$ est élevé), on peut approximer la loi binomiale par la loi poisson pour obtenir la probabilité de réussite dans un intervalle de temps (eg. apparition de pannes dans un réseau informatique). La loi de poisson correspond à la loi binomiale $B(n, \frac{\lambda}{n})$. On peut donc trouver :
-
 \[
 P(X = k) \approx \lim_{n \to \infinity} P(X_n = k) = \exp(-\lambda) \frac{\lambda^k}{k!}
 \] où $\lambda$ est le nombre de fois que l'événement se produit en moyenne ($E(X) = \lambda$).
@@ -171,7 +169,6 @@ Quand il y a plus de 20 tentatives ($n$), avec une probabilité plus petite que 
 \subsection{Loi géométrique}
 
 La loi géométrique est une variante de la loi binomiale : au lieu de chercher le ``nombre de réussites en $n$ essais'', on cherche ``combien d'essais sont nécessaires pour obtenir une réussite''.
-
 \[
 P(X = n) = q^{n-1} p
 \] où $p$ est la probabilité, $q$ la probabilité de l'échec (donc $q = 1-p$) et $P(X = n)$ est la probabilité de réussir au $n$\ieme~tirage.
@@ -203,6 +200,46 @@ Pour $k$ un entier, $P(X = k) = 0$.
 Puisque l'on passe d'une loi discrète à une loi continue, il faut transformer les valeurs: \[ P(X > n) = P(X \geq n+1) \approx P(X \geq n+0.5) \]
 par exemple, $P(X > 300)$ devient $P(X \geq 300.5)$.
 
+\paragraph{Calcul de probabilités grâce à une table}
+
+La table permet de trouver la probabilité de $P(X < n)$ où $n \geq 0$ ; pour $X \suit N(0, 1)$.
+
+Si on veut calculer d'autres probabilités, il faut les remplacer:
+\begin{itemize}
+\item $P(X > n) = 1 - P(X < n)$
+\item $P(X < -n) = 1 - P(X < n)$
+\item $P(X > -n) = P(X < n)$
+\item $P(a < X < b) = P(X < b) - P(X < a)$ où $(a,b) \in \setR^2$
+\item $P(\vert 12 \vert > n) = P(Z > n \text{ou} Z < -n) = 2 P(Z > n) = 2 (1-P(Z < n))$
+\end{itemize}
+
+\paragraph{Centrer une loi}
+Pour une variable aléatoire $X$ suivant une loi normale de paramètres $\mu, \sigma$; on peut la centrer en: 
+\[Y = \frac{X - \mu}{\sigma} \suit N(0, 1)\]
+
+\subsection{Loi exponentielle}
+
+La loi exponentielle est définie par:
+\begin{itemize}
+\item Si $x < 0$ : 0
+\item Si $x \geq 0$ : $\lambda e^{-\lambda x}$
+\end{itemize}
+
+On l'utilise très souvent pour des durées de vie.
+
+L'espérance est \[E(X) = \frac{1}{\lambda}\]
+
+L'écart-type est \[ \sigma(X) = \frac{1}{\lambda} \]
+
+Pour calculer $P(a < X < b)$ : \[ \int_a^b \lambda e^{-\lambda t} dt = \left[ -e^{-\lambda t} \right]_a^b = -e^{-\lambda b} + e^{-\lambda a} \]
+
+Par exemple pour $P(50 < X < 100)$ : \[ \int_{50}^{100} \lambda e^{-\lambda t} dt = \left[ -e^{-\lambda t} \right]_{50}^{100} = -e^{-\lambda 100} + e^{-\lambda 50} \]
+
+Si on cherche $P(X \geq n)$, on calcule l'inverse: \[ P(X \geq n) = 1 - P(X \leq n) \] ce qui est beaucoup plus simple à calculer.
+
+\paragraph{Remarque}
+La loi exponentielle est une loi sans vieillissement: \[ P_B(a < X < b) = P(a < X < b) \]
+
 \subsection{Choisir la loi}
 
 La loi d'origine est soit:
@@ -212,6 +249,7 @@ La loi d'origine est soit:
 \item Une loi poisson dans les cas où les événements sont rares, de paramètre $\lambda$ la moyenne de réussites dans une période donnée,
 \item Une loi géométrique si on cherche le nombre d'essais nécessaires pour le premier échec (ou la première réussite),
 \item S'il s'agit d'événements dépendants, on peut aussi utiliser les probabilités conditionnelles.
+\item Si on dépend du temps, qu'il y a diminution, et qu'on a une moyenne de décroissance, on utilise la loi exponentielle.
 \end{itemize}
 
 Cela permet de calculer les probabilités de la forme $P(X = k)$ où $k \in \setN$.
