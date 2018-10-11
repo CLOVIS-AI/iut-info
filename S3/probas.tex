@@ -260,7 +260,7 @@ Si on veut calculer d'autres probabilités, il faut les remplacer:
 \item $P(X < -n) = 1 - P(X < n)$
 \item $P(X > -n) = P(X < n)$
 \item $P(a < X < b) = P(X < b) - P(X < a)$ où $(a,b) \in \setR^2$
-\item $P(\vert 12 \vert > n) = P(Z > n \text{ou} Z < -n) = 2 P(Z > n) = 2 (1-P(Z < n))$
+\item $P(\vert X \vert > n) = P(Z > n \text{ ou } Z < -n) = 2 P(Z > n) = 2 (1-P(Z < n))$
 \end{itemize}
 
 \paragraph{Centrer une loi}
@@ -446,7 +446,5 @@ On approxime en loi normale: $Y \suit N(N, \sqrt{N})$ donc $P(Y \geq 3)$ est cor
 On considère un hamster dans 5 compartiments.
 
 Soit $X$ la variable aléatoire qui correspond au numéro de l'essai où le hamster sort. $X$ suit une loi géométrique de paramètres $p = \frac{1}{5}$. Donc, $P(X=1) = 1/5$, $P(X=3) = (\frac{4}{5})^2 \frac{1}{5}$ et $P(X=7) = (\frac{4}{5})^6 \frac{1}{5}$.
-
-Si le hamster est doué de mémoire: 
 
 \end{document}
