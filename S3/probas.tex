@@ -30,7 +30,7 @@ On distingue deux manières de dénombrer ;
 On décide de choisir 5 chevaux parmi 5. Le nombre de possibilités est $20 \times 19 \times 18 \times 17 \times 16$, ce qui est égal à $\frac{20!}{15!}$, dont on peut déduire $\frac{20!}{(20-5)!}$.
 
 \paragraph{Formule \& notation}
-On note ``$p$ éléments parmi $n$'' $A_n^p$, et la valeur est $A_n^p = \frac{n!}{(n-p)!}$.
+On note ``$p$ éléments parmi $n$'' $\arrang{p}{n}$, et la valeur est \[ \arrang{p}{n} = \frac{n!}{(n-p)!} \]
 
 \subsection{Combinaison}
 
@@ -38,7 +38,7 @@ On note ``$p$ éléments parmi $n$'' $A_n^p$, et la valeur est $A_n^p = \frac{n!
 En reprenant l'exemple précédent des 5 chevaux parmi 20; si l'ordre n'est pas important, alors on peut regrouper toutes les possibilités où les mêmes chevaux ont été tirés dans un ordre différent. Il y a 5 chevaux, donc il y a $5!$ cas où les mêmes chevaux ont été tirés. Il faut donc enlever ces cas, ce qui donne un nombre de possibilités de $\frac{A_n^p}{p!}$.
 
 \paragraph{Formule \& notation}
-On note ``$p$ éléments parmi $n$'' $n \choose p$, de formule ${n \choose p} = \frac{n!}{p! (n-p)!}$.
+On note ``$p$ éléments parmi $n$'' $\parmi{p}{n}$, de formule \[ \parmi{p}{n} = \frac{n!}{p! (n-p)!} \].
 
 \subsection{Triangle de Pascal}
 
@@ -64,9 +64,9 @@ n $\backslash$ p & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
 
 On peut l'utiliser pour retrouver que $\parmi{4}{6}=20$.
 
-On retrouve aussi que $\parmi{p}{n} = \parmi{p}{n-1} + \parmi{p-1}{n-1}$.
+On retrouve aussi que \[ \parmi{p}{n} = \parmi{p}{n-1} + \parmi{p-1}{n-1} \].
 
-\section{Applications}
+\subsection{Applications}
 
 \paragraph{Application}
 Comme une fonction, mais tous les éléments de l'ensemble de départ doivent absolument avoir une image (on ne peut pas avoir de valeurs interdites).
@@ -76,7 +76,7 @@ Tout élément de l'ensemble d'arrivée a au moins un antécédent.
 
 \section{Probabilités}
 
-\subsection{Événements, Univers, Cardinal}
+\subsection{Définitions}
 
 \paragraph{Un événement élémentaire} est un élément qui ne peut pas être séparé entre d'autres éléments (eg. dans un lancer de dés, ``tirer 1'' est un événement élémentaire).
 
@@ -86,34 +86,82 @@ Tout élément de l'ensemble d'arrivée a au moins un antécédent.
 
 \paragraph{Le cardinal} est le nombre d'événements élémentaires dans un événement non-élémentaire (la taille), on le note $card(X)$ où $X$ est l'ensemble.
 
-\paragraph{Calcul de probabilité} La probabilité d'un événement $E$ est notée $P(E)$ et vaut $P(E) = \frac{card(E)}{card(\Omega}$.
+\paragraph{Calcul de probabilité} La probabilité d'un événement $E$ est notée $P(E)$ et vaut \[ P(E) = \frac{card(E)}{card(\Omega} \]
 
-\hrulefill
+\paragraph{Probabilité conditionnelle}
+``La probabilité de A quand B est vérifiée'' s'écrit: \[ P_B(A)=\frac{P(A \cap B)}{P(B)} \]
 
-\subsection{Variables discrètes et continues}
+\subsection{Variables}
+
+\subsubsection{Variables aléatoires}
+
+L'espérance est la moyenne des probabilités : \[ E(X) = \sum x_i P(X=x_i) \]
+
+Pour deux variables aléatoires $X$ et $Y$, $E(X+Y) = E(X) + E(Y)$.
+
+Par contre, $E(X \times Y) = E(X) \times E(Y)$ uniquement si les deux événements sont indépendants.
+
+\paragraph{Exemple}
+
+On jette un dé non truqué, on note la variable $X$ qui vaut le double de sa valeur. L'univers est $\Omega=\lbrace 2, 4, 6, 8, 10, 12 \rbrace$. Voir le \autoref{tab:var-alea-1}.
+
+\begin{table}[h]
+\caption{\label{tab:var-alea-1} Exemple de variable aléatoire: double du nombre tiré par un dé}
+\centering
+\begin{tabular}{c|cccccc}
+$X=x_i$ & 2 & 4 & 6 & 8 & 10 & 12\\
+\hline
+$P(X=x_i)$ & $1/6$ & $1/6$ & $1/6$ & $1/6$ & $1/6$ & $1/6$\\
+\end{tabular}
+\end{table}
+
+On pose une variable $Y$ qui vaut 1 si le résultat est pair et 3 si le résultat est impair. Puisque les chances sont équiprobables, $P(Y=1) = \frac{1}{2}$ et $P(Y=3) = \frac{1}{2}$.
+
+On s'intéresse à $X+Y$ et $X \times Y$. Le cas où $Y=3$ et $X=2$ est impossible, parce que cela veut dire que le nombre d'origine du lancer de dé était 1 et pair. On mets 0 à chacune de ces possibilités; voir \autoref{tab:var-alea-2} et \autoref{tab:var-alea-3}.
+
+\begin{table}[h]
+\caption{\label{tab:var-alea-2} Somme de deux variables aléatoires}
+\centering
+\begin{tabular}{c|cc}
+$X \backslash Y$ & 1 & 3\\
+\hline
+2 & 3 & 0\\
+4 & 0 & 7\\
+6 & 7 & 0\\
+8 & 0 & 11\\
+10 & 11 & 0\\
+12 & 0 & 15\\
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\caption{\label{tab:var-alea-3} Probabilités de $P(X+Y = x_i)$}
+\centering
+\begin{tabular}{c|cccc}
+$x_i$ & 3 & 7 & 11 & 15\\
+\hline
+$P(X+Y=x_i)$ & 1/6 & 2/6 & 2/6 & 1/6\\
+\end{tabular}
+\end{table}
 
 \subsubsection{Variables discrètes}
 
 On note $E(X)$ l'espérance (la moyenne).
-
 \[
 E(X) = \sum_{i=1}^n x_i P(x_i)
 \]
 
 La fonction de répartition, $F(k)$, est la probabilité que plusieurs événements se réalisent.
-
 \[
 F(k) = P(X \leq k) = \sum_{i=1}^k P(x_i)
 \]
 
 La variance est notée $V(X)$ ;
-
 \[
 V(X) = E[(X-E(X))^2] = E(X^2) - E(X)^2
 \]
 
 L'écart-type est noté $\sigma(X)$ ;
-
 \[
 \sigma(X) = \sqrt{V(X)}
 \]
@@ -121,18 +169,18 @@ L'écart-type est noté $\sigma(X)$ ;
 \subsubsection{Variables continues}
 
 L'espérance $E(X)$ est:
-
 \[
 E(X)= \int_a^x f(t) \text{d} t
 \]
 
 La fonction de répartition $F(u)$ est:
-
 \[
 F(u) = \int_a^u f(t) \text{d} t
 \]
 
-\subsection{Loi binomiale}
+\subsection{Lois discrètes}
+
+\subsubsection{Loi binomiale}
 
 Dans le cas d'une suite d'expériences élémentaires indépendantes à deux issues possibles, on utilise la loi binomiale.
 
@@ -152,7 +200,7 @@ L'écart-type $\sigma(X)$ s'écrit: \[\sigma(X)=\sqrt{np(1-p)}\]
 
 La variance $V(X)$ s'écrit: \[V(X) = \sigma(X)^2\]
 
-\subsection{Loi poisson}
+\subsubsection{Loi poisson}
 Dans le cas où il s'agit d'un événement rare (la probabilité $p$ est faible et le nombre d'essais $n$ est élevé), on peut approximer la loi binomiale par la loi poisson pour obtenir la probabilité de réussite dans un intervalle de temps (eg. apparition de pannes dans un réseau informatique). La loi de poisson correspond à la loi binomiale $B(n, \frac{\lambda}{n})$. On peut donc trouver :
 \[
 P(X = k) \approx \lim_{n \to \infinity} P(X_n = k) = \exp(-\lambda) \frac{\lambda^k}{k!}
@@ -166,7 +214,7 @@ L'événement doit être suffisamment rare pour ne pas se réaliser plusieurs fo
 
 Quand il y a plus de 20 tentatives ($n$), avec une probabilité plus petite que 0.1 ($p$), et il faut que la moyenne ($np$) soit plus petit que 5. Dans ce cas : \[B(n; p) \approx P(np)\]
 
-\subsection{Loi géométrique}
+\subsubsection{Loi géométrique}
 
 La loi géométrique est une variante de la loi binomiale : au lieu de chercher le ``nombre de réussites en $n$ essais'', on cherche ``combien d'essais sont nécessaires pour obtenir une réussite''.
 \[
@@ -183,7 +231,9 @@ L'écart-type: \[\sigma(X) = \frac{\sqrt{q}}{p}\]
 
 La loi géométrique est une loi sans mémoire : on peut ignorer le passé : donc on peut ignorer les probabilités conditionnelles.
 
-\subsection{Loi normale}
+\subsection{Lois continues}
+
+\subsubsection{Loi normale}
 
 La loi normale a deux paramètres: \[N(E, \sigma)\].
 
@@ -217,7 +267,7 @@ Si on veut calculer d'autres probabilités, il faut les remplacer:
 Pour une variable aléatoire $X$ suivant une loi normale de paramètres $\mu, \sigma$; on peut la centrer en: 
 \[Y = \frac{X - \mu}{\sigma} \suit N(0, 1)\]
 
-\subsection{Loi exponentielle}
+\subsubsection{Loi exponentielle}
 
 La loi exponentielle est définie par:
 \begin{itemize}
@@ -240,83 +290,20 @@ Si on cherche $P(X \geq n)$, on calcule l'inverse: \[ P(X \geq n) = 1 - P(X \leq
 \paragraph{Remarque}
 La loi exponentielle est une loi sans vieillissement: \[ P_B(a < X < b) = P(a < X < b) \]
 
-\subsection{Choisir la loi}
+\subsection{Comment choisir la loi}
 
 La loi d'origine est soit:
 
 \begin{itemize}
-\item Une loi binomiale dans la plupart des cas, de paramètres $p$ la probabilité et $n$ le nombre d'essais,
-\item Une loi poisson dans les cas où les événements sont rares, de paramètre $\lambda$ la moyenne de réussites dans une période donnée,
-\item Une loi géométrique si on cherche le nombre d'essais nécessaires pour le premier échec (ou la première réussite),
-\item S'il s'agit d'événements dépendants, on peut aussi utiliser les probabilités conditionnelles.
-\item Si on dépend du temps, qu'il y a diminution, et qu'on a une moyenne de décroissance, on utilise la loi exponentielle.
+\item Une \textbf{loi binomiale} dans la plupart des cas, de paramètres $p$ la probabilité et $n$ le nombre d'essais,
+\item Une \textbf{loi poisson} dans les cas où les événements sont rares, de paramètre $\lambda$ la moyenne de réussites dans une période donnée, quand on cherche le temps nécessaire,
+\item Une \textbf{loi géométrique} si on cherche le nombre d'essais nécessaires pour le premier échec (ou la première réussite),
+\item S'il s'agit d'événements dépendants, on peut aussi utiliser les \textbf{probabilités conditionnelles}.
+\item Si on dépend du temps, qu'il y a diminution, et qu'on a une moyenne de décroissance, on utilise la \textbf{loi exponentielle}.
+\item On peut convertir les trois premières lois en \textbf{loi normale} pour obtenir des probabilités ``inférieure'' de la forme $P(X \leq k)$.
 \end{itemize}
 
-Cela permet de calculer les probabilités de la forme $P(X = k)$ où $k \in \setN$.
-
-Ensuite si l'on cherche des probabilités de la forme $P(X \leq k)$ ou $P(X \geq k)$, on va approximer par une loi normale.
-
-\hrulefill
-
-\paragraph{Probabilité conditionnelle}
-$P_B(A)=\frac{P(A \cap B)}{P(B)}$ : ``La probabilité de A quand B est vérifiée''.
-
-\subsection{Variables aléatoires}
-
-\subsubsection{Titre à écrire TODO}
-
-\paragraph{Espérance}
-
-L'espérance est la moyenne des probabilités : $E(X) = \sum x_i P(X=x_i)$.
-
-Pour deux variables aléatoires $X$ et $Y$, $E(X+Y) = E(X) + E(Y)$.
-
-Par contre, $E(X \times Y) = E(X) \times E(Y)$ uniquement si les deux événements sont indépendants.
-
-\subsubsection{Exemple}
-
-On jette un dé non truqué, on note la variable $X$ qui vaut le double de sa valeur. L'univers est $\Omega=\lbrace 2, 4, 6, 8, 10, 12 \rbrace$. Voir le \autoref{tab:var-alea-1}.
-
-\begin{table}
-\caption{\label{tab:var-alea-1} Exemple de variable aléatoire: double du nombre tiré par un dé}
-\centering
-\begin{tabular}{c|cccccc}
-$X=x_i$ & 2 & 4 & 6 & 8 & 10 & 12\\
-\hline
-$P(X=x_i)$ & $1/6$ & $1/6$ & $1/6$ & $1/6$ & $1/6$ & $1/6$\\
-\end{tabular}
-\end{table}
-
-On pose une variable $Y$ qui vaut 1 si le résultat est pair et 3 si le résultat est impair. Puisque les chances sont équiprobables, $P(Y=1) = \frac{1}{2}$ et $P(Y=3) = \frac{1}{2}$.
-
-On s'intéresse à $X+Y$ et $X \times Y$. Le cas où $Y=3$ et $X=2$ est impossible, parce que cela veut dire que le nombre d'origine du lancer de dé était 1 et pair. On mets 0 à chacune de ces possibilités; voir \autoref{tab:var-alea-2} et \autoref{tab:var-alea-3}.
-
-\begin{table}
-\caption{\label{tab:var-alea-2} Somme de deux variables aléatoires}
-\centering
-\begin{tabular}{c|cc}
-$X \backslash Y$ & 1 & 3\\
-\hline
-2 & 3 & 0\\
-4 & 0 & 7\\
-6 & 7 & 0\\
-8 & 0 & 11\\
-10 & 11 & 0\\
-12 & 0 & 15\\
-\end{tabular}
-\end{table}
-
-\begin{table}
-\caption{\label{tab:var-alea-3} Probabilités de $P(X+Y = x_i)$}
-\centering
-\begin{tabular}{c|cccc}
-$x_i$ & 3 & 7 & 11 & 15\\
-\hline
-$P(X+Y=x_i)$ & 1/6 & 2/6 & 2/6 & 1/6\\
-\end{tabular}
-\end{table}
-
-
+\section{Statistiques}
 
 
 
