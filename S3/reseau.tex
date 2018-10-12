@@ -4,6 +4,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{../latex/clovisai}
 
+\usepackage{pgf-umlsd}
+
 \begin{document}
 
 \title{Réseau}
@@ -15,7 +17,9 @@ Ceci est l'introduction du document.
 \end{abstract}
 \tableofcontents
 
-\section{Adresse IP}
+\section{Configuration réseau via IP}
+
+\subsection{Adresse IP}
 
 Une adresse IPv4 est constituée de 32 bits, elle est utilisée pour communiquer entre machines sur le réseau.
 
@@ -27,7 +31,7 @@ Le réseau `127.0.0.0/8' est un faux réseau qui revient sur soi-même, il est p
 
 Chaque machine peut se connecter à plusieurs `interfaces' : elles correspondent aux différentes prises sur la carte réseau. Par exemple, la première prise ethernet est nommée `eth0', puis `eth1', etc.
 
-\section{Commandes utiles}
+\subsection{Commandes utiles}
 
 On utilise {\tt dev} pour ``device''.
 
@@ -84,11 +88,11 @@ ip link set dev eth0 up|down
 ifup|ifdown eth0
 \end{minted}
 
-\section{Configurer de manière pérenne}
+\subsection{Configurer de manière pérenne}
 
 Il faut modifier le fichier {\tt etc/network/interfaces}.
 
-\subsection{Pour un client}
+\subsubsection{Pour un client}
 
 \begin{minted}{bash}
 auto eth0
@@ -98,7 +102,7 @@ iface eth0 inet static
 	gateway 10.1.1.254                   # Route par défaut
 \end{minted}
 
-\subsection{Pour un routeur}
+\subsubsection{Pour un routeur}
 
 \begin{minted}{bash}
 auto eth0
@@ -109,5 +113,136 @@ iface eth0 inet static
 \end{minted}
 
 On utilise {\tt up} pour lancer une commande au démarrage de l'interface (ici, l'activation du port forwarding, mais on peut mettre n'importe quelle commande).
+
+\section{Configuration réseau via DHCP}
+
+\subsection{Protocole DHCP}
+
+Le protocole DHCP permet de reléguer la configuration. Au lieu d'enregistrer la configuration dans le client, on va créer un serveur DHCP et le client va lui demander son IP.
+
+\subsubsection{Trames}
+
+\paragraph{Initialisation}
+
+Le client demande en broadcast une adresse IP au serveur, le serveur lui en propose une, le client dit qu'il l'accepte (toujours en broadcast), et enfin le serveur confirme.
+
+Ces étapes sont importantes dans le cas où il y a plusieurs serveurs DHCP : le client ``choisit'' quelle offre il souhaite, et on évite qu'un client ai 2 IPs.
+
+\begin{center}
+\begin{sequencediagram}
+	\newthread{client}{Client}
+	\newthread{server}{Serveur DHCP}
+	
+	\mess[1]{client}{DISCOVER}{server}
+	\mess[1]{server}{OFFER}{client}
+	\mess[1]{client}{REQUEST}{server}
+	\mess[1]{server}{ACK}{client}
+\end{sequencediagram}
+\end{center}
+
+\paragraph{Libération}
+
+Le client peut annoncer qu'il quitte le réseau, son adresse IP est alors libérée. Ce n'est absolument pas obligatoire, c'est plus de la politesse.
+
+\begin{center}
+\begin{sequencediagram}
+	\newthread{client}{Client}
+	\newthread{server}{Serveur DHCP}
+	
+	\mess[1]{client}{RELEASE}{server}
+\end{sequencediagram}
+\end{center}
+
+\paragraph{Renouvellement à mi-bail}
+
+À la moitié du bail, le client fait une demande de renouvellement. Cette fois, la demande est faite en direct au serveur, pas en broadcast.
+
+\begin{center}
+\begin{sequencediagram}
+	\newthread{client}{Client}
+	\newthread{server}{Serveur DHCP}
+	
+	\mess[1]{client}{REQUEST}{server}
+	\mess[1]{server}{ACK}{client}
+\end{sequencediagram}
+\end{center}
+
+\paragraph{Renouvellement en fin de bail}
+
+Si le serveur n'a pas répondu lors du mi-bail, le client fait une nouvelle demande en broadcast à 87.5\% du bail (elle fait une demande à tous les serveurs DHCP, pour le cas où le précédent a un problème).
+
+\begin{center}
+\begin{sequencediagram}
+	\newthread{client}{Client}
+	\newthread{server}{Serveur DHCP}
+	
+	\mess[1]{client}{REQUEST}{server}
+	\mess[1]{server}{ACK}{client}
+\end{sequencediagram}
+\end{center}
+
+\subsubsection{Messages du protocole}
+
+\paragraph{Envoyés par le client}
+
+\begin{description}
+\item[DISCOVER] Qui sont les serveurs DHCP disponibles ?
+\item[REQUEST] Est-ce que je peux avoir un bail ?
+\item[DECLINE] Cette adresse ne me plaît pas.
+\item[RELEASE] Je n'ai plus besoin de l'adresse, tu peux la réutiliser.
+\item[INFORM] Je veux plus d'informations sur le réseau (liste des imprimantes...)
+\end{description}
+
+\paragraph{Envoyés par le serveur}
+
+\begin{description}
+\item[OFFER] Voilà une IP, est-ce que tu la veux?
+\item[ACK] C'est bon, le bail est validé.
+\item[NACK] Je refuse de donner un bail.
+\end{description}
+
+\subsection{Configuration}
+
+\subsubsection{Côté client}
+
+L'énorme avantage d'utiliser DHCP et que la configuration côté client est très faible.
+
+On modifie le fichier {\tt /etc/network/interfaces}:
+
+\begin{minted}{bash}
+auto eth0
+iface eth0 inet dhcp
+\end{minted}
+
+La liste des baux accordés est disponible dans {\tt /var/lib/dhcp/dhclient.eth0.leases} (remplacer {\tt eth0} par la bonne interface).
+
+\subsubsection{Côté serveur}
+
+On modifier le fichier {\tt /etc/dhcp/dhcpd.conf}:
+
+\begin{minted}{bash}
+# Temps par défaut pour les baux, en secondes
+default-lease-time 600;
+# Durée maximale d'un bail, en secondes
+max-lease-time 7200;
+
+# Le serveur DHCP a pour IP 192.168.10.0/24
+subnet 192.168.10.0 netmask 255.255.255.0 {
+  # Les clients auront une IP comprise entre 192.168.10.100 et 192.168.10.150
+  # À noter que le serveur DHCP lui-même ne doit pas être dans cette range!
+  range 192.168.10.100 192.168.10.150;
+  # On dit que la machine a0:00:01:02:03:04 a une adresse IP réservée : 192.168.10.200
+  # On nomme la machine `server' ; le nom n'a pas d'importance
+  # À noter que l'IP réservée N'EST PAS dans la range précisée plus haut!
+  host server {
+    hardware-ethernet a0:00:01:02:03:04;
+    fixed-address 192.168.10.200;
+  }
+  # Les clients utiliseront le routeur 192.168.10.1 comme route par défaut (gateway)
+  option routers 192.168.10.1;
+}
+\end{minted}
+
+La liste des baux est dans {\tt /var/lib/dhcp/dhcpd.leases}.
 
 \end{document}
