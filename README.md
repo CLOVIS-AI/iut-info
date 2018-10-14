@@ -2,8 +2,6 @@
 
 Les cours en IUT Informatique de Bordeaux.
 
-Ce projet a été déplacé vers le [GitLab de l'IUT de Bordeaux](https://gitlab-ce.iut.u-bordeaux.fr/icanet/iut-info).
-
 Les PDFs sont disponibles [ici sur le serveur JMPI](ftp://clovis.online/cours). Vous pouvez aussi les télécharger.
 
 ## Signaler une erreur
