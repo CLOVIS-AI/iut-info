@@ -13,9 +13,9 @@
 
 \tableofcontents
 
-\part{Cours}
+\part{Probabilités}
 
-\section{Dénombrement}
+\section{Arrangements}
 
 On distingue deux manières de dénombrer ;
 
@@ -74,9 +74,7 @@ Comme une fonction, mais tous les éléments de l'ensemble de départ doivent ab
 \paragraph{Application surjective}
 Tout élément de l'ensemble d'arrivée a au moins un antécédent.
 
-\section{Probabilités}
-
-\subsection{Définitions}
+\section{Définitions}
 
 \paragraph{Un événement élémentaire} est un élément qui ne peut pas être séparé entre d'autres éléments (eg. dans un lancer de dés, ``tirer 1'' est un événement élémentaire).
 
@@ -91,9 +89,9 @@ Tout élément de l'ensemble d'arrivée a au moins un antécédent.
 \paragraph{Probabilité conditionnelle}
 ``La probabilité de A quand B est vérifiée'' s'écrit: \[ P_B(A)=\frac{P(A \cap B)}{P(B)} \]
 
-\subsection{Variables}
+\section{Variables}
 
-\subsubsection{Variables aléatoires}
+\subsection{Variables aléatoires}
 
 L'espérance est la moyenne des probabilités : \[ E(X) = \sum x_i P(X=x_i) \]
 
@@ -144,7 +142,7 @@ $P(X+Y=x_i)$ & 1/6 & 2/6 & 2/6 & 1/6\\
 \end{tabular}
 \end{table}
 
-\subsubsection{Variables discrètes}
+\subsection{Variables discrètes}
 
 On note $E(X)$ l'espérance (la moyenne).
 \[
@@ -166,7 +164,7 @@ L'écart-type est noté $\sigma(X)$ ;
 \sigma(X) = \sqrt{V(X)}
 \]
 
-\subsubsection{Variables continues}
+\subsection{Variables continues}
 
 L'espérance $E(X)$ est:
 \[
@@ -178,9 +176,9 @@ La fonction de répartition $F(u)$ est:
 F(u) = \int_a^u f(t) \text{d} t
 \]
 
-\subsection{Lois discrètes}
+\section{Lois discrètes}
 
-\subsubsection{Loi binomiale}
+\subsection{Loi binomiale}
 
 Dans le cas d'une suite d'expériences élémentaires indépendantes à deux issues possibles, on utilise la loi binomiale.
 
@@ -200,7 +198,7 @@ L'écart-type $\sigma(X)$ s'écrit: \[\sigma(X)=\sqrt{np(1-p)}\]
 
 La variance $V(X)$ s'écrit: \[V(X) = \sigma(X)^2\]
 
-\subsubsection{Loi poisson}
+\subsection{Loi poisson}
 Dans le cas où il s'agit d'un événement rare (la probabilité $p$ est faible et le nombre d'essais $n$ est élevé), on peut approximer la loi binomiale par la loi poisson pour obtenir la probabilité de réussite dans un intervalle de temps (eg. apparition de pannes dans un réseau informatique). La loi de poisson correspond à la loi binomiale $B(n, \frac{\lambda}{n})$. On peut donc trouver :
 \[
 P(X = k) \approx \lim_{n \to \infinity} P(X_n = k) = \exp(-\lambda) \frac{\lambda^k}{k!}
@@ -214,7 +212,7 @@ L'événement doit être suffisamment rare pour ne pas se réaliser plusieurs fo
 
 Quand il y a plus de 20 tentatives ($n$), avec une probabilité plus petite que 0.1 ($p$), et il faut que la moyenne ($np$) soit plus petit que 5. Dans ce cas : \[B(n; p) \approx P(np)\]
 
-\subsubsection{Loi géométrique}
+\subsection{Loi géométrique}
 
 La loi géométrique est une variante de la loi binomiale : au lieu de chercher le ``nombre de réussites en $n$ essais'', on cherche ``combien d'essais sont nécessaires pour obtenir une réussite''.
 \[
@@ -231,9 +229,9 @@ L'écart-type: \[\sigma(X) = \frac{\sqrt{q}}{p}\]
 
 La loi géométrique est une loi sans mémoire : on peut ignorer le passé : donc on peut ignorer les probabilités conditionnelles.
 
-\subsection{Lois continues}
+\section{Lois continues}
 
-\subsubsection{Loi normale}
+\subsection{Loi normale}
 
 La loi normale a deux paramètres: \[N(E, \sigma)\].
 
@@ -267,7 +265,7 @@ Si on veut calculer d'autres probabilités, il faut les remplacer:
 Pour une variable aléatoire $X$ suivant une loi normale de paramètres $\mu, \sigma$; on peut la centrer en: 
 \[Y = \frac{X - \mu}{\sigma} \suit N(0, 1)\]
 
-\subsubsection{Loi exponentielle}
+\subsection{Loi exponentielle}
 
 La loi exponentielle est définie par:
 \begin{itemize}
@@ -290,7 +288,7 @@ Si on cherche $P(X \geq n)$, on calcule l'inverse: \[ P(X \geq n) = 1 - P(X \leq
 \paragraph{Remarque}
 La loi exponentielle est une loi sans vieillissement: \[ P_B(a < X < b) = P(a < X < b) \]
 
-\subsection{Comment choisir la loi}
+\section{Comment choisir la loi}
 
 La loi d'origine est soit:
 
@@ -303,7 +301,79 @@ La loi d'origine est soit:
 \item On peut convertir les trois premières lois en \textbf{loi normale} pour obtenir des probabilités ``inférieure'' de la forme $P(X \leq k)$.
 \end{itemize}
 
-\section{Statistiques}
+\part{Statistiques}
+
+\section{Analyse unidimensionnelle}
+
+On s'intéresse à une seule variable aléatoire, souvent notée $X$.
+
+\subsection{Caractère discret}
+
+Pour une population de $n$, on a plusieurs valeurs appelées $v_0, v_1 \ldots v_n$.
+
+Plusieurs individus peuvent avoir une même valeur (par exemple, plus élèves peuvent avoir la même note) : on note $x$ chaque valeur possibles; donc $x_0, x_1 \ldots x_k$. À noter que $k \leq n$ puisqu'on ne peut pas avoir plus de résultats que d'individus !
+
+\paragraph{Effectif}
+L'effectif de la variable $x_i$ correspond au nombre d'individus qui ont eu ce résultat (par exemple, le nombre d'étudiants ayant eu 15): on le note $n_i$.
+
+\paragraph{Fréquence}
+La fréquence de la variable $x_i$ est la ``probabilité'' que cela arrive; donc \[ f_i = \frac{n_i}{n} \]
+
+\paragraph{Fréquence cumulée}
+La fréquence cumulée est la somme de toutes les fréquences inférieures: \[ F_i = \sum_{j=1}^i f_j \]
+
+\subsection{Paramètres de position}
+
+\paragraph{Mode}
+Pour trouver le mode, on calcule chaque fréquence. La fréquence la plus élevée permet de trouver le mode. Par exemple, si on a 70\% des étudiants qui ont eu 12, 20\% qui ont eu 13 et 10\% qui ont eu 14, le mode est 12.
+
+\paragraph{Moyenne}
+Notée $\overline{X}$ \[ \overline{X} = \frac{1}{n} \sum_{i=1}^k n_i x_i \]
+
+\paragraph{Médiane}
+La valeur telle que la moitié des valeurs est inférieure, et l'autre moitié est supérieure ; notée $M$.
+
+\paragraph{1\ier~quartile}
+La valeur telle que 25\% des valeurs sont inférieures, et 75\% des valeurs sont supérieures ; notée $Q_1$.
+
+\paragraph{3\ieme~quartile}
+La valeur telle que 75\% des valeurs sont inférieures, et 25\% des valeurs sont supérieures ; notée $Q_3$.
+
+\subsection{Paramètres de dispersion}
+
+\paragraph{Écart absolu moyen}
+%TODO c'est un peu l'écart-type ?
+
+\paragraph{Intervalle de variation}
+L'espace entre la valeur maximale et la valeur minimale: \[ v_max - v_min \]
+
+\paragraph{Intervalle inter-quartile}
+L'espace entre les deux quartiles: \[ Q_3 - Q_1 \]
+
+\paragraph{Variance}
+%TODO
+
+\section{Analyse bidimensionnelle}
+
+L'analyse dimensionnelle permet d'étudier des corrélations.
+
+\paragraph{Covariance}
+\[ cov(X, Y) = \sigma_{X Y} = \frac{\sum_{i=1}^n (x_i - \overline{X}) (y_i - \overline{Y})}{n} \]
+\[ \sigma_{X Y} = \overline{X Y} - \overline{X} \times \overline{Y} \]
+
+\paragraph{Coefficient de corrélation}
+\[ \rho_{X Y} = \frac{\sigma_{X Y}}{\sigma_X \sigma_Y} \]
+avec
+\[ -1 \leq \rho_{X Y} \leq 1 \]
+on a aussi \[ \rho_{X Y} = \frac{<X', Y'>}{\Vert X \Vert \Vert Y \Vert} = cos(X', Y') \]
+
+Si $\vert \rho_{X Y} \vert \approx 1$ veut dire que les deux séries sont corrélées.
+
+
+
+
+
+
 
 
 
@@ -446,5 +516,18 @@ On approxime en loi normale: $Y \suit N(N, \sqrt{N})$ donc $P(Y \geq 3)$ est cor
 On considère un hamster dans 5 compartiments.
 
 Soit $X$ la variable aléatoire qui correspond au numéro de l'essai où le hamster sort. $X$ suit une loi géométrique de paramètres $p = \frac{1}{5}$. Donc, $P(X=1) = 1/5$, $P(X=3) = (\frac{4}{5})^2 \frac{1}{5}$ et $P(X=7) = (\frac{4}{5})^6 \frac{1}{5}$.
+
+\paragraph{Exercice 3}
+Ceci est du texte
+\begin{table}[h]
+\centering
+\begin{tabular}{ccccc}
+$x_i$ & $y_i$ & $x_i^2$ & $y_i^2$ & $x_i y_i$ \\
+\hline
+\ldots & \ldots & \ldots & \ldots & \ldots \\
+$\overline{X}$ & $\overline{Y}$ & $\overline{X^2}$ & $\overline{Y^2}$ & $\overline{X Y}$
+\end{tabular}
+\end{table}
+d'où on déduit $V(X)$, $V(Y)$, $\sigma(X)$ et $\sigma(Y)$.
 
 \end{document}
