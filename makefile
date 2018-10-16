@@ -1,4 +1,4 @@
-all: init pdf html
+all: init pdf html clean
 
 init:
 	git submodule init
