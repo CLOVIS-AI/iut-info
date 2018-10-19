@@ -328,7 +328,7 @@ La fréquence cumulée est la somme de toutes les fréquences inférieures: \[ F
 Pour trouver le mode, on calcule chaque fréquence. La fréquence la plus élevée permet de trouver le mode. Par exemple, si on a 70\% des étudiants qui ont eu 12, 20\% qui ont eu 13 et 10\% qui ont eu 14, le mode est 12.
 
 \paragraph{Moyenne}
-Notée $\overline{X}$ \[ \overline{X} = \frac{1}{n} \sum_{i=1}^k n_i x_i \]
+Notée $\overline{X}$ ou $E(X)$ \[ \overline{X} = \frac{1}{n} \sum_{i=1}^k n_i x_i \]
 
 \paragraph{Médiane}
 La valeur telle que la moitié des valeurs est inférieure, et l'autre moitié est supérieure ; notée $M$.
@@ -367,7 +367,9 @@ L'espace entre les deux quartiles: \[ Q_3 - Q_1 \]
 \paragraph{Covariance}
 C'est une sorte d'écart-type sur deux variables ; l'unité est celle de la variance. On le note $cov(X, Y)$ ou $\sigma_{XY}$:
 \[ \sigma_{X Y} = (\overline{X \times Y}) - (\overline{X} \times \overline{Y}) \]
-\[ \sigma_{X Y} = \frac{\sum_{i=1}^n (x_i - \overline{X}) (y_i - \overline{Y})}{n} \]
+\[ \sigma_{X Y} = \frac{1}{n} \sum_{i=1}^n (x_i - \overline{X}) (y_i - \overline{Y}) \]
+
+À noter que quand on étudie deux variables affines, on peut utiliser : \[ cov(\alpha x + \beta, \lambda y + \mu) = \alpha \lambda cov(x, y) \]
 
 \paragraph{Coefficient de corrélation}
 Permet de connaître la qualité d'une corrélation. Pour deux variables aléatoires $X$ et $Y$, on le note $\rho_{X Y}$.
@@ -375,6 +377,8 @@ Permet de connaître la qualité d'une corrélation. Pour deux variables aléato
 on a aussi \[ \rho_{X Y} = \frac{<X', Y'>}{\Vert X \Vert \Vert Y \Vert} = cos(X', Y') \]
 
 Si $\vert \rho_{X Y} \vert \approx 1$ veut dire que les deux séries sont corrélées.
+
+Dans le cas de deux variables affines, on peut utiliser: \[ \rho_{\alpha X + \beta, \lambda Y + \mu} = \frac{\alpha \lambda}{\vert \alpha \lambda \vert} \rho_{X,Y} \]
 
 \subsection{Droite des moindres carrés}
 
