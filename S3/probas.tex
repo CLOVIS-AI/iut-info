@@ -74,7 +74,9 @@ Comme une fonction, mais tous les éléments de l'ensemble de départ doivent ab
 \paragraph{Application surjective}
 Tout élément de l'ensemble d'arrivée a au moins un antécédent.
 
-\section{Définitions}
+\section{Variables}
+
+\subsection{Événements \& probabilités simples}
 
 \paragraph{Un événement élémentaire} est un élément qui ne peut pas être séparé entre d'autres éléments (eg. dans un lancer de dés, ``tirer 1'' est un événement élémentaire).
 
@@ -88,8 +90,6 @@ Tout élément de l'ensemble d'arrivée a au moins un antécédent.
 
 \paragraph{Probabilité conditionnelle}
 ``La probabilité de A quand B est vérifiée'' s'écrit: \[ P_B(A)=\frac{P(A \cap B)}{P(B)} \]
-
-\section{Variables}
 
 \subsection{Variables aléatoires}
 
@@ -345,7 +345,7 @@ La valeur telle que 75\% des valeurs sont inférieures, et 25\% des valeurs sont
 %TODO c'est un peu l'écart-type ?
 
 \paragraph{Intervalle de variation}
-L'espace entre la valeur maximale et la valeur minimale: \[ v_max - v_min \]
+L'espace entre la valeur maximale et la valeur minimale: \[ v_{max} - v_{min} \]
 
 \paragraph{Intervalle inter-quartile}
 L'espace entre les deux quartiles: \[ Q_3 - Q_1 \]
@@ -368,166 +368,5 @@ avec
 on a aussi \[ \rho_{X Y} = \frac{<X', Y'>}{\Vert X \Vert \Vert Y \Vert} = cos(X', Y') \]
 
 Si $\vert \rho_{X Y} \vert \approx 1$ veut dire que les deux séries sont corrélées.
-
-
-
-
-
-
-
-
-
-
-\part{Exercices}
-
-\paragraph{Exercice 10}
-Désignons par $f_n$ le nombre de manières de jeter une pièce $n$ fois sans que deux piles successifs n'apparaissent.
-
-Soit une partie en $n$ coups au cours de laquelle on n'obtient jamais deux piles consécutives :
-\begin{itemize}
-\item La partie commence par P, le second lancer doit donc donner F, ensuite toute partie en $n-2$ coups ne donnant pas deux piles consécutives convient; il y en a $f_{n-2}$.
-\item La partie commence par F, le second lancer peut être quelconque donc F est suivi d'une quelconque partie en $n-1$ coups ne présentant pas deux piles consécutives. Il y en a $f_{n-1}$.
-\end{itemize}
-
-Donc, $f_n = f_{n-1} + f_{n-2}$ avec $f_0 = 1$ et $f_1=2$.
-
-La probabilité d'un événement\footnote{On appelle Cardinal d'un événement (ou plus généralement d'un ensemble) le nombre d'éléments de cet ensemble. Un cardinal peut être fini ou infini.} est $P(A)=\frac{card(A)}{card(\Omega)}$, donc pour l'événement ``Nombre de manières de jeter une pièce $n$ fois sans 2 piles successifs'', l'univers est ``Nombre de manières de jeter une pièce $n$ fois'', ce qui donne $2^n$ possibilités.
-
-On a donc $P(A)=\frac{f_n}{2^n}=\frac{f_{n-1}+f_{n-2}}{2^n}$.
-
-\paragraph{Exercice 1}
-Avec remise : $\Omega=\lbrace(R, V), (V, R), (V, B), (B, V), (B, R), (R, B), (R, R), (B, B), (V, V)\rbrace$ donc $card(\Omega)=3^2$ (tirage successif avec remise).
-
-Sans remise : $\Omega=\lbrace(R, V), (V, R), (V, B), (B, V), (B, R), (R, B)\rbrace$ donc $card(\Omega)=3^2-3=3 \times 2$ (tirage successif sans remise).
-
-\paragraph{Exercice 2} 50\% pratique la natation, 55\% pratique le basket, 22.5\% pratique les deux sports.
-
-On en déduit que la probabilité qui pratique la natation et non le basket est $P(N \setminus B) = P(N) - P(N \cup B) = 50 \% - 22.5\% = 27.5 \% $.
-
-De la même manière, la population qui pratique le basket mais pas la natation est $P(B \setminus N)= 55\% - 22.5\% = 32.5\%$.
-
-La population que ne pratique aucun sport est $17.5\%$.
-
-\paragraph{Exercice 3}
-5 boules rouges, 6 bleues, 8 vertes ; on tire 3 boules au hasard.
-
-L'univers a une taille de $card(\Omega) = {19 \choose 3}$.
-
-Les événements sont $A_R$ ``toutes les boules sont rouges'', $A_B$ ``toutes les boules sont bleues'' et $A_V$ ``toutes les boules sont vertes''.
-Ces trois événements forment une partition de $A$ ``toutes les boules sont de la même couleur'' ; donc 
-$P(A) = P(A_R) + P(A_B) + P(A_V)$
-avec
-$card(A_R)={5 \choose 3}$,
-$card(A_B)={8 \choose 3}$ et
-$card(A_V)={8 \choose 3}$ ; donc
-$P(A)=
-\frac
-	{{5 \choose 3} + {8 \choose 3} + {8 \choose 3}}
-	{{19 \choose 3}}
-$.
-
-\paragraph{Exercice 4}
-Il y a 3 manières de faire 4 (2+2, 3+1, 1+3) pour un univers d'une taille $6\times6$; donc $P(S=4)=\frac{3}{36}=\frac{1}{12}$.
-
-Pour 10 lancers, il faut que au moins un ai une somme qui vaille 4. On reconnaît une loi binomiale avec $n=10$, $p=\frac{1}{12}$ et $k=$ ``plus de 1'' ; $X$ est le ``nombre de succès''.
-
-$P(X \geq 1) = 1 - P(X=0) = 1 - {0 \choose 10} (\frac{1}{12})^0 (\frac{11}{12})^{10} = 1 - (\frac{11}{12})^{10}$.
-
-\paragraph{Exercice 5}
-Il y a $32 \choose 5$ distributions possibles.
-
-\subparagraph{5 cartes de la même couleur}
-Le nombre de distributions de 5 cartes de la même couleur est $card(A)={4 \choose 1}\times{8 \choose 5}$. La probabilité de $A$ est donc $P(A)=\frac{4 {8 \choose 5}}{{32 \choose 5}} = \frac{224}{201376}=0.11\%$.
-
-\subparagraph{La dame et le roi de cœur}
-La probabilité d'obtenir la dame et le roi de cœur parmi les 5 cartes tirées : $card(A)={1\choose 1}{1\choose 1}{30 \choose 3}$ donc $P(A)=\frac{{30 \choose 3}{1\choose 1}{1\choose 1}}{{32 \choose 5}}$.
-
-\subparagraph{Exactement 3 valets}
-La probabilité d'obtenir 3 valets parmi les 5 cartes : $card(A)={4 \choose 3}{28 \choose 2}$. On prend les deux dernières parmi 28 au lieu de parmi 29, parce que la 29\ieme~est le quatrième valet, qu'il ne faut pas prendre.
-
-\subparagraph{Brelan: trois cartes de la même valeur}
-La probabilité d'obtenir trois cartes de la même valeur : $card(A)={8 \choose 1} {4 \choose 3} {28 \choose 2}$ parce que l'on choisit la valeur, ensuite il faut en prendre trois de cette valeur (donc parmi 4) puis on prend aléatoirement les 2 dernières parmi ce qu'il reste dans le paquet.
-
-\subparagraph{Carré: quatre cartes de la même valeur}
-La probabilité d'obtenir 4 cartes de la même valeur (un carré) : $card(A)={8 \choose 1}{4 \choose 4}{28 \choose 1}$.
-
-\subparagraph{Au moins un brelan}
-La probabilité d'obtenir au moins un brelan : $card(A)={8 \choose 1}{4 \choose 3}{29 \choose 2}$.
-
-\subparagraph{Quinte flush}
-La probabilité d'obtenir une quinte flush : il y a 4 couleurs, pour chacune on peut faire 4 quintes flush, donc $P(A)=16$.
-
-\subparagraph{Deux paires distinctes}
-La probabilité d'obtenir deux paires distinctes : ${8 \choose 1}{4 \choose 2}{7 \choose 1}{4 \choose 2}{24 \choose 1}$ ; on prend une valeur, puis 2 cartes dans cette valeur; on prend une nouvelle valeur (différente donc parmi 7), puis à nouveau 2 cartes dans cette valeur ; on termine avec une carte parmi le reste du paquet.
-
-\paragraph{Exercice 6}
-On pose $A$ ``Au moins un 6'' et $B$ ``Les deux sont différents''.
-
-Les cardinaux sont $card(A)=11$ (il n'y a pas d'ordre donc on ne compte pas $(6; 6)$) donc $P(A)=\frac{11}{36}$ et $card(B)=30$ donc $P(B)=\frac{30}{36}$.
-
-On a aussi $card(A \cap B)=10$ donc $P(A \cap B)=\frac{10}{36}$.
-
-Donc $P_B(A) = \frac{P(A \cap B)}{P(B)} = \frac{10 / 36}{30 / 36} = \frac{1}{3}$.
-
-\paragraph{Exercice 7}
-On a deux événements, B ``Les deux dernières sont des piques'' et A ``La première carte tirée est une pique''. Puisqu'un pioche 3 cartes, $card(\Omega) = \arrang{3}{52} = \frac{52!}{49!}$.
-
-On cherche la probabilité $P_B(A)$. On sait qu'elle vaut $P_B(A) = \frac{P(A \inter B)}{P(B)}$ ; on sait que $A \inter B$ est ``Les trois cartes tirées sont des piques'', ce qui est simple à calculer, $card(A\inter B) = \arrang{3}{13}$ donc $P(A\inter B) = \frac{card(A\inter B)}{card(\Omega)} = \frac{13! \times 49!}{10! \times 52!}$.
-
-On cherche ensuite $P(B)$ : soit la première carte est un pique ($13 \times 12 \times 11$), soit elle n'est pas un pique ($39 \times 13 \times 12$) ; donc
-
-\[
-P(B) = \frac{13 \times 12 \times 11 + 39 \times 13 \times 12}{52 \times 51 \times 50} = \frac{11}{50}
-\]
-
-$A$ et $B$ sont-ils indépendants ? $P_B(A)=\frac{11}{50}$ et $P(A)=\frac{1}{4}$ donc les deux événements ne sont pas indépendants.
-
-\paragraph{Exercice 8}
-On commence par dessiner l'arbre. On ajoute toutes les possibilités arrivant à $D$ pour trouver la somme $P(D)=0.027$, idem pour $P_D(A)=0.37$.
-
-\paragraph{Exercice 3}
-Soit $X$ la variable aléatoire comptant le nombre de personnes sur lesquelles le médicament n'a aucun effet. $X$ prend les valeurs $[0, 5]$. On a donc $X \suit B(5; 0.95)$. On cherche $P(X \geq 4) = P(X = 4) + P(X = 5) = \parmi{4}{5} 0.95^4 0.05^1 + \parmi{5}{5} 0.95^5 0.05^0$.
-
-\paragraph{Exercice 4}
-On a $n = 10$ et $p = \frac{9}{10}$. On pose une variable aléatoire $X \suit B(10; 0.9)$.
-
-\paragraph{Exercice 5}
-Sur 10 pièces fabriquées, une est défectueuse.
-
-La probabilité qu'il y ai au plus 5 pièces défectueuses: $X \suit B(50; 0.1)$ et on cherche $P(X \leq 5) = P(X=0) + P(X=1) + \cdots + P(X=5)$. Ici on ne peut pas l'approximer par une loi normale, parce que les cas ne sont pas vérifiés.
-
-On cherche $P(X = k) \geq 0.95$ avec $k = 50$ et $p=9/10$. On écrit donc $\parmi{50}{n} (\frac{3}{10})^{50} (\frac{1}{10})^{1-50} \geq 0.95$.
-
-\paragraph{Exercice 6}
-Une machine est composée de 50 éléments, qui ont une probabilité de $0.01$ de se casser. Si 4 se cassent, la machine est cassée.
-
-On pose la loi binomiale $B(50, 0.01)$. On cherche $P(X < 4)=P(X=0) + P(X=1) + \cdots + P(X=3)$.
-
-Puisque $n$ est grand et $p$ est petit, on peut utiliser une loi poisson: $P(0.5) \approx B(50, 0.01)$. En posant $Y \suit P(0.5)$, on a $P(Y < 4) = e^{0.5} \times \frac{0.5^4}{4!}$.
-
-\paragraph{Exercice 7}
-On a $N$ appels par heure. On suppose une loi de Poisson.
-
-On prend l'heure comme unité de temps. Pour une heure, on a $\lambda = N$, donc $X \suit P(N)$. On cherche donc 3 appels par minute, donc 180 appels en une heure. $P(X=180)=e^{-180} \times \frac{N^{180}}{180!}$.
-
-On approxime en loi normale: $Y \suit N(N, \sqrt{N})$ donc $P(Y \geq 3)$ est corrigé en $P(Y > 2.5)$. On utilise ensuite une table pour trouver le résultat.
-
-\paragraph{Exercice 8}
-On considère un hamster dans 5 compartiments.
-
-Soit $X$ la variable aléatoire qui correspond au numéro de l'essai où le hamster sort. $X$ suit une loi géométrique de paramètres $p = \frac{1}{5}$. Donc, $P(X=1) = 1/5$, $P(X=3) = (\frac{4}{5})^2 \frac{1}{5}$ et $P(X=7) = (\frac{4}{5})^6 \frac{1}{5}$.
-
-\paragraph{Exercice 3}
-Ceci est du texte
-\begin{table}[h]
-\centering
-\begin{tabular}{ccccc}
-$x_i$ & $y_i$ & $x_i^2$ & $y_i^2$ & $x_i y_i$ \\
-\hline
-\ldots & \ldots & \ldots & \ldots & \ldots \\
-$\overline{X}$ & $\overline{Y}$ & $\overline{X^2}$ & $\overline{Y^2}$ & $\overline{X Y}$
-\end{tabular}
-\end{table}
-d'où on déduit $V(X)$, $V(Y)$, $\sigma(X)$ et $\sigma(Y)$.
 
 \end{document}
