@@ -247,7 +247,119 @@ int a = 2;
 println(a);
 \end{minted}
 
-\section{Classes (C++)}
+\part{Systèmes d'Exploitation}
+
+\section{Définition}
+
+Le Système d'Exploitation a pour but de gérer les périphériques, le partage du temps de calcul\ldots
+
+Le principe de l'API est de permettre d'écrire et de lire dans des descripteurs (par exemple des fichiers, mais aussi la souris\ldots)
+
+On fait la différence entre:
+\begin{description}
+\item[Type block] Par exemple les fichiers ; on lit souvent avec un tampon pour lire des données,
+\item[Type caractère] On lit très peu de données, par exemple depuis le clavier ou la souris.
+\end{description}
+
+Un processeur ne peut effectuer qu'une seule opération (un seul processus) à un instant donné. Par contre, les entrées/sorties (E/S) peuvent être exécutées en parallèle des processus (mais une seule opération E/S à la fois).
+
+\section{Appels système}
+
+\subsection{Gestion des processus}
+
+\paragraph{Récupérer le PID du processus actuel}
+\begin{minted}{c}
+int pid = getpid();
+\end{minted}
+
+\paragraph{Copier un processus (Fork)}
+Quand on appelle la fonction fork, elle copie le processus complet (même variables, même endroit dans le code\ldots) ; pour le processus enfant elle renvoie 0, et pour le processus parent elle renvoie le PID de l'enfant.
+\begin{minted}{c}
+// On copie le processus actuel
+pid_t pid = fork();
+// On regarde si on est le parent ou l'enfant
+if(pid == 0){
+    printf("Je suis l'enfant (%d)", getpid());
+}else{
+    printf("Je suis le parent (%d), mon enfant est %d", getpid(), pid);
+}
+\end{minted}
+
+\paragraph{Attendre la fin d'un processus}
+\begin{minted}{c}
+// Attendre la fin du processus
+waitpid(pid, NULL, 0);
+\end{minted}
+
+\paragraph{Récupérer le code d'erreur d'un processus}
+On souhaite récupérer le code d'arrêt du fils.
+
+\begin{minted}{c}
+pid_t pid = fork();
+if(pid == 0){
+    // Quelque chose
+    exit(2); // Code d'erreur 2
+}
+int erreur;
+waitpid(pid, &erreur, 0);
+printf("Le code d'erreur était: %d", erreur);
+\end{minted}
+
+\paragraph{Récupérer le PID du parent}
+\begin{minted}{c}
+pid_t pid = getparentpid();
+\end{minted}
+
+\subsection{Gestion des signaux}
+
+\section{Fichiers}
+
+\subsection{Ouverture et fermeture}
+
+Les descripteurs de fichiers correspondent au type {\tt FILE*}, on peut l'ouvrir grâce à {\tt fopen} :
+
+\begin{minted}{c}
+FILE * f = fopen("donnees.txt", "rw");
+\end{minted}
+
+Le mode d'écriture peut être:
+\begin{description}
+\item[Read (r)] Lecture seule, le fichier doit exister.
+\item[Write (w)] Écriture seule, le fichier est créé s'il n'existe pas, et vidé s'il existe.
+\item[Append (a)] Écriture seule, le fichier est créé s'il n'existe pas, on écrit à la fin.
+\item[Read-write (rw)] Lecture et écriture.
+\end{description}
+
+Il faut penser à fermer le fichier avec:
+
+\begin{minted}{c}
+fclose(f);
+\end{minted}
+
+\subsection{Lecture et écriture}
+
+\begin{minted}{c}
+int fprintf(FILE *f, const char *format, ...valeurs); // Écriture
+int  fscanf(FILE *f, const char *format, ...adresses); // Lecture
+char *fgets(char *s, int max, FILE *f); // Lecture d'une chaîne de caractères
+char *fputs(char *s, FILE *f); // Écriture d'une chaîne
+int   fgetc(FILE *f); // Lecture d'un caractère
+int   fputc(FILE *f); // Écriture d'un caractère
+\end{minted}
+
+\subsection{Lecture d'une ligne complète}
+
+\begin{minted}{c}
+// La ligne est écrite dans ligne, sa taille est donnée dans n.
+// On peut donner des éléments déjà initialisés, s'il peut les réutiliser il le fera,
+// sinon il en alloue des nouveaux.
+// Les caractères de fin de ligne sont inclus.
+ssize_t getline (char **ligne, size_t *n, FILE *f);
+\end{minted}
+
+\part{C++}
+
+\section{Classes}
 
 \subsection{Syntaxe}
 
@@ -379,51 +491,6 @@ Attention ! Dans l'exemple suivant, l'opérateur = \textbf{n'est pas} appelé:
 Piece p1();    // Constructeur par défaut
 Piece p2 = p1; /* Pas d'appel de operator= !
                   C'est le constructeur par copie qui est appelé ! */
-\end{minted}
-
-\part{API}
-
-\section{Fichiers}
-
-Les descripteurs de fichiers correspondent au type {\tt FILE*}, on peut l'ouvrir grâce à {\tt fopen} :
-
-\begin{minted}{c}
-FILE * f = fopen("donnees.txt", "rw");
-\end{minted}
-
-Le mode d'écriture peut être:
-\begin{description}
-\item[Read (r)] Lecture seule, le fichier doit exister.
-\item[Write (w)] Écriture seule, le fichier est créé s'il n'existe pas, et vidé s'il existe.
-\item[Append (a)] Écriture seule, le fichier est créé s'il n'existe pas, on écrit à la fin.
-\item[Read-write (rw)] Lecture et écriture.
-\end{description}
-
-Il faut penser à fermer le fichier avec:
-
-\begin{minted}{c}
-fclose(f);
-\end{minted}
-
-Les fonctions disponibles pour les fichiers sont:
-
-\begin{minted}{c}
-int fprintf(FILE *f, const char *format, ...valeurs); // Écriture
-int  fscanf(FILE *f, const char *format, ...adresses); // Lecture
-char *fgets(char *s, int max, FILE *f); // Lecture d'une chaîne de caractères
-char *fputs(char *s, FILE *f); // Écriture d'une chaîne
-int   fgetc(FILE *f); // Lecture d'un caractère
-int   fputc(FILE *f); // Écriture d'un caractère
-\end{minted}
-
-On peut aussi lire une ligne entière avec:
-
-\begin{minted}{c}
-// La ligne est écrite dans ligne, sa taille est donnée dans n.
-// On peut donner des éléments déjà initialisés, s'il peut les réutiliser il le fera,
-// sinon il en alloue des nouveaux.
-// Les caractères de fin de ligne sont inclus.
-ssize_t getline (char **ligne, size_t *n, FILE *f);
 \end{minted}
 
 \appendix % Annexes, ARTICLE & BOOK
