@@ -216,9 +216,11 @@ iface eth0 inet dhcp
 
 La liste des baux accordés est disponible dans {\tt /var/lib/dhcp/dhclient.eth0.leases} (remplacer {\tt eth0} par la bonne interface).
 
+Le port 68 est utilisé par le client.
+
 \subsubsection{Côté serveur}
 
-On modifier le fichier {\tt /etc/dhcp/dhcpd.conf}:
+On modifie le fichier {\tt /etc/dhcp/dhcpd.conf}:
 
 \begin{minted}{bash}
 # Temps par défaut pour les baux, en secondes
@@ -243,6 +245,14 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 }
 \end{minted}
 
-La liste des baux est dans {\tt /var/lib/dhcp/dhcpd.leases}.
+Il faut penser à relancer le serveur à chaque fois que l'on modifie sa configuration:
+\begin{minted}{bash}
+service isc-dhcp-server restart   # Relancer le serveur
+cat /var/lib/dhcp/dhcpd.leases    # Afficher les baux
+> /var/lib/dhcp/dhcpd.leases      # Supprimer les baux
+cat /var/log/syslog | tail        # Afficher les logs
+\end{minted}
+
+Le port 67 est utilisé par le serveur.
 
 \end{document}
