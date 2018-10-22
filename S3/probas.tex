@@ -15,7 +15,7 @@
 
 \part{Probabilités}
 
-\section{Arrangements}
+\section{Arrangements \& combinaisons}
 
 On distingue deux manières de dénombrer ;
 
@@ -176,9 +176,11 @@ La fonction de répartition $F(u)$ est:
 F(u) = \int_a^u f(t) \text{d} t
 \]
 
-\section{Lois discrètes}
+\section{Lois}
 
-\subsection{Loi binomiale}
+\subsection{Lois discrètes}
+
+\subsubsection{Loi binomiale}
 
 Dans le cas d'une suite d'expériences élémentaires indépendantes à deux issues possibles, on utilise la loi binomiale.
 
@@ -198,7 +200,7 @@ L'écart-type $\sigma(X)$ s'écrit: \[\sigma(X)=\sqrt{np(1-p)}\]
 
 La variance $V(X)$ s'écrit: \[V(X) = \sigma(X)^2\]
 
-\subsection{Loi poisson}
+\subsubsection{Loi poisson}
 Dans le cas où il s'agit d'un événement rare (la probabilité $p$ est faible et le nombre d'essais $n$ est élevé), on peut approximer la loi binomiale par la loi poisson pour obtenir la probabilité de réussite dans un intervalle de temps (eg. apparition de pannes dans un réseau informatique). La loi de poisson correspond à la loi binomiale $B(n, \frac{\lambda}{n})$. On peut donc trouver :
 \[
 P(X = k) \approx \lim_{n \to \infinity} P(X_n = k) = \exp(-\lambda) \frac{\lambda^k}{k!}
@@ -212,7 +214,7 @@ L'événement doit être suffisamment rare pour ne pas se réaliser plusieurs fo
 
 Quand il y a plus de 20 tentatives ($n$), avec une probabilité plus petite que 0.1 ($p$), et il faut que la moyenne ($np$) soit plus petit que 5. Dans ce cas : \[B(n; p) \approx P(np)\]
 
-\subsection{Loi géométrique}
+\subsubsection{Loi géométrique}
 
 La loi géométrique est une variante de la loi binomiale : au lieu de chercher le ``nombre de réussites en $n$ essais'', on cherche ``combien d'essais sont nécessaires pour obtenir une réussite''.
 \[
@@ -229,9 +231,9 @@ L'écart-type: \[\sigma(X) = \frac{\sqrt{q}}{p}\]
 
 La loi géométrique est une loi sans mémoire : on peut ignorer le passé : donc on peut ignorer les probabilités conditionnelles.
 
-\section{Lois continues}
+\subsection{Lois continues}
 
-\subsection{Loi normale}
+\subsubsection{Loi normale}
 
 La loi normale a deux paramètres: \[N(E, \sigma)\].
 
@@ -265,7 +267,7 @@ Si on veut calculer d'autres probabilités, il faut les remplacer:
 Pour une variable aléatoire $X$ suivant une loi normale de paramètres $\mu, \sigma$; on peut la centrer en: 
 \[Y = \frac{X - \mu}{\sigma} \suit N(0, 1)\]
 
-\subsection{Loi exponentielle}
+\subsubsection{Loi exponentielle}
 
 La loi exponentielle est définie par:
 \begin{itemize}
@@ -288,7 +290,7 @@ Si on cherche $P(X \geq n)$, on calcule l'inverse: \[ P(X \geq n) = 1 - P(X \leq
 \paragraph{Remarque}
 La loi exponentielle est une loi sans vieillissement: \[ P_B(a < X < b) = P(a < X < b) \]
 
-\section{Comment choisir la loi}
+\subsection{Comment choisir la loi}
 
 La loi d'origine est soit:
 
@@ -303,11 +305,13 @@ La loi d'origine est soit:
 
 \part{Statistiques}
 
-\section{Analyse unidimensionnelle}
+\section{Analyse}
+
+\subsection{Analyse unidimensionnelle}
 
 On s'intéresse à une seule variable aléatoire, souvent notée $X$.
 
-\subsection{Caractère discret}
+\subsubsection{Caractère discret}
 
 Pour une population de $n$, on a plusieurs valeurs appelées $v_0, v_1 \ldots v_n$.
 
@@ -322,7 +326,7 @@ La fréquence de la variable $x_i$ est la ``probabilité'' que cela arrive; donc
 \paragraph{Fréquence cumulée}
 La fréquence cumulée est la somme de toutes les fréquences inférieures: \[ F_i = \sum_{j=1}^i f_j \]
 
-\subsection{Paramètres de position}
+\subsubsection{Paramètres de position}
 
 \paragraph{Mode}
 Pour trouver le mode, on calcule chaque fréquence. La fréquence la plus élevée permet de trouver le mode. Par exemple, si on a 70\% des étudiants qui ont eu 12, 20\% qui ont eu 13 et 10\% qui ont eu 14, le mode est 12.
@@ -339,7 +343,7 @@ La valeur telle que 25\% des valeurs sont inférieures, et 75\% des valeurs sont
 \paragraph{3\ieme~quartile}
 La valeur telle que 75\% des valeurs sont inférieures, et 25\% des valeurs sont supérieures ; notée $Q_3$.
 
-\subsection{Paramètres de dispersion}
+\subsubsection{Paramètres de dispersion}
 
 \paragraph{Intervalle de variation}
 L'espace entre la valeur maximale et la valeur minimale: \[ v_{max} - v_{min} \]
@@ -360,9 +364,9 @@ L'espace entre les deux quartiles: \[ Q_3 - Q_1 \]
 %TODO
 \[ V_X = \sqrt{\sigma_X^2} \]
 
-\section{Analyse bidimensionnelle}
+\subsection{Analyse bidimensionnelle}
 
-\subsection{Corrélations}
+\subsubsection{Corrélations}
 
 \paragraph{Covariance}
 C'est une sorte d'écart-type sur deux variables ; l'unité est celle de la variance. On le note $cov(X, Y)$ ou $\sigma_{XY}$:
@@ -380,11 +384,37 @@ Si $\vert \rho_{X Y} \vert \approx 1$ veut dire que les deux séries sont corré
 
 Dans le cas de deux variables affines, on peut utiliser: \[ \rho_{\alpha X + \beta, \lambda Y + \mu} = \frac{\alpha \lambda}{\vert \alpha \lambda \vert} \rho_{X,Y} \]
 
-\subsection{Droite des moindres carrés}
+\subsubsection{Droite des moindres carrés}
 
 Quand on a un nuage de valeurs, on peut créer une droite pour approximer les résultats.
 \[ y = a (x - \overline{X}) + b \]
 avec \[ a = \frac{\sigma_{X Y}}{\sigma_X^2} \]
 et \[ b = \overline{Y} - a \overline{X} \]
+
+\section{Échantillonnage}
+
+Pour obtenir une approximation, on peut utiliser un échantillonnage.
+
+On étudie une variable aléatoire $X$ sur une population $N$. Les paramètres sont $\mu$ l'espérance et $\sigma^2$ la variance.
+
+Pour un échantillon dont toutes les variables ont pour moyenne $\mu$ et pour variance $\sigma^2$, l'espérance de l'échantillon est $\mu$, la variance est \[ \frac{\sigma^2}{n} \] et l'écart-type est \[ \frac{\sigma}{\sqrt{n}} \]
+
+\paragraph{Valeurs empiriques}
+Quand on ne connaît pas la moyenne, la variance ou l'écart-type, on peut les approximer de manière empirique.
+
+\subparagraph{La moyenne empirique} d'un échantillon est calculée avec: \[ \tilde{\mu} = \frac{x_1, x_2 \cdots x_n}{n} \]
+
+\subparagraph{La variance empirique} est: \[ \widetilde{\sigma^2} = \frac{(x_1 - \tilde{\mu})^2 + (x_2 - \tilde{\mu})^2 + \cdots + (x_n - \tilde{\mu})^2}{n} \]
+
+\subparagraph{L'erreur d'estimation} est la différence entre la moyenne empirique et la moyenne réelle:
+\[ d = \vert \tilde{\mu} - \mu \vert \]
+
+Quand on cherche une moyenne dans un intervalle de confiance, par exemple ``La moyenne est inférieure à 2, sûr à 95\%'', cela veut dire qu'on cherche \[ P\left(\vert \tilde{\mu} - \mu \vert \leq \frac{\sigma u_\alpha}{\sqrt{n}}\right) \leq 0.95 \]
+On trouve $u_\alpha$ à partir de la table et de 0.95.
+\begin{itemize}
+\item Si on a l'erreur $d=0.01$, on résout l'inégalité : \[ P\left(d \leq \frac{\sigma u_\alpha}{\sqrt{n}}\right) \leq 0.95 \]
+on calcule \[ \left(\frac{\sigma u_\alpha}{d}\right)^2 = 96.04 \] et on prend le premier entier supérieur, donc $97$.
+Cela veut dire qu'un échantillon de $n$ (97) ou plus éléments aura une moyenne inférieure à $d$ (0.01), sûr à 95\%.
+\end{itemize}
 
 \end{document}
