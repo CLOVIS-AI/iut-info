@@ -228,7 +228,8 @@ default-lease-time 600;
 # Durée maximale d'un bail, en secondes
 max-lease-time 7200;
 
-# Le serveur DHCP a pour IP 192.168.10.0/24
+# Le réseau a pour IP 192.168.10.0/24
+# Attention, ce n'est pas l'adresse du serveur !
 subnet 192.168.10.0 netmask 255.255.255.0 {
   # Les clients auront une IP comprise entre 192.168.10.100 et 192.168.10.150
   # À noter que le serveur DHCP lui-même ne doit pas être dans cette range!
