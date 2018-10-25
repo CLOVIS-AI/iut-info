@@ -267,10 +267,19 @@ Un processeur ne peut effectuer qu'une seule opération (un seul processus) à u
 
 \subsection{Gestion des processus}
 
+\subsubsection{Identification des processus (PID)}
+
 \paragraph{Récupérer le PID du processus actuel}
 \begin{minted}{c}
 int pid = getpid();
 \end{minted}
+
+\paragraph{Récupérer le PID du parent}
+\begin{minted}{c}
+pid_t pid = getparentpid();
+\end{minted}
+
+\subsubsection{Faire une copie du processus}
 
 \paragraph{Copier un processus (Fork)}
 Quand on appelle la fonction fork, elle copie le processus complet (même variables, même endroit dans le code\ldots) ; pour le processus enfant elle renvoie 0, et pour le processus parent elle renvoie le PID de l'enfant.
@@ -284,6 +293,16 @@ if(pid == 0){
     printf("Je suis le parent (%d), mon enfant est %d", getpid(), pid);
 }
 \end{minted}
+
+De manière plus simple, on peut écrire:
+\begin{minted}{c}
+if(fork() == 0){
+    //...
+    exit(0);
+}
+\end{minted}
+
+\subsubsection{Attendre la fin d'un processus \& récupérer son code d'arrêt}
 
 \paragraph{Attendre la fin d'un processus}
 \begin{minted}{c}
@@ -305,9 +324,28 @@ waitpid(pid, &erreur, 0);
 printf("Le code d'erreur était: %d", erreur);
 \end{minted}
 
-\paragraph{Récupérer le PID du parent}
+\subsubsection{Exécuter une commande externe}
+
+\paragraph{execl}
+Permet d'exécuter un programme externe dans le processus actuel. Le processus sera terminé quand le programme terminera.
 \begin{minted}{c}
-pid_t pid = getparentpid();
+execl(CHEMIN, COMMANDE, OPTIONS..., NULL);
+execl("/bin/ls", "ls", "-l", NULL);
+\end{minted}
+
+\paragraph{execv}
+Comme {\tt execl} ; la différence est que les options sont données dans un tableau au lieu d'être directement les paramètres de la commande.
+\begin{minted}{c}
+char *arg[] = {"ls", "-l", NULL};
+execv("/bin/ls", arg);
+\end{minted}
+
+\paragraph{execlp et execvp}
+On utilise `p' pour `path' : elles sont identiques à leur contrepartie dans le `p', mais acceptent un chemin relatif:
+\begin{minted}{c}
+execlp("ls", "ls", "-l", NULL);
+char *arg[] = {"ls", "-l", NULL};
+execvp("ls", arg);
 \end{minted}
 
 \subsection{Gestion des signaux}
