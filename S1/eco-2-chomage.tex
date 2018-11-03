@@ -1,0 +1,154 @@
+\documentclass[10pt,a4paper,french]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\makeindex
+\makeglossaries
+
+\newacronym{bit}{BIT}{Bureau International du Travail}
+\glossaryentry{pole-emploi}{Pôle Emploi}{}{Organisme public de l'emploi}
+\newacronym{insee}{INSEE}{Institut National des Statistiques et des Études Économiques}
+\newacronym{smic}{SMIC}{Salaire Minimum Interprofessionnel de Croissance}
+
+\begin{document}
+
+\title{Économie -- Travail, emploi, chômage}
+\author{Ivan Canet \& Guillaume Ruffin}
+\maketitle
+
+%\begin{abstract} % ARTICLE ONLY
+%Ceci est l'introduction du document.
+%\end{abstract}
+
+\tableofcontents
+
+\section{Définition et mesure}
+
+\subsection{Définition}
+Le chômage est défini très différemment selon les organisations. Les principales définitions sont celles du \gls{bit} et de Pôle Emploi. L'\gls{insee} a une définition similaire à celle du \gls{bit}.
+
+\subsubsection{\glsdesc{bit}}
+Selon le \gls{bit}, un chômeur est:
+\begin{itemize}
+\item Quelqu'un qui est dépourvu d'emploi, même une heure dans la semaine de référence (le \gls{bit} mesure par enquête téléphonique trimestrielle),
+\item Disponible immédiatement dans les 15 jours,
+\item Activement à la recherche d'un emploi.
+\end{itemize}
+
+\subsubsection{\gls{pole-emploi}}
+D'après \gls{pole-emploi}, les inscrits sont regroupés en 5 catégories (A--E).
+
+La catégorie A est désignée par le manque d'emploi et la recherche active.
+
+\subsection{Mesure}
+
+\subsubsection{Population active}
+La population active regroupe la population active occupée (appelée aussi ``population active ayant un emploi'') et les chômeurs.
+
+\subsubsection{Taux de chômage}
+Le taux de chômage est le pourcentage de chômeurs dans la population active:
+\[ \text{Taux de chômage} = \frac{\text{Nombre de chômeurs}}{\text{Population active}} \times 100 \]
+
+En France métropolitaine en 2017, le taux de chômage est de 9.3\% de la population active.
+
+\subsubsection{Taux d'activité}
+Le taux d'activité est le rapport entre le nombre d'actifs (en emploi et au chômage) de la population totale correspondante en âge de travailler (de 15 à 64 ans).
+
+Aujourd'hui, on a 71.4\% de population active, dont 75.3\% des hommes et 67.7\% des femmes (source : \gls{bit}, 2017).
+
+\subsubsection{Taux d'emploi}
+Le taux d'emploi est le taux de personnes ayant un emploi sur la population totale.
+\[ \text{Taux d'emploi} = \frac{\text{Personnes ayant un emploi}}{\text{Population totale}} \times 100 \]
+
+On retrouve deux types d'emplois;
+\begin{description}
+\item[Emplois typiques] CDI,
+\item[Emplois atypiques] CDD, intérimaire, contrats de projets (CDI pendant un projet), CDI à temps partiel.
+\end{description}
+
+\subsection{Les frontières du chômage, de l'emploi et de l'inactivité}
+En 2017, 1.5 million de personnes sont dans le halo du chômage et 1.611 millions de personnes sont en situation de sous-emploi.
+
+\subsubsection{Sous-emploi}
+Les personnes en situation de sous-emploi sont celles qui travaillent moins que la durée légale du travail mais souhaiteraient travailler plus.
+Le sous-emploi ne cesse de progresser.
+
+\subsubsection{Halo du chômage}
+Il s'agit des personnes non-disponibles avec (formations\ldots) ou sans (enfants à charge\ldots) recherche
+d'emploi, ou disponibles sans recherche d'emploi (« chômeurs découragés »).
+
+\subsection{Évolution et caractéristiques du chômage}
+
+\subsubsection{Tendances longues}
+Le nombre de chômeurs a été multiplié par 3 des années 1970 à 2015.
+
+\subsubsection{Par géographie et sexe}
+Les hommes sont plus touchés par le chômage que les femmes ; le taux de chômage français est supérieur au taux de chômage en France métropolitaine.
+
+\subsubsection{Par qualification}
+Les diplômés du brevet ou qui n'ont pas de diplôme subissent un taux de chômage de 53.0 \% (augmentant) alors que les diplômés du supérieur ont un taux de chômage d'environ 11.5 \% (diminuant), pour une moyenne globale de 20.1 \%.
+
+Des micros-lycées sont mis en place pour aider les jeunes de 17 à 25 qui n’ont pas de diplôme.
+
+\subsubsection{Selon la nationalité}
+En France, les étrangers ont un taux de chômage d'environ 25\%, qui peut être plus élevé pour les étrangers originant de l'extérieur de l'Union Européenne.
+
+\section{Analyse théorique}
+
+\subsection{Approche classique libérale}
+
+\subsubsection{Cadre d'analyse}
+\begin{cquote}{Jean-Baptiste Say}
+L'offre crée sa propre demande.
+\end{cquote}
+
+Sur le marché du travail, s'il y a concurrence pure et parfaite, l'offre et la demande s'équilibrent, donc le chômage involontaire est impossible.
+
+Pour les libéraux, il faut faciliter la production des entreprises (offre), ce qui permet des investissements, donc de nouveaux emplois (demande).
+
+\subsubsection{Rigidités du marché du travail}
+On retrouve, par exemple, le \gls{smic}, qui est supérieur au salaire d'équilibre et qui empêche le plein-emploi.
+
+\subsubsection{Solutions au chômage classique}
+Les solutions pour diminuer le chômage seraient de redonner la flexibilité au marché du travail, de désengager l’État ; par exemple :
+\begin{itemize}
+\item Supprimer le \gls{smic}
+\item Baisser le coût du travail au niveau d'équilibre (baisse des cotisations sociales)
+\item Suppression de la fiscalité qui pèse sur les entreprises
+\item Allègement de l'encadrement du temps de travail
+\end{itemize}
+
+\subsection{Analyse Keynésienne}
+Pour les Keynésiens, le chômage est causé par le marché des biens et services ; il peut être involontaire, et existe dès que la demande est inférieure à l'offre. Les entrepreneurs ont un rôle important : ils permettent de réguler la demande effective (ie. anticipée) quand elle est trop faible.
+
+Pour les Keynésiens, une baisse de la demande cause une baisse de production, une baisse de l'offre, donc une augmentation des licenciements, une baisse des revenus donc une baisse de la demande.
+
+L'objectif serait donc d'augmenter la demande ; ce que l'on peut obtenir en augmentant le SMIC pour augmenter les salaires, donc augmenter les revenus, donc augmenter la demande. Une baisse de la TVA permet une baisse des prix, donc une augmentation de la demande. Finalement, on peut aussi diminuer les impôts, pour augmenter les revenus et la demande.
+
+\subsubsection{Solutions au chômage}
+Pour diminuer le chômage, il faut relancer la demande ; il faut stimuler la demande.
+\[ \text{Demande} = \text{Consommation} + \text{Investissements} \]
+
+On retrouve le revenu disponible, sur lequel on peut agir pour augmenter la demande ;
+\[ \text{Revenu disponible} = \text{Revenus primaires} - \text{Prélèvements obligatoires} + \text{Revenus de transfert} \]
+
+Une nouvelle dépense de l'État (investissement public) engendre une hausse de la production supérieure à la dépense initiale.
+
+On peut aussi stimuler l'investissement en augmentant les subventions aux entreprises et en diminuant le taux d’intérêt.
+
+\section{Conclusion}
+Le chômage s'explique par une synthèse et par une flexicurité.
+
+On considère que le plein emploi (par exemple aux USA) est réel quand le taux de chômage est inférieur à 5 \% : on retrouve beaucoup de contrats précaires (contrats à 0 heures).
+
+Le Danemark a inventé la flexicurité, qui permet de sécuriser les parcours en permettant aux professionnels de l’actif d’avoir une formation de qualité et un haut niveau d’indemnisation.
+
+\appendix % Annexes, ARTICLE & BOOK
+
+%\bibliography{•} % THE .BIB FILE HERE, WITHOUT THE EXTENSION
+%\cprintindex
+\printglossaries
+
+\end{document}
