@@ -142,7 +142,7 @@ $P(X+Y=x_i)$ & 1/6 & 2/6 & 2/6 & 1/6\\
 \end{tabular}
 \end{table}
 
-\subsection{Variables discrètes}
+\subsubsection{Variables discrètes}
 
 On note $E(X)$ l'espérance (la moyenne).
 \[
@@ -164,7 +164,7 @@ L'écart-type est noté $\sigma(X)$ ;
 \sigma(X) = \sqrt{V(X)}
 \]
 
-\subsection{Variables continues}
+\subsubsection{Variables continues}
 
 L'espérance $E(X)$ est:
 \[
@@ -399,6 +399,8 @@ On étudie une variable aléatoire $X$ sur une population $N$. Les paramètres s
 
 Pour un échantillon dont toutes les variables ont pour moyenne $\mu$ et pour variance $\sigma^2$, l'espérance de l'échantillon est $\mu$, la variance est \[ \frac{\sigma^2}{n} \] et l'écart-type est \[ \frac{\sigma}{\sqrt{n}} \]
 
+Attention à l'intervalle de confiance : si on est dans l'intervalle, c'est sûr que l'échantillon est bon. Si on n'est pas dans l'intervalle, alors on peut se douter d'un problème mais ce n'est pas une preuve de non-conformité.
+
 \paragraph{Valeurs empiriques}
 Quand on ne connaît pas la moyenne, la variance ou l'écart-type, on peut les approximer de manière empirique.
 
@@ -416,5 +418,17 @@ On trouve $u_\alpha$ à partir de la table et de 0.95.
 on calcule \[ \left(\frac{\sigma u_\alpha}{d}\right)^2 = 96.04 \] et on prend le premier entier supérieur, donc $97$.
 Cela veut dire qu'un échantillon de $n$ (97) ou plus éléments aura une moyenne inférieure à $d$ (0.01), sûr à 95\%.
 \end{itemize}
+
+\subsection{Est-ce que la moyenne correspond à l'intervalle de confiance ?}
+
+On prend comme exemple ``la taille des français'' avec les valeurs suivantes : $n=100$ la taille de l'échantillon, et une probabilité $p$ ; c'est donc une loi binomiale.
+
+On cherche ensuite l'écart-type de cette loi : \[\sigma_{\overline{X}} = \frac{\sqrt{np(1-p)}}{n} = \sqrt{\frac{p(1-p)}{n}}\]
+
+On trouve ensuite l'intervalle de confiance : $\overline{X} \pm u_\alpha \times \sigma_{\overline{X}}$
+
+Quand on cherche un intervalle de confiance à $\alpha$ pourcents, on utilise la loi normale pour trouver la valeur correspondant, c'est $u_\alpha$ (eg. Pour $\alpha=0.95$, on prend l'inverse, $0.05$, et on le cherche dans la table de la loi normale, ce qui donne $u_\alpha=1.96$).
+
+On peut donc finir le calcul et décider si la moyenne trouvée est dans l'intervalle de confiance.
 
 \end{document}

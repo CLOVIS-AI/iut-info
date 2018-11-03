@@ -188,6 +188,22 @@ De la même manière, $E(Y) = 28.88$ et $\sigma_y = 2.1$.
 
 On trouve ensuite $\sigma_{u, v} = E(UV) - E(U)E(V) = 6$ donc $\rho_{u, v} = \rho_{v, u} = \frac{\sigma_{u,v}}{\sigma_u \sigma_v} \approx 0.8$. Ce n'est pas suffisamment proche de 1, donc la corrélation est mauvaise.
 
+\paragraph{QI}
+On a $\mu=100$, $n=110$ et $\sigma=15$.
+
+L'intervalle de confiance à 95\% est : \[ \left[
+\tilde{\mu} - u_\alpha \frac{\tilde{\sigma}}{\sqrt{n}} ;
+\tilde{\mu} + u_\alpha \frac{\tilde{\sigma}}{\sqrt{n}}
+\right] \]
+donc $\left[ 97.2 ; 102.8 \right]$.
+
+On pose la variable $X \suit N(100, 15)$ et on la centre : $Z = \frac{X-100}{15}$.
+
+On cherche \[P(X \leq 80) = P(\frac{X-100}{15} \leq \frac{80-100}{15})\]
+
+$1/3$ des individus : 30\%. $P(X \leq t) = 0.33$ donc $1-P(X < -t) = 0.33$ donc $P(X < -t) = 0.66$.
+On centre : $P(\frac{X-100}{15} < \frac{-t-100}{15}) = 0.66$ et on pose $Z$ : $P(Z < \frac{-t-100}{15}) = 0.66$ d'où on déduit $\frac{-t-100}{15} = 0.43$ donc $t=93.55$. Donc $1/3$ de la population a un QI inférieur à $93.55$.
+
 \paragraph{Exercice 5}
 
 \end{document}
