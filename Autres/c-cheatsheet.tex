@@ -445,8 +445,28 @@ void Piece::do(){
 On peut déclarer un constructeur:
 
 \begin{minted}{cpp}
-// Header
+// piece.h
 Piece(...);                  // Remplacer ... par les paramètres
+\end{minted}
+
+Il est possible d'initialiser les champs de manière optimisée:
+\begin{minted}{cpp}
+// Header
+class Piece
+{
+private:
+    int x;
+    int y;
+
+public:
+    Piece(int _x, int _y);
+}
+
+// piece.cpp
+Piece::Piece(int _x, int _y):
+x(_x), y(_y) {
+    std::cout << "Création d'une pièce..." << std::endl;
+}
 \end{minted}
 
 \subsubsection{Appel statique}
@@ -491,6 +511,18 @@ Piece(const Piece &autre) = delete;
 \end{minted}
 
 \subsection{Destructeur}
+
+Le destructeur sert à ``rendre'' tout ce qui a été alloué dynamiquement.
+
+Il s'écrit:
+\begin{minted}{cpp}
+// piece.h
+class Piece{
+public:
+     Piece(); // Constructeur
+    ~Piece(); // Destructeur
+}
+\end{minted}
 
 \subsection{Opérateurs}
 
