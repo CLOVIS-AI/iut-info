@@ -487,7 +487,7 @@ delete tmp;                  // Comme ceci
 \paragraph{Génération automatique}
 La version de base 
 
-\subsubsection{Constructeur par copie}
+\subsubsection{Constructeur par copie\label{constructeur-copie}}
 
 Pour la classe Piece, la constructeur par copie a pour signature:
 
@@ -510,7 +510,10 @@ Si on veut interdire l'utilisation du constructeur par copie, on peut le déclar
 Piece(const Piece &autre) = delete;
 \end{minted}
 
-\subsection{Destructeur}
+\paragraph{Surcharge}
+Si on modifie le constructeur par copie, il faut nécessairement ajouter un destructeur \cf{destructeur} et l'opérateur `=' \cf{operator-equals}.
+
+\subsection{Destructeur\label{destructeur}}
 
 Le destructeur sert à ``rendre'' tout ce qui a été alloué dynamiquement.
 
@@ -523,6 +526,9 @@ public:
     ~Piece(); // Destructeur
 }
 \end{minted}
+
+\paragraph{Surcharge}
+Attention, si vous l'écrivez vous-même, il faut aussi redéfinir le constructeur par copie \cf{constructeur-copie} et l'opérateur `=' \cf{operator-equals}.
 
 \subsection{Opérateurs}
 
@@ -541,7 +547,7 @@ Piece tmp;
 int a = tmp[0];
 \end{minted}
 
-\subsubsection{Opérateur =}
+\subsubsection{Opérateur =\label{operator-equals}}
 
 On prend comme exemple une classe {\tt Piece}.
 
@@ -556,12 +562,14 @@ Piece &operator=(const Piece &autre);
 \paragraph{Construction d'un nouveau objet}
 
 Attention ! Dans l'exemple suivant, l'opérateur = \textbf{n'est pas} appelé:
-
 \begin{minted}{cpp}
 Piece p1();    // Constructeur par défaut
 Piece p2 = p1; /* Pas d'appel de operator= !
                   C'est le constructeur par copie qui est appelé ! */
 \end{minted}
+
+\paragraph{Surcharge}
+Attention, si vous modifiez cet opérateur, il faut nécessairement déclarer un destructeur \cf{destructeur} et un constructeur par copie \cf{constructeur-copie}.
 
 \appendix % Annexes, ARTICLE & BOOK
 \part{Annexes}
