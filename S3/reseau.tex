@@ -304,6 +304,8 @@ hosts:	files	dns
 
 \subsection{Configuration côté serveur}
 
+\subsubsection{Déclaration des zones}
+
 \paragraph{/etc/bind/named.conf.local}
 \begin{minted}{bash}
 zone "[DOMAINE]" {
@@ -322,6 +324,8 @@ où l'on remplace les valeurs par:
 \item[\tt TYPE] vaut `master' pour un serveur maître,
 \item[\tt IP] est l'IP du sous-domaine (sans le cache) à l'envers (eg. pour 152.168.1.0/24, on utilise 1.168.152).
 \end{description}
+
+\subsubsection{Création d'une zone}
 
 \paragraph{/etc/bind/db-[{\tt DOMAINE}].net}
 On peut utiliser un `;' dans ce fichier pour faire des commentaires.
@@ -379,5 +383,22 @@ entree         IN A      10.4.2.254
 vestiaire      IN CNAME  entree
 etage          IN NS     escalier.maison.net.
 \end{minted}
+
+\subsubsection{Résolution inverse d'une zone}
+
+Il ne faut pas oublier de gérer la résolution inverse:
+\begin{minted}{bash}
+@ IN SOA entree.maison.net. admin.maison.net. (
+    2018111601
+    604800
+    86400
+    2419200
+    604800
+)
+
+@              IN NS     entree.maison.net.
+254            IN PTR    entree
+\end{minted}
+Cela permet de dire que l'IP \ldots 254 appartient au sous-domaine `entree'.
 
 \end{document}
