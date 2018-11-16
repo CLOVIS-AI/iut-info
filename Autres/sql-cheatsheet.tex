@@ -1,0 +1,203 @@
+\documentclass[10pt,a4paper,french]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\makeindex
+\makeglossaries
+
+\glossaryentry{select}{SELECT}{}{Récupération de données}
+\glossaryentry{from}{FROM}{}{Choisir la source}
+\glossaryentry{distinct}{DISTINCT}{}{Résultats uniques sous MS SQL}
+\glossaryentry{unique}{UNIQUE}{}{Résultats uniques sous Oracle}
+\glossaryentry{where}{WHERE}{}{Appliquer une condition logique}
+\glossaryentry{and}{AND}{}{Opérateur logique ET}
+\glossaryentry{or}{OR}{}{Opérateur logique OU}
+\glossaryentry{like}{LIKE}{}{Comparaison à un pattern}
+\glossaryentry{in}{IN}{}{Choisir dans une liste}
+\glossaryentry{between}{BETWEEN}{}{Choisir dans un intervalle}
+\glossaryentry{is}{IS}{}{Est-ce qu'une valeur est nulle ?}
+\glossaryentry{not}{NOT}{}{Négation}
+\glossaryentry{null}{NULL}{}{Valeur nulle}
+\glossaryentry{group}{GROUP BY}{}{Grouper des valeurs}
+\glossaryentry{avg}{AVG}{}{Moyenne}
+\glossaryentry{count}{COUNT}{}{Compter}
+\glossaryentry{max}{MAX}{}{Maximum}
+\glossaryentry{min}{MIN}{}{Minimum}
+\glossaryentry{as}{AS}{}{Renommer une colonne ou une table (alias)}
+
+\begin{document}
+
+\title{SQL Cheatsheet}
+\author{Ivan Canet}
+\maketitle
+
+%\begin{abstract} % ARTICLE ONLY
+%Ceci est l'introduction du document.
+%\end{abstract}
+
+\tableofcontents
+
+\section{Bases}
+
+\subsection{\gls{select}}
+
+\subsubsection{\gls{select} \gls{from}}
+
+Permet de récupérer les données.
+\begin{minted}{sql}
+SELECT [Champs]
+FROM [Table]
+\end{minted}
+
+Par exemple, pour récupérer le nom et prénom de tous les abonnés, on écrit:
+\begin{minted}{sql}
+SELECT Nom, Prenom
+FROM Abonnes
+\end{minted}
+
+On peut aussi utiliser une astérisque pour récupérer tous les champs:
+\begin{minted}{sql}
+SELECT *
+FROM Abonnes
+\end{minted}
+
+\subsubsection{\gls{as}}
+
+Permet de renommer une colonne dans le contexte de la requête (la table n'est pas modifiée).
+\begin{minted}{sql}
+SELECT Nom AS NomDeFamille
+FROM Etudiants
+\end{minted}
+
+\subsubsection{\gls{distinct} / \gls{unique}}
+
+Permet de supprimer les doublons ; exemple: lister les noms de famille:
+\begin{minted}{sql}
+SELECT DISTINCT Nom
+FROM Abonnes
+\end{minted}
+
+\paragraph{Microsoft vs Oracle}
+Sur MS SQL on utilise `\gls{distinct}', sur Oracle on utilise `\gls{unique}' à la place.
+
+\subsubsection{WHERE}
+
+Permet de ne sélectionner qu'une partie de la base avec une condition logique.
+\begin{minted}{sql}
+WHERE [Condition]
+\end{minted}
+
+\paragraph{Opérateurs simples}
+On peut utiliser `=' pour tester une égalité. Par exemple, pour avoir tous les étudiants qui s'appellent Martin:
+\begin{minted}{sql}
+SELECT Nom, Prenom
+FROM Etudiants
+WHERE Nom = 'Martin'
+\end{minted}
+De la même manière, on peut utiliser `!=', `$>$', `$<$', `$\leq$' et `$\geq$'.
+
+\paragraph{Opérateurs logiques}
+On peut utiliser `\gls{and}' et `\gls{or}' pour combiner les conditions:
+\begin{minted}{sql}
+SELECT Nom, Prenom
+FROM Etudiants
+WHERE Nom LIKE 'N%' OR Nom LIKE 'M%'
+\end{minted}
+
+\paragraph{Opérateur \gls{like}}
+Permet de chercher pour une égalité vague; par exemple, la liste des étudiants dont le prénom commence par un `N':
+\begin{minted}{sql}
+SELECT Nom, Prenom
+FROM Etudiants
+WHERE Nom LIKE 'N%'
+\end{minted}
+Le \% représente ``n'importe quoi''.
+
+\paragraph{Opérateur \gls{in}}
+Permet de récupérer toutes les correspondances dans une liste. Par exemple, pour avoir les étudiants qui s'appellent `Martin', `Martine' ou `Pierre':
+\begin{minted}{sql}
+SELECT Nom, Prenom
+FROM Etudiants
+WHERE Nom IN ('Martin', 'Martine', 'Pierre')
+\end{minted}
+
+\paragraph{Opérateur \gls{between}}
+Permet d'avoir les valeurs dans un intervalle, par exemple, les étudiants qui sont nés entre le 1 janvier 1998 et le 31 décembre 1998:
+\begin{minted}{sql}
+SELECT Nom, Prenom
+FROM Etudiants
+WHERE (DateNaissance BETWEEN '1998-01-01' AND '1998-12-31')
+\end{minted}
+Attention: certaines bases de données incluent les bornes, d'autres ne les incluent pas.
+
+\paragraph{Opérateur \gls{is} \gls{null}}
+Pour savoir si une case est vide, on peut utiliser `IS NULL':
+\begin{minted}{sql}
+SELECT Nom, Prenom
+FROM Etudiants
+WHERE Nom IS NOT NULL
+\end{minted}
+
+\paragraph{Opérateur \gls{not}}
+Permet de faire la négation d'une condition. On peut l'utiliser avec `\gls{is} \gls{null}', avec `\gls{between}', avec `\gls{in}' et avec `\gls{like}'.
+
+\subsubsection{\gls{group}}
+
+Grouper des résultats. Exemple: dans une table qui contient toutes les notes des étudiants, grouper les notes par étudiant pour obtenir leur moyenne (\gls{avg} permet de faire la moyenne):
+\begin{minted}{sql}
+SELECT Nom, Prenom, AVG(Note)
+FROM Notes
+GROUP BY Nom, Prenom
+\end{minted}
+La clause du \gls{group} doit être dans le \gls{select}!
+
+\subsubsection{HAVING}
+
+\subsubsection{UNION / INTERSECT / EXCEPT}
+
+\subsubsection{ORDER BY}
+
+\subsubsection{LIMIT}
+
+\subsubsection{OFFSET}
+
+\subsection{Agrégations}
+
+Les agrégations permettent de regrouper plusieurs lignes en une seule; par exemple en faisant la somme des lignes, ou alors simplement en les comptant.
+
+Il faut toujours utiliser \gls{as}.
+
+\subsubsection{\gls{count}}
+Compter le nombre de lignes.
+\begin{minted}{sql}
+SELECT COUNT(*) AS Nombre
+FROM Etudiants
+\end{minted}
+
+\subsubsection{\gls{avg}}
+Permet de faire la moyenne d'une colonne.
+\begin{minted}{sql}
+SELECT AVG(Note) AS Moyenne
+FROM Notes
+\end{minted}
+
+\subsubsection{\gls{min} et \gls{max}}
+Trouver le minimum ou le maximum d'une colonne. Exemple: trouver la meilleure note:
+\begin{minted}{sql}
+SELECT MAX(Note) AS Note
+FROM Notes
+\end{minted}
+
+\section{}
+
+\section{Transactions}
+
+\appendix % Annexes, ARTICLE & BOOK
+
+%\bibliography{•} % THE .BIB FILE HERE, WITHOUT THE EXTENSION
+%\cprintindex
+\printglossaries
+
+\end{document}
