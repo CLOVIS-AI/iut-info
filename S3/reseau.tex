@@ -4,8 +4,6 @@
 \usepackage[T1]{fontenc}
 \usepackage{../latex/clovisai}
 
-\usepackage{pgf-umlsd}
-
 \begin{document}
 
 \title{Réseau}
@@ -255,5 +253,131 @@ cat /var/log/syslog | tail        # Afficher les logs
 \end{minted}
 
 Le port 67 est utilisé par le serveur.
+
+\section{DNS}
+
+\subsection{Définition}
+
+Un serveur DNS permet de relier des noms de domaines (eg. {\tt clovis.online}) à leur adresse IP. Il existe des serveurs `maîtres' (les originaux) et les serveurs `esclaves' (qui copient les maîtres).
+
+La racine (appelée `.') est composée de 13 serveurs maîtres et plus de 130 esclaves.
+
+On peut utiliser la commande {\tt host} pour interroger les serveurs DNS pour obtenir une adresse IP:
+\begin{minted}{bash}
+> host www.google.fr
+www.google.fr has address 172.217.19.131
+www.google.fr has IPv6 address 2a00:1450:4006:806::2003
+\end{minted}
+
+Les serveurs DNS gèrent aussi les mails.
+
+\paragraph{Records}
+Les différentes données des serveurs DNS sont classées en catégories, nommées `records':
+\begin{description}
+\item[A] Adresses IPv4
+\item[AAAA] Adresses IPv6
+\item[MX] Serveurs de mail
+\item[CNAME] Alias (rediriger vers un autre nom de domaine)
+\end{description}
+
+On peut aussi utiliser {\tt host} dans l'autre sens, pour trouver à quel nom de domaine correspond une adresse IP:
+\begin{minted}{bash}
+> host 172.217.19.131
+131.19.217.172.in-addr.arpa domain name pointer mrs08s04-in-f3.1e100.net.
+131.19.217.172.in-addr.arpa domain name pointer par03s12-in-f131.1e100.net.
+\end{minted}
+
+\subsection{Configuration côté client}
+
+\paragraph{/etc/resolv.conf}
+\begin{minted}{bash}
+search [DOMAINE]
+domain [DOMAINE]
+nameserver [IP]
+\end{minted}
+Cela permet de donner l'IP du DNS du domaine. La valeur donnée au {\tt search} permet de donner un serveur par défaut : si on donne une adresse qui n'est pas complète (eg. {\tt ping toto}), le client ajoute ce qu'on a donné à {\tt search}.
+
+\paragraph{/etc/nsswitch.conf}
+\begin{minted}{bash}
+hosts:	files	dns
+\end{minted}
+
+\subsection{Configuration côté serveur}
+
+\paragraph{/etc/bind/named.conf.local}
+\begin{minted}{bash}
+zone "[DOMAINE]" {
+    type [TYPE];
+    file "/etc/bind/db-[DOMAINE].net";
+};
+
+zone "[IP].in-addr.arpa" {
+    type [TYPE];
+    file "/etc/bind/db-[IP]";
+};
+\end{minted}
+où l'on remplace les valeurs par:
+\begin{description}
+\item[\tt DOMAINE] est le nom du domaine duquel ce serveur est responsable,
+\item[\tt TYPE] vaut `master' pour un serveur maître,
+\item[\tt IP] est l'IP du sous-domaine (sans le cache) à l'envers (eg. pour 152.168.1.0/24, on utilise 1.168.152).
+\end{description}
+
+\paragraph{/etc/bind/db-[{\tt DOMAINE}].net}
+On peut utiliser un `;' dans ce fichier pour faire des commentaires.
+\begin{minted}{bash}
+@ IN SOA [DOMAINE] [MAIL] (
+    [SERIAL]
+    [REFRESH]
+    [RETRY]
+    [EXPIRE]
+    [NEGATIVE CACHE TTL]
+)
+
+@              IN NS     [DNS]
+@              IN MX [N] [SERVEUR MAIL]
+[SOUS-DOMAINE] IN A      [IP SOUS-DOMAINE]
+[ALIAS]        IN CNAME  [DIRECTION]
+[SOUS-DNS]     IN NS     [IP SOUS-DNS]
+\end{minted}
+explications:
+\begin{itemize}
+\item {\tt @} représente le nom de domaine (remplacé automatiquement)
+\item {\tt DOMAINE} est le nom du domaine géré par ce serveur. On peut soit préciser le nom complet du domaine avec un . à la fin (eg. {\tt google.fr.}) ou le nom du sous-domaine, qui sera ajouté automatiquement au domaine parent ({\tt google}).
+\item {\tt MAIL} est l'adresse mail de l'administrateur du serveur DNS. Elle est notée avec un . à la place de l'arobase (eg. {\tt contact@clovis.online} devient {\tt contact.clovis.online}).
+\item {\tt SERIAL} est le numéro de version (souvent on utilise la date puis deux chiffres pour la version du jour ; eg. 2018031601 pour la première version du 16 mars 2018).
+\item {\tt REFRESH} est le temps entre deux remises à jour des esclaves (secondes).
+\item {\tt RETRY} est le temps entre deux connections des esclaves si le maître n'est pas disponible (secondes).
+\item {\tt EXPIRE} est le temps à partir duquel les esclaves considèrent le maître comme inexistant, s'ils n'arrivent pas à l'atteindre (secondes).
+\item {\tt NEGATIVE CACHE TTL} est le temps pendant lequel les informations de redirections sont gardées en mémoire (au cas où la même demande est faite dans pas longtemps) (secondes).
+\item {\tt DNS} est le nom du domaine (par exemple google.fr.).
+\item {\tt N} est le numéro de priorité de ce serveur mail (de 1 à 10).
+\item {\tt SERVEUR MAIL} est le serveur qui gère les mails (par exemple `gmail' qui sera remplacé par `gmail.google.fr.').
+\item {\tt SOUS-DOMAINE} un sous-domaine dont va préciser l'IP;
+\item {\tt IP SOUS-DOMAINE} est l'IP de ce sous-domaine.
+\item {\tt ALIAS} permet de créer un sous-domaine qui est une redirection sur un autre domaine.
+\item {\tt DIRECTION} est un autre nom de domaine sur lequel on redirige.
+\item {\tt SOUS-DNS} est un sous-domaine qui a son propre DNS.
+\item {\tt IP SOUS-DNS} est l'IP du sous-domaine avec un DNS.
+\end{itemize}
+
+Ne pas oublier d'augmenter le numéro de version à chaque modification ({\tt SERIAL}) !
+
+Exemple de fichier (pour le domaine `entree.maison.net'):
+\begin{minted}{bash}
+@ IN SOA entree.maison.net. admin.maison.net. (
+    2018111601
+    604800
+    86400
+    2419200
+    604800
+)
+
+@              IN NS     entree.maison.net.
+@              IN MX 10  entree
+entree         IN A      10.4.2.254
+vestiaire      IN CNAME  entree
+etage          IN NS     escalier.maison.net.
+\end{minted}
 
 \end{document}
