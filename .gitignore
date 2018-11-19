@@ -20,3 +20,11 @@ private/
 
 # Fichiers IntelliJ
 .idea/
+*.glo
+*.idx
+*.ist
+*.bbl
+*.blg
+*.glg
+*.gls
+*.ind
