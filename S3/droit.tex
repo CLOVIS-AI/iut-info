@@ -10,7 +10,7 @@
 \begin{document}
 
 \title{Droit S3}
-\author{Ivan Canet}
+\author{Ivan Canet \& ASSOIF}
 \maketitle
 
 %\begin{abstract} % ARTICLE ONLY
@@ -98,7 +98,7 @@ Une clause abusive est une clause qui crée un déséquilibre significatif entre
 
 Une clause abusive est définie comme non-écrite.
 
-\subsection{Forme du contrat\mainentry{Contrat!Formes du}}
+\subsection{Forme du contrat}\mainentry{Contrat!Formes du}
 En droit français, le contrat est dit consensuel (il relève du consentement) : à chaque fois que l'on échange avec quelqu'un, on forme un contrat. La forme principale est donc la forme orale\mainentry{Contrat!oral}.
 
 Un contrat écrit\mainentry{Contrat!écrit} est considéré comme une preuve certaine\entry{Preuve!certaine} s'il est daté, signé, nommé précisément, et en le même nombre d'exemplaires que de parties (3 parties $\to$ 3 exemplaires).
@@ -112,7 +112,7 @@ Dans un cas d'un objet de contrat illicite, le contrat est annulé de manière r
 
 Le client est alors remboursé de tous les frais, mais il est impossible d'annuler le travail éventuel de prestataire. Le prestataire est donc toujours perdant.
 
-\subsection{Exécution des contrats}
+\subsection{Exécution des contrats}\mainentry{Exécution}
 
 \paragraph{Force obligatoire\mainentry{Contrat!Force obligatoire du}}
 Pour les parties, le contrat a valeur de loi. Pour annuler un contrat (où aucune réserve n'a été précisée), il faut l'accord des autres parties.
@@ -160,6 +160,8 @@ Demander au co-contractant des dommages et intérêts, compte tenu du préjudice
 
 \section{Contrats Informatique}
 
+Le code source appartient à l'entreprise. Il ne faut pas oublier d'ajouter des clauses dans le contrat vis-à-vis de l'accès au code source par le client.
+
 \subsection{Phase pré-contractuelle}
 Le client envoie une étude de besoin\entry{Besoin!Étude de} ou une expression du\entry{Besoin!Expression de} besoin, auquel on répond par les\entry{Spécificités} spécificités. Ensemble, ces documents représentent le cahier des\mainentry{Cahier des charges} charges.
 
@@ -170,17 +172,201 @@ On établie un contrat, qui contient le cahier des charges comme annexe. Il faut
 \subsubsection{Contrat de sous-traitance}
 Si un client souhaite quelque chose que vous ne réalisez pas (par exemple de l'hébergement), vous pouvez proposer au client de prendre le contrat d'hébergement vous-même et de lui facturer.
 
+Dans ce cas-là, vous êtes responsable des éventuels problèmes vis-à-vis de la sous-traitance. Il est donc conseillé d'ajouter les cas de force majeure au contrat.
+
 \subsubsection{Contrat de co-traitance}
 Cela vous permet d'avoir un contrat avec plusieurs prestataires (par exemple, les différents départements d'une grande entreprise).
 
-\subsection{Exécution du contrat}
-Les contrats informatique ont une exécution segmentée: on commence par l'analyse fonctionnelle, l'analyse organique, la programmation, puis l'intégration et la livraison.
+\subsection{Exécution du contrat}\mainentry{Exécution!de contrat informatique}
+Les contrats informatique ont une exécution segmentée, composée de plusieurs phases:
+\begin{enumerate}
+\item Analyse fonctionnelle,
+\item Analyse organique,
+\item Programmation,
+\item Intégration,
+\item Livraison.
+\end{enumerate}
 
 Dans le cahier des charges, on inclue le ``calendrier des livrables'', qui est donc inclus dans le contrat. On peut associer chaque étape à un acompte.
 
-Pendant la période de recette, le client teste le logiciel.
+Pendant la période de recette, le client teste le logiciel. Si un vice est découvert pendant l'année suivante, le fournisseur est responsable des réparations.
 
-\part{Bases de données}
+\paragraph{Recette itérative}
+Le prestataire effectue une livraison provisoire accusée par un procès verbal. Pendant la période qui suit, le client vérifie que le logiciel est conforme au cahier des charges et ne contient pas de bugs. Le client ne peut pas forcer une modification du cahier des charges (mais peut en proposer une).
+
+\paragraph{Recette définitive}
+Livraison du produit fini, accusé par un procès verbal définitif, qui marque le changement de propriété du logiciel.
+
+Une période d'essai peut être prévue, pendant laquelle le prestataire doit corriger les éventuels bugs, ou ajouter des fonctionnalités manquantes. À terme de la période de test, un procès verbal définitif est écrit.
+
+\paragraph{Garantie des vices cachés}
+Pendant l'année suivant la recette définitive, si un vice de conception est découvert, le prestataire est toujours responsable. Le contrat peut préciser une durée supérieure à un an.
+
+\part{Propriété Intellectuelle}
+
+\begin{cquote}{Propriété\mainentry{Propriété!intellectuelle} Intellectuelle}
+La propriété intellectuelle sert à protéger les créations intellectuelles, elle récompense un effort d'innovation grâce à un monopole d'exploitation.
+\end{cquote}
+
+Le code source appartient au développeur, on choisit dans le contrat s'il est inclus dans le projet ou non ; on peut choisir de donner accès au code pendant un temps donné, etc.
+
+\section{Types de propriété intellectuelle}
+
+\subsection{Propriété industrielle}
+Elle\mainentry{Propriété!industrielle} protège les créations techniques grâce aux brevets (entre autres), mais aussi les créations ornementales (dépôt dessin et modèle) et les signes distinctifs (dénomination).
+
+Ces droits s'acquièrent en faisant un dépôt auprès de l'INPI (Institut\mainentry{INPI} National de le Propriété Industrielle).
+
+\subsection{Propriété littéraire \& artistique}
+S'applique\mainentry{Propriété!littéraire \& artistique} à la musique, aux œuvres littéraires, aux arts graphiques, aux arts plastiques, aux logiciels (code source). Aucun dépôt n'est nécessaire.
+
+Les droits voisins aux droits d'auteurs en sont la conséquence: droit des interprètes, des producteurs.
+
+\subsection{Protéger une idée}
+
+On peut déposer une idée auprès d'un notaire ou d'un huissier, il faut décrire le concept.
+
+On peut déposer une idée auprès de l'INPI\entry{INPI} en déposant une enveloppe soleau.
+
+On peut déposer une idée auprès de l'APP\entry{APP} de manière électronique.
+
+Dans le cas d'une œuvre coopérative, les droits d'auteurs sont partagés. Dans le cas d'une œuvre collective (un ``chef de projet'' est à l'origine), le 
+
+\subsection{Protéger une innovation}
+
+On peut protéger son innovation en déposant un brevet. Il faut déposer un nom de marque auprès de l'INPI.
+
+On peut créer une société auprès de la RPS, qui permet d'acquérir une dénomination sociale (et des sigles, éventuellement). Il existe différents types d'entreprises:
+\begin{itemize}
+\item Société À Responsabilité Limitée\mainentry{SARL} (SARL): responsabilité uniquement à hauteur des apports faits. On ne peut pas perdre son apport (finances\ldots), sauf en cas de faute de gestion.
+\item Société par Action Simplifiée\mainentry{SAS} (SAS): aucune limite de responsabilités, il faut payer les éventuels problèmes de sa poche. Cela permet d'avoir des investisseurs, d'entrer en bourse\ldots
+\end{itemize}
+
+Pour un employé, il faut prendre des initiatives pour protéger l'entreprise.
+
+\subsection{Que se passe-t-il en cas de violation?}
+
+Une violation de propriété intellectuelle est un acte de contrefaçon: 3--5 ans de prison, 300~000--500~000~\euro~d'amende.
+
+\paragraph{Espionnage industriel}
+Le fait de s'approprier l'ensemble des recherches, des études ou analyse préalables qui permettent l'écriture d'un programme.
+
+\paragraph{Copie}
+Faire la copie d'un fichier appartenant à une autre personne constitue un acte de contrefaçon, même si ce n'est que de l'inspiration.
+
+\paragraph{Plagiat}
+Copie ``très inspirée'' qui s'en distingue pour éviter la conclusion.
+
+\section{Différents droits en fonction des cas}
+
+\subsection{Droit d'auteur}\mainentry{Droit!d'auteur}
+
+Le droit d'auteur donne plusieurs droits:
+\begin{itemize}
+\item Droits\mainentry{Droit!moral} moraux : droit à la divulgation et au retrait, intégrité de l'œuvre\ldots qui sont incessibles, insaisissables, imprescriptibles\footnote{Le temps n'a pas d'influence}.
+\item Droits\mainentry{Droit!patrimonial pécuniaire} patrimoniaux pécuniaires: droit à la reproduction et à la représentation ; ils sont prescriptibles (ils ne durent que pendant la vie de l'auteur et 70 ans après sa mort) et cessibles (on peut les vendre, les céder dans un contrat\ldots).
+\end{itemize}
+
+Certaines exceptions existent pour les parodies et les citations (entre autres).
+
+\subsection{Contrat de travail}
+%TODO Contrat de travail
+\begin{cquote}{Contrat de\mainentry{Contrat!de travail} travail}
+Un contrat de travail c.... une personne travaille sous le compte, et rémunéré par une autre personne.
+\end{cquote}
+
+Il existe un lien de subordination, et décrit le type de travail (CDI, CDD) et la rémunération.
+
+Il contient souvent des closes spécifiques à l'informatique:
+\begin{itemize}
+\item Propriété\entry{Propriété!intellectuelle} intellectuelle: le droit de reproduction et de représentation appartient à l'entreprise.
+\item Secret professionnel, discrétion: engagement à garder la confidentialité du travail au sein de l'entreprise.
+\item Obligation\mainentry{Obligations!de fidélité} de fidélité: pas le droit d'avoir un second travail dans un contrat de 35h+ (sauf autorisation de l'employeur).
+\item Clause de non-concurrence: interdiction de travail pour le compte d'un concurrent. Elle est limitée à la même fonction, et au territoire. En contre-partie, l'employeur doit rémunérer (à hauteur de 10--15\% du salaire d'origine).
+\end{itemize}
+
+\subsection{Droit des marques}
+
+\begin{cquote}{Marque}
+Monopole\mainentry{Marque} d'exploitation territorial.
+\end{cquote}
+
+Une marque doit être déposée dans chaque pays (en France, auprès de\entry{INPI} l'INPI; elle peut être étendue à l'Europe). Le coût d'un dépôt est~$\approx$~1000~\euro, et doit être renouvelé tous les 10 ans.
+
+Une marque doit être distinctive, et non descriptive. Il faut défendre sa marque: si on ne poursuit pas les utilisations illégales, on perds le droit (la marque devient un mot usuel).
+
+\subsection{Droit des dessins et modèles}
+
+Pour protéger un design, il faut faire un dépôt auprès de\entry{INPI} l'INPI, valable 5 ans et renouvelable 4 fois.
+
+Pour être éligible, il faut valider plusieurs critères:
+\begin{itemize}
+\item Visibilité: le design doit être visible par l'utilisateur dans le résultat final.
+\item Antériorité: ne peut pas être similaire à un design plus ancien.
+\end{itemize}
+
+\subsection{Brevets}\mainentry{Brevet}
+
+\begin{cquote}{}
+Le brevet protège une invention technique, c'est-à-dire un produit ou un procédé qui apporte une nouvelle solution technique à un problème technique donné.
+\end{cquote}
+
+Un logiciel est brevetable s'il constitue une invention nouvelle, et qu'il a une utilisation industrielle.
+
+Les brevets sont déposés auprès de\entry{INPI} l'INPI, ils sont valables pour la France pendant 20 ans (et ne peuvent pas être renouvelés).
+
+\subsection{Secret}\mainentry{Secret}
+
+Lorsque l'on communique à propos du travail réalisé, il faut être encadré par un engagement de confidentialité.
+
+\subsection{Droit du producteur de bases de données}\entry{Base de données}
+
+Les bases de données sont protégées par le droit \textit{sui generis}; on est éligible si on a effectué un investissement financier ou humain. Cela donne l'accès à un droit de monopole de la base de données: on peut choisir qui y a accès, qui peut la modifier, qui peut la copier.
+
+\part{Données personnelles}
+
+\section{Définition}
+
+Les données\mainentry{Données!personnelles} personnelles doivent respecter la RGPD (au contraire des données\entry{Données!techniques} techniques, qui peuvent être utilisées librement).
+
+Il faut faire la différence entre une donnée technique et une donnée personnelle : si on est \textit{sûr} qu'une donnée \textit{n'est pas} personnelle, on peut la considérer comme technique.
+
+\section{Cadre légal}
+
+\subsection{Loi Informatique et Libertés}
+Aujourd'hui remplacée par la RGDP \cf{s:rgdp}, c'était l'une des premières lois à protéger les données personnelles. Écrite en 1998, elle repose sur le principe que les données personnelles relèvent du droit de la personnalité, et non du droit de la propriété.
+
+\subsubsection{Principes}
+
+\paragraph{Principe de Finalité}
+Les données personnelles ne peuvent être utilisées que pour un usage déterminé, légal, et légitime: il est interdit d'utiliser les données pour d'autres finalités.
+
+Par exemple, on ne peut pas utiliser les adresses mails récupérées dans ``abonnez-vous par mail'' pour autre chose qu'un abonnement par mail.
+
+\paragraph{Proportionnalité et pertinence des données}
+Il ne faut pas demander des informations qui ne sont pas nécessaires: si le but est d'envoyer des informations par mail, on ne peut pas demander l'adresse physique.
+
+\paragraph{Principe de conservation limitée}
+Une donnée ne peut pas être gardée indéfiniment, sauf si elle active.
+Par exemple, un site \textit{peut} supprimer un compte qui n'a pas été utilisé pendant 2 ans.
+
+\paragraph{Principe de sécurité et de confidentialité}
+Il faut permettre un niveau de confidentialité: le secrétaire ne doit pas avoir accès aux feuilles de comptes, et les bases de données doivent être cryptées.
+
+\paragraph{Droit des personnes}
+Tout le monde a le droit d'accès, de modification, et de suppression des données les concernant \textit{si légitime}. Par exemple, le système peut garder les données de carte bancaire au cours de la transaction.
+
+\subsubsection{Transparence}
+
+La transparence consiste à informer les personnes concernées, quand on collecte des données les concernant (par exemple, les panneaux ``\ldots est sous vidéo-surveillance'').
+
+\subsubsection{Formalités}
+
+Il faut déclarer à la CNIL\entry{CNIL} quelles sont les données récupérées.
+
+\subsection{Règlement Européen sur la Protection des Données (RGDP)}\label{s:rgdp}\mainentry{RGDP}
+
+Entré en vigueur le 26 mai 2018, il supprime l'obligation de déclaration. L'entreprise doit établir un document de référence en matière de gestion des données personnelles.
 
 \part{Réseaux et Internet}
 
