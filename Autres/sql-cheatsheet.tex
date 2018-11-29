@@ -26,10 +26,16 @@
 \glossaryentry{max}{MAX}{}{Maximum}
 \glossaryentry{min}{MIN}{}{Minimum}
 \glossaryentry{as}{AS}{}{Renommer une colonne ou une table (alias)}
+\glossaryentry{commit}{COMMIT}{}{Valider une transaction}
+\glossaryentry{rollback}{ROLLBACK}{}{Annuler une transaction}
+\glossaryentry{delete}{DELETE}{}{Supprimer des données dans une table}
+\glossaryentry{drop}{DROP}{}{Supprimer une table}
+\glossaryentry{insert}{INSERT}{}{Ajouter des données dans une table}
+\glossaryentry{update}{UPDATE}{}{Modifier une donnée dans une table}
 
 \begin{document}
 
-\title{SQL Cheatsheet}
+\title{Bases de données}
 \author{Ivan Canet}
 \maketitle
 
@@ -39,7 +45,7 @@
 
 \tableofcontents
 
-\section{Bases}
+\section{Requêtes}
 
 \subsection{\gls{select}}
 
@@ -82,7 +88,7 @@ FROM Abonnes
 \paragraph{Microsoft vs Oracle}
 Sur MS SQL on utilise `\gls{distinct}', sur Oracle on utilise `\gls{unique}' à la place.
 
-\subsubsection{WHERE}
+\subsubsection{\gls{where}}\label{where}
 
 Permet de ne sélectionner qu'une partie de la base avec une condition logique.
 \begin{minted}{sql}
@@ -190,9 +196,75 @@ SELECT MAX(Note) AS Note
 FROM Notes
 \end{minted}
 
-\section{}
+\subsection{\gls{delete}}
 
-\section{Transactions}
+Permet de supprimer des données dans une table:
+\begin{minted}{sql}
+DELETE FROM Users          -- La table est maintenant vide
+\end{minted}
+
+\gls{delete} est compatible avec \gls{where} \cf{where}:
+\begin{minted}{sql}
+DELETE FROM Users          -- Suppression de tous les utilisateurs
+WHERE Users.Name LIKE 'E%' -- dont le nom commence par un E
+\end{minted}
+
+\subsection{\gls{drop}}
+
+\subsection{\gls{insert}}\label{insert}
+
+Ajouter des données dans une table.
+
+Avec la première syntaxe, on doit remplir toutes les colonnes \textit{dans l'ordre}.
+\begin{minted}{sql}
+INSERT INTO Users
+VALUES ('Nom', 'Prenom')
+\end{minted}
+
+La deuxième syntaxe permet de choisir quelles données donner (pour ne pas remplir les données facultatives, on peut choisir l'ordre):
+\begin{minted}{sql}
+INSERT INTO Users (Prenom, Nom)
+VALUES ('Olivier', 'Guibert')
+\end{minted}
+
+\subsection{\gls{update}}\label{update}
+
+\section{Procédures}
+
+\section{Transactions et sessions}
+
+Une session représente une ``connexion'' à la base de données.
+
+Une transaction consiste en un certain nombre de requêtes qui sont ``groupées'' pour former un tout. Au fur et à mesure, les requêtes contenues sont simulées: leur résultat est visible dans la session courante, mais pas pour les autres.
+
+Sous Oracle DB, chaque requête est un début de transaction.
+
+\paragraph{Propriétés ACID}
+Les transactions ont des propriétés:
+\begin{itemize}
+\item Atomicité: elle est indivisible,
+\item Cohérence: les contraintes d'intégrité sont respectées,
+\item Isolation: les transactions n'influent pas les unes sur les autres,
+\item Durabilité: tout est enregistré, même après une déconnexion.
+\end{itemize}
+
+\paragraph{Terminer une transaction}
+On peut valider une transaction avec \gls{commit}: toutes les requêtes sont effectuées dans la vraie base de données.
+
+On peut annuler une transaction avec \gls{rollback}: les requêtes ne sont pas transmises à la base de données, elle n'est donc pas modifiée.
+
+\paragraph{Transactions bloquantes}
+Quand une transaction modifie la base de données, elle devient ``bloquante'': les autres transactions (dans d'autres sessions) ne peuvent plus accéder aux tables modifiées. Elles doivent donc attendre que la première soit terminée (validée ou annuler), avant de pouvoir s'exécuter.
+
+Il faut donc faire des transactions courtes, pour ne pas bloquer le système.
+
+Cas bloquants et non-bloquants:
+\begin{itemize}
+\item La lecture seule n'est jamais bloquante,
+\item L'ajout de données dans une table est bloquant, \hfill \cf{insert}
+\item La modification d'une donnée dans une table est bloquant, mais uniquement pour cette donnée (le reste de la table n'est pas bloqué). \hfill \cf{update}
+\end{itemize}
+Si deux transactions s'attendent mutuellement, la base de données en débloque une des deux avec une erreur ``deadlock detected''. Sa dernière action (celle qui était bloquante) est donc perdue, mais pas les précédentes.
 
 \appendix % Annexes, ARTICLE & BOOK
 
