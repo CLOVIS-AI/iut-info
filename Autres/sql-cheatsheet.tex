@@ -33,6 +33,20 @@
 \glossaryentry{insert}{INSERT}{}{Ajouter des données dans une table}
 \glossaryentry{update}{UPDATE}{}{Modifier une donnée dans une table}
 
+\glossaryentry{photo}{photographie}{photographies}{Table temporaire qui est supprimée à la fin de la session}
+\glossaryentry{bd}{base de données}{bases de données}{Ensemble de données structurées et liées entre elles sur support permettant un accès direct}
+\glossaryentry{contrainte}{contrainte d'intégrité}{contraintes d'intégrité}{Une condition qui doit être validée dans une table (la date de décès doit être après la date de naissance)}
+\glossaryentry{clef-primary}{clef primaire}{Clefs primaires}{Attribut ayant le rôle d'identifiant dans une \gls{bd}}
+\glossaryentry{clef-foreign}{clef étrangère}{Clefs étrangères}{Attribut faisant référence à une \gls{clef-primary}}
+\glossaryentry{assertion}{assertion}{assertions}{Une \gls{contrainte} sur plusieurs tables}
+\glossaryentry{cluster}{cluster}{clusters}{Amas de machines spécialisées}
+\glossaryentry{curseur}{curseur}{curseurs}{Itérateur sur le résultat d'une requête}
+\glossaryentry{trigger}{déclencheur}{déclencheurs}{Permet de déclencher du code (pas forcément du SQL) sur certains événements, comme la modification, l'accès ou la suppression de données}
+\glossaryentry{transact}{transaction}{transactions}{Ensemble de requêtes modifiant la \gls{bd}}
+\glossaryentry{process}{processus}{processus}{Programme en cours d'exécution}
+\glossaryentry{privilege}{privilège}{privilèges}{Droit d'un utilisateur}
+\glossaryentry{procedure}{procédure}{procédures}{Ensemble de requêtes qui peuvent mettre à jour la base}
+
 \begin{document}
 
 \title{Bases de données}
@@ -44,6 +58,8 @@
 %\end{abstract}
 
 \tableofcontents
+
+Mots-clefs à savoir: \gls{photo}, \gls{bd}, \gls{assertion}, \gls{contrainte}, \gls{clef-primary}, \gls{clef-foreign}, \gls{cluster}, \gls{trigger}, \gls{transact}, \gls{process}, \gls{privilege}, \gls{curseur}, \gls{procedure}\ldots À voir dans le glossaire.
 
 \section{Requêtes}
 
@@ -229,9 +245,20 @@ VALUES ('Olivier', 'Guibert')
 
 \subsection{\gls{update}}\label{update}
 
-\section{Procédures}
+\section{\glslink{procedure}{Procédures}}
 
-\section{Transactions et sessions}
+\section{\glslink{trigger}{Déclencheurs}}
+
+Un déclencheur (trigger) permet d'effectuer du code lors d'un événement. Par exemple, pour lancer une procédure avant la suppression d'une réservation:
+\begin{minted}{sql}
+CREATE TRIGGER [Nom de la procedure]
+BEFORE DELETE ON [TABLE] FOR EACH ROW
+BEGIN
+    -- Code ici
+END;
+\end{minted}
+
+\section{\glslink{transact}{Transactions} et sessions}
 
 Une session représente une ``connexion'' à la base de données.
 
