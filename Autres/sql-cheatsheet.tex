@@ -32,6 +32,13 @@
 \glossaryentry{drop}{DROP}{}{Supprimer une table}
 \glossaryentry{insert}{INSERT}{}{Ajouter des données dans une table}
 \glossaryentry{update}{UPDATE}{}{Modifier une donnée dans une table}
+\glossaryentry{enable}{ENABLE}{}{Active une contrainte}
+\glossaryentry{disable}{DISABLE}{}{Désactive une contrainte}
+\glossaryentry{validate}{VALIDATE}{}{Validation d'une contrainte}
+\glossaryentry{novalidate}{NOVALIDATE}{}{Non-validation d'une contrainte}
+\newacronym{ldd}{LDD}{Langage de Description des Données}
+\glossaryentry{alter}{ALTER}{}{Modifie la définition d'une table (fait partie du \gls{ldd})}
+\glossaryentry{describe}{DESCRIBE}{}{Permet de décrire une table}
 
 \glossaryentry{photo}{photographie}{photographies}{Table temporaire qui est supprimée à la fin de la session}
 \glossaryentry{bd}{base de données}{bases de données}{Ensemble de données structurées et liées entre elles sur support permettant un accès direct}
@@ -46,6 +53,8 @@
 \glossaryentry{process}{processus}{processus}{Programme en cours d'exécution}
 \glossaryentry{privilege}{privilège}{privilèges}{Droit d'un utilisateur}
 \glossaryentry{procedure}{procédure}{procédures}{Ensemble de requêtes qui peuvent mettre à jour la base}
+\glossaryentry{deferable}{contrainte déférable}{contraintes déférables}{Les \glspl{contrainte} seront vérifiées à la fin de la transaction, au lieu d'êtres vérifiées au fur-et-à-mesure}
+\glossaryentry{immediat}{contrainte immédiate}{contraintes immédiates}{Les \glspl{contrainte} sont vérifiées dès qu'une action est effectuée (comportement par défaut, voir \gls{deferable})}
 
 \begin{document}
 
@@ -59,9 +68,9 @@
 
 \tableofcontents
 
-Mots-clefs à savoir: \gls{photo}, \gls{bd}, \gls{assertion}, \gls{contrainte}, \gls{clef-primary}, \gls{clef-foreign}, \gls{cluster}, \gls{trigger}, \gls{transact}, \gls{process}, \gls{privilege}, \gls{curseur}, \gls{procedure}\ldots À voir dans le glossaire.
+Mots-clefs à savoir: \gls{photo}, \gls{bd}, \gls{assertion}, \gls{contrainte}, \gls{clef-primary}, \gls{clef-foreign}, \gls{cluster}, \gls{trigger}, \gls{transact}, \gls{process}, \gls{privilege}, \gls{curseur}, \gls{procedure}, \gls{deferable}, \gls{immediat}\ldots dans le glossaire.
 
-\section{Requêtes}
+\section{Requêtes simples}
 
 \subsection{\gls{select}}
 
@@ -245,6 +254,68 @@ VALUES ('Olivier', 'Guibert')
 
 \subsection{\gls{update}}\label{update}
 
+\subsection{Dictionnaire}
+
+Permet d'obtenir des informations sur la base de données.
+
+\paragraph{Oracle} On peut utiliser \gls{describe}:
+\begin{minted}{sql}
+DESCRIBE [table]
+\end{minted}
+qui permet de voir une table qui contient les différents champs de la table, leur type et s'ils peuvent être nul.
+
+\paragraph{Normes SQL} De manière plus générale, les tables suivantes existent (on peut faire un \gls{select} dessus):
+\begin{tabular}{c|l}
+\tt SQL\_LANGUAGES & Langages supportés par la base\\
+\tt SCHEMATA & Bases \\
+\tt DOMAINS & Domaines \\
+\tt TABLES & Tables d'une base \\
+\tt VIEWS & Vues d'une base \\
+\tt ASSERTIONS & Contraintes d'une base \\
+\tt CHARACTER\_SETS & Caractères d'une base \\
+\tt COLLATIONS & Schémas d'équivalence de caractères d'une base \\
+\tt TRANSLATIONS & Schémas de remplacement des caractères d'une base \\
+\tt TABLE\_CONSTRAINTS & Contraintes des tables d'une base \\
+\tt REFERENTIAL\_CONSTRAINTS & Intégrités référentielles d'une base \\
+\tt CHECK\_CONSTRAINTS & Contraintes de validité d'une base \\
+\tt KEY\_COLUMN\_USAGE & Colonnes définissant des clefs primaires ou secondaires \\
+\tt CONSTRAINT\_COLUMN\_USAGE & Colonnes définissant des contraintes de base \\
+\tt CONSTRAINT\_TABLE\_USAGE & Tables utilisées par les contraintes d'une base \\
+\tt VIEW\_TABLE\_USAGE & Tables composant les vues d'une base \\
+\tt VIEW\_COLUMN\_USAGE & Colonnes composant les vues d'une base\\
+\tt DOMAIN\_CONSTRAINT & Contraintes des domaines de la base\\
+\tt DOMAINE\_COLUMN\_USAGE & Colonnes basées sur les domaines de la base\\
+\tt TABLE\_PRIVILEGES & Privilèges des tables\\
+\tt COLUMN\_PRIVILEGES & Privilèges des colonnes d'une table\\
+\tt USAGE\_PRIVILEGES & Privilèges des autres objets d'une base
+\end{tabular}
+
+Il existe plusieurs variantes:
+\begin{description}
+\item[Oracle] {\tt USER\_CATALOG}, {\tt USER\_TABLES}, {\tt ALL\_TABLES}, {\tt USER\_SYNONYMS}\ldots
+\item[MS SQL] {\tt SYSDATABASES}, {\tt SYSOBJETCS}, {\tt SYSFOREIGNKEYS}, {\tt SYSREFERENCES}\ldots
+\end{description}
+
+\section{Groupement de requêtes}
+
+\section{\glslink{contrainte}{Contraintes d'intégrité}}
+
+\subsection{État des contraintes}
+
+On peut modifier l'état avec:
+\begin{minted}{sql}
+ALTER TABLE [table] MODIFY CONSTRAINT [nom de la contrainte] [nouvel etat];
+\end{minted}
+où l'état peut être:
+\begin{itemize}
+\item[\tt \gls{enable} \gls{validate}] la contrainte est vérifiée; on est sûr que la contrainte est valide sur toute la table, quoiqu'il arrive (peut être abrégé en {\tt \gls{enable}}),
+\item[\tt \gls{enable} \gls{novalidate}] la contrainte sera vérifiée pour les nouvelles données, mais n'est pas vérifiée rétro-activement,
+\item[\tt \gls{disable} \gls{novalidate}] la contrainte n'est plus vérifiée, il est possible d'ajouter des données qui ne la satisfont pas (peut être abrégé en {\tt \gls{disable}}),
+\item[\tt \gls{disable} \gls{validate}] la contrainte n'est plus vérifiée, mais on interdit la modification des colonnes concernées.
+\end{itemize}
+
+À noter que \gls{alter} est une opération qui crée une nouvelle transaction \cf{transaction}.
+
 \section{\glslink{procedure}{Procédures}}
 
 \section{\glslink{trigger}{Déclencheurs}}
@@ -258,7 +329,7 @@ BEGIN
 END;
 \end{minted}
 
-\section{\glslink{transact}{Transactions} et sessions}
+\section{\glslink{transact}{Transactions} et sessions}\label{transaction}
 
 Une session représente une ``connexion'' à la base de données.
 
@@ -287,7 +358,7 @@ Il faut donc faire des transactions courtes, pour ne pas bloquer le système.
 
 Cas bloquants et non-bloquants:
 \begin{itemize}
-\item La lecture seule n'est jamais bloquante,
+\item La lecture seule n'est jamais bloquante (mais peut être bloquée),
 \item L'ajout de données dans une table est bloquant, \hfill \cf{insert}
 \item La modification d'une donnée dans une table est bloquant, mais uniquement pour cette donnée (le reste de la table n'est pas bloqué). \hfill \cf{update}
 \end{itemize}
