@@ -327,33 +327,35 @@ Les bases de données sont protégées par le droit \textit{sui generis}; on est
 
 \section{Définition}
 
-Les données\mainentry{Données!personnelles} personnelles doivent respecter la RGPD (au contraire des données\entry{Données!techniques} techniques, qui peuvent être utilisées librement).
+Les données\entry{Données!personnelles} personnelles doivent respecter la RGDP (au contraire des données\entry{Données!techniques} techniques, qui peuvent être utilisées librement).
 
 Il faut faire la différence entre une donnée technique et une donnée personnelle : si on est \textit{sûr} qu'une donnée \textit{n'est pas} personnelle, on peut la considérer comme technique.
 
 \section{Cadre légal}
 
-\subsection{Loi Informatique et Libertés}
+\subsection{Loi Informatique et Libertés}\label{sec:loi-info-liberte}
 Aujourd'hui remplacée par la RGDP \cf{s:rgdp}, c'était l'une des premières lois à protéger les données personnelles. Écrite en 1998, elle repose sur le principe que les données personnelles relèvent du droit de la personnalité, et non du droit de la propriété.
 
-\subsubsection{Principes}
+\subsubsection{Principes}\entry{Principe}
 
-\paragraph{Principe de Finalité}
+\paragraph{Principe de Finalité}\mainentry{Principe!de finalité}
 Les données personnelles ne peuvent être utilisées que pour un usage déterminé, légal, et légitime: il est interdit d'utiliser les données pour d'autres finalités.
 
 Par exemple, on ne peut pas utiliser les adresses mails récupérées dans ``abonnez-vous par mail'' pour autre chose qu'un abonnement par mail.
 
-\paragraph{Proportionnalité et pertinence des données}
+\paragraph{Principe de proportionnalité et pertinence des données}\mainentry{Principe!de proportionnalité}\mainentry{Principe!de pertinence des données}
 Il ne faut pas demander des informations qui ne sont pas nécessaires: si le but est d'envoyer des informations par mail, on ne peut pas demander l'adresse physique.
 
-\paragraph{Principe de conservation limitée}
+\paragraph{Principe de conservation limitée}\mainentry{Principe!de conservation limitée}
 Une donnée ne peut pas être gardée indéfiniment, sauf si elle active.
 Par exemple, un site \textit{peut} supprimer un compte qui n'a pas été utilisé pendant 2 ans.
 
-\paragraph{Principe de sécurité et de confidentialité}
+Il est obligatoire de supprimer les données quand on en a plus besoin. Tous les ans, il faut faire l'inventaire des données et supprimer celles qui ne sont plus nécessaires. Il est autorisé de garder les données le temps de prescription du contrat (10 ans pour les contrôles fiscaux, 13 mois pour les cookies).
+
+\paragraph{Principe de sécurité et de confidentialité}\mainentry{Principe!de sécurité et confidentialité}
 Il faut permettre un niveau de confidentialité: le secrétaire ne doit pas avoir accès aux feuilles de comptes, et les bases de données doivent être cryptées.
 
-\paragraph{Droit des personnes}
+\paragraph{Droit des personnes}\mainentry{Droit!des personnes}
 Tout le monde a le droit d'accès, de modification, et de suppression des données les concernant \textit{si légitime}. Par exemple, le système peut garder les données de carte bancaire au cours de la transaction.
 
 \subsubsection{Transparence}
@@ -366,7 +368,76 @@ Il faut déclarer à la CNIL\entry{CNIL} quelles sont les données récupérées
 
 \subsection{Règlement Européen sur la Protection des Données (RGDP)}\label{s:rgdp}\mainentry{RGDP}
 
-Entré en vigueur le 26 mai 2018, il supprime l'obligation de déclaration. L'entreprise doit établir un document de référence en matière de gestion des données personnelles.
+\subsubsection{Nouveautés}
+
+Entré en vigueur le 26 mai 2018, il supprime l'obligation de déclaration. L'entreprise doit établir un document de référence en matière de gestion des données personnelles (la ``politique de sécurité'').
+L'informaticien en est responsable.
+
+Le RGDP\entry{RGDP} s'applique aux entreprises situées en Europe, ou dont les utilisateurs sont situés en Europe.
+
+\subsubsection{Conformité et non-conformité}
+
+Si l'on est pas conforme, on peut être sanctionné par la\entry{CNIL} CNIL:
+\begin{enumerate}
+\item Avertissement,
+\item Suspension de l'accès à la base de données,
+\item Sanctions pécuniaires: 10--20~000~000~\euro, 2--4\% du chiffre d'affaire mondial.
+\end{enumerate}
+
+N'importe quel citoyen peut demander une enquête de la\entry{CNIL} CNIL.
+
+\subsubsection{Définition des données personnelles}
+
+\begin{cquote}{Donnée\mainentry{Données!personnelles} personnelle}
+Toute information se rapportant à une personne physique identifiée ou identifiable, directement ou indirectement.
+\end{cquote}
+
+Noms, adresses mail, adresses IP sont considérées comme données personnelles.
+
+La loi protège le traitement: organisation, adaptation, structuration, modification, extraction, consultation, utilisation, communication, diffusion, connexion\ldots n'importe quelle manipulation.
+
+\subsubsection{Acteurs}
+
+\begin{description}
+\item[Responsable de traitement] est celui qui défini les modalités et la finalité du traitement (le chef de projet),
+\item[Personnes concernées] sont les personnes dont les données sont récoltées (les clients),
+\item[Sous-traitant] est celui qui gère la base de données (l'informaticien),
+\item[Tiers] sont ceux qui peuvent avoir accès aux données (huissiers en cas de non-paiement\ldots)
+\end{description}
+
+\subsubsection{Principes}\entry{Principe}
+
+Le RGDP reprend les principes de la loi précédente \cf{sec:loi-info-liberte}. Il y ajoute d'autres principes:
+
+\paragraph{Principe de minimisation}\mainentry{Principe!de minimisation}
+modifie le principe de proportionnalité: il ne faut pas demander de données inutiles.
+
+\paragraph{Privacy by design / by default}
+Lorsqu'un informaticien conçoit une application, il doit prévoir la minimisation; la personne doit avoir le choix de refuser de donner l'information.
+
+\paragraph{Principe de conformité}\mainentry{Principe!de conformité}
+Il faut faire ce qui est annoncé, et annoncer ce que l'on va faire ; il faut réaliser un registre des traitements, qui contient la liste des données (bases, tables, champs\ldots) et les mesures de sécurité (qui y a accès, ce qui est crypté, ce qui est critique ou non\ldots).
+
+\subsubsection{Sécurité informatique}
+
+Les serveurs doivent être sécurisés.
+
+\paragraph{Sensibilisation à la protection des données}
+Les employés doivent savoir ce qui est autorisé ou non. Chaque utilisateur doit avoir son propre profil. Il faut une politique de gestion de mots de passe. Les logs doivent être conservés.
+
+Il faut crypter les disques durs, fermer les ports, mettre physiquement les serveurs dans des pièces fermées, faire des sauvegardes,
+
+\subsubsection{Données sensibles}\mainentry{Données!personnelles!sensibles}
+
+Les données qui révèlent l'origine ethnique, les opinions politiques, philosophiques, religieuses, l'appartenance syndicale, les données de santé, l'orientation sexuelle, données génétiques ou biométriques, sont considérées comme critiques. Il est obligatoire dans ce cas de nommer un\mainentry{DPO} DPO (Data Protecter Officer, un responsable des données), qui doit s'assurer de la sécurité des lois.
+
+\subsubsection{Rôle du sous-traitant}
+
+Le sous-traitant doit avoir des règles de sécurité similaires aux responsable de traitement.
+
+\subsubsection{Notification des failles de sécurité}
+
+Quand une faille est détectée, il faut la transmettre à la CNIL\entry{CNIL} dans les 72 heures (sur leur site).
 
 \part{Réseaux et Internet}
 
