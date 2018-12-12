@@ -409,12 +409,14 @@ iptables --list
 iptables -t nat --list   # Liste des règles sur la table NAT
 \end{minted}
 
-\paragraph{Vider les règles}
+\paragraph{Supprimer les règles}
 \begin{minted}{bash}
 iptables -F INPUT
 iptables -F OUTPUT
 iptables -F FORWARD
 \end{minted}
+
+Il est conseillé de mettre ces trois lignes en début de script: comme ça les règles précédentes sont supprimées. Cela évite de garder des règles moitié-écrites.
 
 \paragraph{Politique par défaut}
 Par défaut, aucun paquet n'est transféré:
@@ -426,11 +428,12 @@ iptables -P FORWARD DROP
 
 \paragraph{Ajouter une règle}
 \begin{minted}{bash}
-iptables -A TABLE CONDITIONS -j ACTION
+iptables -A MODE TABLE CONDITIONS -j ACTION
 \end{minted}
 avec:
 \begin{itemize}
-\item[\tt TABLE] la table à laquelle on ajoute la règle, {\tt nat} ou {\tt filter},
+\item[\tt MODE] est soit {\tt INPUT}, {\tt OUTPUT} ou {\tt FORWARD}.
+\item[\tt TABLE] la table à laquelle on ajoute la règle, {\tt -t nat} ou {\tt -t filter},
 \item[\tt ACTION] représente ce qu'il faut faire, {\tt DROP} pour l'abandonner ou {\tt ACCEPT} pour le transmettre (il existe aussi {\tt REJECT} mais est déconseillé),
 \item[\tt CONDITIONS] est un ensemble de:
 \begin{itemize}
@@ -442,7 +445,7 @@ avec:
 \item[\tt -m conntrack --ctstate ETAT] permet de sélectionner l'état de la connexion ({\tt ETAT} vaut {\tt ESTABLISHED}, {\tt RELATED}, {\tt NEW} ou un mélange (eg. {\tt NEW,ESTABLISHED})),
 \end{itemize}
 \end{itemize}
-Exemples:
+\subparagraph{Exemples}
 \begin{minted}{bash}
 # Accepter les ping (protole ICMP) sur 100.64.0.100
 iptables -A INPUT  -p icmp -s 100.64.0.100 -j ACCEPT
@@ -453,6 +456,7 @@ iptables -A OUTPUT -p icmp -d 100.64.0.100 -j ACCEPT
 iptables -A OUTPUT \
          -p tcp --dport http \
          -j ACCEPT
+
 iptables -A INPUT \
          -p tcp --sport http \
          -m conntrack --ctstate ESTABLISHED \
