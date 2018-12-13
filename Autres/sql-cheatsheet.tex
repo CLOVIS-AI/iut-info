@@ -39,6 +39,7 @@
 \newacronym{ldd}{LDD}{Langage de Description des Données}
 \glossaryentry{alter}{ALTER}{}{Modifie la définition d'une table (fait partie du \gls{ldd})}
 \glossaryentry{describe}{DESCRIBE}{}{Permet de décrire une table}
+\glossaryentry{create}{CREATE}{}{Permet de créer des tables}
 
 \glossaryentry{photo}{photographie}{photographies}{Table temporaire qui est supprimée à la fin de la session}
 \glossaryentry{bd}{base de données}{bases de données}{Ensemble de données structurées et liées entre elles sur support permettant un accès direct}
@@ -56,6 +57,8 @@
 \glossaryentry{deferable}{contrainte déférable}{contraintes déférables}{Les \glspl{contrainte} seront vérifiées à la fin de la transaction, au lieu d'êtres vérifiées au fur-et-à-mesure}
 \glossaryentry{immediat}{contrainte immédiate}{contraintes immédiates}{Les \glspl{contrainte} sont vérifiées dès qu'une action est effectuée (comportement par défaut, voir \gls{deferable})}
 
+\usemintedstyle{monokai}
+\definecolor{bg}{HTML}{282828}
 \begin{document}
 
 \title{Bases de données}
@@ -221,7 +224,9 @@ SELECT MAX(Note) AS Note
 FROM Notes
 \end{minted}
 
-\subsection{\gls{delete}}
+\subsection{Opérations sur les données}
+
+\subsubsection{\gls{delete}}
 
 Permet de supprimer des données dans une table:
 \begin{minted}{sql}
@@ -234,9 +239,7 @@ DELETE FROM Users          -- Suppression de tous les utilisateurs
 WHERE Users.Name LIKE 'E%' -- dont le nom commence par un E
 \end{minted}
 
-\subsection{\gls{drop}}
-
-\subsection{\gls{insert}}\label{insert}
+\subsubsection{\gls{insert}}\label{insert}
 
 Ajouter des données dans une table.
 
@@ -252,7 +255,36 @@ INSERT INTO Users (Prenom, Nom)
 VALUES ('Olivier', 'Guibert')
 \end{minted}
 
-\subsection{\gls{update}}\label{update}
+\subsubsection{\gls{update}}\label{update}
+
+\subsection{Opérations sur les tables}
+
+\subsubsection{\gls{create}}
+
+\paragraph{Créer une table}\label{sec:table:create}
+\begin{minted}{sql}
+CREATE TABLE [Nom] (
+    [Champ] [Type],
+    [Champ] [Type] CONSTRAINT [Contrainte],
+    [Champ] [Type] CONSTRAINT [Contrainte1] CONSTRAINT [Contrainte2...]
+);
+\end{minted}
+où:
+\begin{itemize}
+\item[\tt Nom] est le nom de la table à créer,
+\item[\tt Champ] est le nom d'une colonne de la table,
+\item[\tt Type] est le type de donnée \cf{sec:types},
+\item[\tt Contrainte] est une contrainte \cf{sec:constraint:add}.
+\end{itemize}
+
+\paragraph{Créer une vue}
+
+\subsubsection{\gls{drop}}
+
+Permet de supprimer une table.
+\begin{minted}{sql}
+DROP TABLE [Nom];
+\end{minted}
 
 \subsection{Dictionnaire}
 
@@ -296,11 +328,41 @@ Il existe plusieurs variantes:
 \item[MS SQL] {\tt SYSDATABASES}, {\tt SYSOBJETCS}, {\tt SYSFOREIGNKEYS}, {\tt SYSREFERENCES}\ldots
 \end{description}
 
+\section{Type des données}\label{sec:types}
+
+Les différents types sont:
+\begin{itemize}
+\item[\tt NUMBER(n)] est un nombre de {\tt n} chiffres (eg. {\tt NUMBER(2)} $\in [-99,99]$).
+\item[\tt CHAR(n)] est une chaîne de caractères de taille fixe faisant exactement {\tt n} caractères. Si une chaîne plus petite est insérée, des espaces sont ajoutés pour qu'elle fasse la bonne longueur.
+\item[\tt VARCHAR2(n)] est une chaîne de caractères\footnote{Il existe aussi {\tt VARCHAR(n)} mais Oracle déconseille de l'utiliser.}, où {\tt n} est le nombre de caractères maximum.
+\end{itemize}
+
 \section{Groupement de requêtes}
+%INTER, UNION,...
 
-\section{\glslink{contrainte}{Contraintes d'intégrité}}
+\section{\glslink{contrainte}{Contraintes d'intégrité}}\label{sec:constraint}
 
-\subsection{État des contraintes}
+\subsection{Création d'une table avec une contrainte}\label{sec:constraint:add}
+
+Cette section vise à compléter les informations sur la création des tables \cf{sec:table:create}.
+\begin{minted}{sql}
+[Nom] [Type] CONSTRAINT [Nom] [Type de contrainte] [Mode]
+\end{minted}
+Pour plus d'informations sur le {\tt Mode}, voir \cref{sec:constraint:mode}.
+
+\paragraph{Créer une \gls{clef-primary}}
+\begin{minted}{sql}
+[Nom] [Type] CONSTRAINT [Nom] PRIMARY KEY [Mode]
+\end{minted}
+Il peut y avoir plusieurs \glspl{clef-primary} dans une table.
+
+\paragraph{Créer une \gls{clef-foreign}} faisant référence à la \gls{clef-primary} {\tt T.A}
+\begin{minted}{sql}
+[Nom] [Type] CONSTRAINT [Nom] REFERENCES T ( A ) [Mode]
+\end{minted}
+Il faut absolument préciser à quelle \gls{clef-primary} on fait référence, parce qu'il peut y en avoir plusieurs dans une table.
+
+\subsection{Mode des contraintes}\label{sec:constraint:mode}
 
 On peut modifier l'état avec:
 \begin{minted}{sql}
@@ -363,6 +425,41 @@ Cas bloquants et non-bloquants:
 \item La modification d'une donnée dans une table est bloquant, mais uniquement pour cette donnée (le reste de la table n'est pas bloqué). \hfill \cf{update}
 \end{itemize}
 Si deux transactions s'attendent mutuellement, la base de données en débloque une des deux avec une erreur ``deadlock detected''. Sa dernière action (celle qui était bloquante) est donc perdue, mais pas les précédentes.
+
+\section{Droits utilisateurs}
+
+On peut créer un compte avec:
+\begin{minted}{sql}
+CREATE USER [Nom utilisateur]
+\end{minted}
+
+Par défaut, le compte est créé sans aucun droits.
+
+Les différents droits sont:
+\begin{itemize}
+\item[\tt CREATE\_SESSION] Permet de créer une session. Enlever ce droit permet de geler un utilisateur (il ne peut donc plus se connecter).
+\end{itemize}
+
+\paragraph{Afficher tous les privilèges d'un utilisateur}
+\begin{minted}{sql}
+# Privileges systeme
+SELECT Privilege FROM DBA_SYS_PRIVS WHERE Grantee = '[Nom]'
+UNION
+# Privileges objets
+SELECT Privilege FROM DBA_TAB_PRIVS WHERE Grantee = '[Nom]'
+\end{minted}
+
+\paragraph{Donner des privilèges systèmes}
+\begin{minted}{sql}
+GRANT [Droit1], [Droit2], [...] TO [Utilisateur];
+\end{minted}
+où {\tt Droit} peut être:
+\begin{itemize}
+\item[\tt SELECT Objets] permet de lire les objets sélectionnés ({\tt Objets} peut être un nom de table, {\tt ANY TABLE}, {\tt ANY DICTIONNARY}\ldots).
+\item[\tt CREATE Objets] permet de créer les objets sélectionnés ({\tt TABLE}, {\tt SESSION}, {\tt VIEW}, {\tt PROCEDURE}, {\tt TRIGGER}, {\tt SEQUENCE}).
+\item[\tt ALTER SESSION] modifie les paramètres de connexion.
+\item[\tt UNLIMITED TABLESPACE]
+\end{itemize}
 
 \appendix % Annexes, ARTICLE & BOOK
 
