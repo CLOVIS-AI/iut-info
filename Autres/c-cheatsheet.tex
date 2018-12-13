@@ -397,7 +397,7 @@ ssize_t getline (char **ligne, size_t *n, FILE *f);
 
 \part{C++}
 
-\section{Classes}
+\section{Classes simples}
 
 \subsection{Syntaxe}
 
@@ -571,11 +571,36 @@ Piece p2 = p1; /* Pas d'appel de operator= !
 \paragraph{Surcharge}
 Attention, si vous modifiez cet opérateur, il faut nécessairement déclarer un destructeur \cf{destructeur} et un constructeur par copie \cf{constructeur-copie}.
 
+\section{Héritage}
+
+\section{Génériques (templates)}
+
+\subsection{Déclaration}
+
+\begin{minted}{cpp}
+template<typename T>
+class NomClasse {
+    //...
+};
+\end{minted}
+
+Contrairement à Java, on ne peut pas donner de contraintes sur le type (parent, héritage\ldots). Le compilateur va déduire les contraintes à partir du code. Il faut donc faire attention au code écrit, pour ne pas limiter les génériques compatibles.
+
+Quand le template est utilisé, le langage génère une nouvelle classe en remplaçant le type par celui recherché. Cela crée donc une nouvelle classe à chaque fois\footnote{En Java, les types génériques sont `effacés' (type erasure) en les remplaçant par leur type parent (souvent, Object). De cette manière, Java ne fait jamais de copies des classes.}!
+
+\subsection{Utilisation}
+
+\section{STL}
+
+La STL fourni plusieurs classes d'utilité ; dont les Conteneurs (ancêtre des Collections en Java).
+
+La STL n'est pas très moderne, l'exécution concurrentielle n'est disponible que depuis 2014.
+
 \appendix % Annexes, ARTICLE & BOOK
-\part{Annexes}
+%\part{Annexes}
 
 %\bibliography{•} % THE .BIB FILE HERE, WITHOUT THE EXTENSION
-\printindex
-\printglossaries
+%\printindex
+%\printglossaries
 
 \end{document}
