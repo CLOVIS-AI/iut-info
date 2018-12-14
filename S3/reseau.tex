@@ -440,9 +440,9 @@ avec:
 \item[\tt -s] l'IP qui envoie le paquet (sous la forme {\tt 10.1.1.0/24}),
 \item[\tt -d] l'IP qui va recevoir le paquet (idem),
 \item[\tt -p] le protocole de niveau 4 utilisé: {\tt tcp}, {\tt udp}, {\tt icmp}\ldots
-\item[\tt --sport] le port source (on peut utiliser le nom des protocoles connus, {\tt ssh}, {\tt http}\ldots),
-\item[\tt --dport] le port destination (idem),
-\item[\tt -m conntrack --ctstate ETAT] permet de sélectionner l'état de la connexion ({\tt ETAT} vaut {\tt ESTABLISHED}, {\tt RELATED}, {\tt NEW} ou un mélange (eg. {\tt NEW,ESTABLISHED})),
+\item[\tt -{}-sport] le port source (on peut utiliser le nom des protocoles connus, {\tt ssh}, {\tt http}\ldots),
+\item[\tt -{}-dport] le port destination (idem),
+\item[\tt -m conntrack -{}-ctstate ETAT] permet de sélectionner l'état de la connexion ({\tt ETAT} vaut {\tt ESTABLISHED}, {\tt RELATED}, {\tt NEW} ou un mélange (eg. {\tt NEW,ESTABLISHED})),
 \end{itemize}
 \end{itemize}
 \subparagraph{Exemples}
