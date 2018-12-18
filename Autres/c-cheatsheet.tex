@@ -644,6 +644,128 @@ La STL fourni plusieurs classes d'utilité ; dont les Conteneurs (ancêtre des C
 
 La STL n'est pas très moderne, l'exécution concurrentielle n'est disponible que depuis 2014.
 
+\section{Programmation fonctionnelle}
+
+\subsection{Fonctions anonymes, $\lambda$-expressions}
+
+\paragraph{Syntaxe}
+\begin{minted}{cpp}
+[closures](parametres){corps}            // Pas de type de retour
+[closures](parametres) -> retour {corps} // Type de retour
+\end{minted}
+
+\paragraph{Exemple: Afficher chaque élément d'un vecteur}
+\begin{minted}{cpp}
+vector<int> nombres { 1, 2, 3, 4, 5, 6 };
+for_each(nombres.begin(), nombres.end(), [](int element){
+    cout << element << endl;
+});
+\end{minted}
+
+\paragraph{Garder un lambda}
+\begin{minted}{cpp}
+std::function<retour(parametres)> nom = [lambda]
+auto nom = [lambda]
+\end{minted}
+
+\subsection{Monads}
+
+\subsubsection{Remplacement}
+
+Copie tous les éléments d'un itérateur en les transformant.
+
+\paragraph{Exemple: multiplier par 3}
+\begin{minted}{cpp}
+vector<int> nombres { 1, 2, 3, 4 };
+vector<int> resultat;
+std::transform(
+    nombres.begin(),
+    nombres.end(),
+    back_inserter(resultat.begin()),
+    [](int v){ return v*3; }
+);
+\end{minted}
+
+\paragraph{Équivalent en Java}
+\begin{minted}{cpp}
+List<Integer> nombres = Arrays.asList( 1, 2, 3, 4 );
+List<Integer> resultat = nombres.stream()
+    .map(i -> i*3)
+    .collect(Collectors.toList());
+\end{minted}
+
+\paragraph{Équivalent en Kotlin}
+\begin{minted}{cpp}
+val nombres = listOf( 1, 2, 3, 4 );
+val resultat = nombres.map { it*3; };
+\end{minted}
+
+\subsubsection{Filtrage}
+
+Sélectionne quels éléments on souhaite dans un itérateur.
+
+\paragraph{Exemple: uniquement les nombres pairs}
+\begin{minted}{cpp}
+
+\end{minted}
+
+On utilise \mintinline{cpp}{remove_if}
+
+\subsubsection{Réduction}
+
+Il s'agit de combiner les éléments deux-à-deux, pour obtenir au final une valeur unique.
+
+\paragraph{Exemple: concaténer des strings}
+\begin{minted}{cpp}
+vector<string> mots { "Il", "est", "l'heure" };
+string resultat = std::accumulate(
+    mots.begin(),
+    mots.end(),
+    "",
+    [](string a, string b){ return a+" "+b; }
+);
+\end{minted}
+
+\subsection{Closures}
+
+On peut préciser comment les variables sont récupérées dans une $\lambda$-expression: par référence ou par copie.
+
+\paragraph{Exemple par référence: faire la somme d'un vecteur}
+\begin{minted}{cpp}
+int somme(0);
+std::function<int (std::vector<int>)> somme =
+    [&somme](std::vector<int> vecteur) {
+        for (int &x : vecteur) {
+            somme += x;
+        }
+    };
+\end{minted}
+
+\paragraph{Différents modes} Il existe plusieurs manières de passer un mode dans une closure:
+
+\begin{tabular}{c|l}
+Syntaxe & Description \\
+\hline
+\tt [] & Pas de variable externe \\
+\tt [x, \&y] & {\tt x} est capturée par copie, {\tt y} est capturée par référence \\
+\tt [\&] & Toutes les variables sont capturées par référence \\
+\tt [=] & Toutes les variables sont capturées par copie \\
+\tt [\&, x] & {\tt x} est capturée par copie et toutes les autres par référence \\
+\tt [=, \&x] & {\tt x} est capturée par référence et toutes les autres par copie \\
+\end{tabular}
+
+\subsection{$\lambda$-expression de niveau supérieur}
+
+\begin{minted}{cpp}
+auto ajouteur = [](int i) {
+    return ([=](int j) -> int {
+        return i + j;
+    });
+};
+auto ajoute10 = ajouteur(10);
+int onze = ajouter10(1);
+\end{minted}
+
 \section{Autres}
 
 \subsection{Expressions constantes}
@@ -655,6 +777,16 @@ constexpr int dix() {return 10;}
 \end{minted}
 
 Ce mot-clef est très pratique dans le cas des génériques, puisque chaque implémentation peut avoir une valeur différente, mais elles sont toutes dans le code.
+
+\subsection{Assertions statiques}
+
+Une assertion statique est une assertion qui est exécutée au moment de la compilation.
+
+\begin{minted}{cpp}
+static_assert(-5 / 2 == -2);
+static_assert(std::is_same(Type1, Type2)::value);    // Les deux types sont-ils identiques?
+statis_assert(std::is_base_of(Type1, Type2)::value); // Le premier type est-il un supertype du deuxième?
+\end{minted}
 
 \appendix % Annexes, ARTICLE & BOOK
 %\part{Annexes}
