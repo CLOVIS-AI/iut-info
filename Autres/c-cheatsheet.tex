@@ -620,10 +620,10 @@ template<>
 constexpr int InfosPourcents<int>::limite(){return 100;}
 
 template<>
-constexpr int InfosPourcents<float>::deltaDix(){return 0.1;}
+constexpr int InfosPourcents<float>::deltaDix(){return 0.1f;}
 
 template<>
-constexpr int InfosPourcents<float>::limite(){return 1;}
+constexpr int InfosPourcents<float>::limite(){return 1f;}
 
 // Déclaration de la méthode (n'importe où)
 template<typename T>
@@ -632,6 +632,10 @@ T ajouterDixPourcent(const T val) {
     const T res = std::min(InfosPourcents<T>::limite(), res);
     return res;
 }
+
+// Appel de la méthode
+ajouterDixPourcent(10);
+ajouterDixPourcent(0.2f);
 \end{minted}
 
 \section{STL}
