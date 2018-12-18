@@ -415,27 +415,34 @@ class Piece
 
 \subsubsection{Attributs et méthodes}
 
+\paragraph{Déclaration}
 Elles sont déclarées dans le header:
-
 \begin{minted}{cpp}
 // Header
 class Piece
 {
 private:
-    int a;     // Attribut privé
+    int a;               // Attribut privé
 
 public:
-    Piece();   // Constructeur par défaut
-    void do(); // Méthode publique
+    Piece();             // Constructeur par défaut
+    void do();           // Méthode publique
+    static void other(); // Fonction statique
 }
 \end{minted}
 
 Puis on peut les déclarer dans le fichier source:
-
 \begin{minted}{cpp}
 void Piece::do(){
     // ...
 }
+\end{minted}
+
+\paragraph{Utilisation}
+\begin{minted}{cpp}
+Piece p();               // Appel du constructeur
+p.do();                  // Appel d'une méthode
+Piece::other();          // Appel fonction statique
 \end{minted}
 
 \subsection{Constructeurs}
@@ -446,7 +453,7 @@ On peut déclarer un constructeur:
 
 \begin{minted}{cpp}
 // piece.h
-Piece(...);                  // Remplacer ... par les paramètres
+Piece(...);              // Remplacer ... par les paramètres
 \end{minted}
 
 Il est possible d'initialiser les champs de manière optimisée:
@@ -575,8 +582,9 @@ Attention, si vous modifiez cet opérateur, il faut nécessairement déclarer un
 
 \section{Génériques (templates)}
 
-\subsection{Déclaration}
+\subsection{Classes génériques}
 
+\paragraph{Syntaxe}
 \begin{minted}{cpp}
 template<typename T>
 class NomClasse {
@@ -584,17 +592,65 @@ class NomClasse {
 };
 \end{minted}
 
+\paragraph{Remarques}
 Contrairement à Java, on ne peut pas donner de contraintes sur le type (parent, héritage\ldots). Le compilateur va déduire les contraintes à partir du code. Il faut donc faire attention au code écrit, pour ne pas limiter les génériques compatibles.
 
 Quand le template est utilisé, le langage génère une nouvelle classe en remplaçant le type par celui recherché. Cela crée donc une nouvelle classe à chaque fois\footnote{En Java, les types génériques sont `effacés' (type erasure) en les remplaçant par leur type parent (souvent, Object). De cette manière, Java ne fait jamais de copies des classes.}!
 
-\subsection{Utilisation}
+\subsection{Fonctions génériques}
+
+\paragraph{Syntaxe}
+On mets \mintinline{cpp}{template<typename> T} devant le nom de la méthode, pour avoir accès au type~générique~{\tt T}.
+
+\paragraph{Exemple: +10\%}
+\begin{minted}{cpp}
+// InfosPourcents.h
+template<typename T>
+class InfosPourcents {
+public:
+    static T deltaDix();
+    static T limite();
+}
+
+// InfosPourcents.cpp
+template<>
+constexpr int InfosPourcents<int>::deltaDix(){return 10;}
+
+template<>
+constexpr int InfosPourcents<int>::limite(){return 100;}
+
+template<>
+constexpr int InfosPourcents<float>::deltaDix(){return 0.1;}
+
+template<>
+constexpr int InfosPourcents<float>::limite(){return 1;}
+
+// Déclaration de la méthode (n'importe où)
+template<typename T>
+T ajouterDixPourcent(const T val) {
+    const T tmp = val + InfosPourcents<T>::deltaDix();
+    const T res = std::min(InfosPourcents<T>::limite(), res);
+    return res;
+}
+\end{minted}
 
 \section{STL}
 
 La STL fourni plusieurs classes d'utilité ; dont les Conteneurs (ancêtre des Collections en Java).
 
 La STL n'est pas très moderne, l'exécution concurrentielle n'est disponible que depuis 2014.
+
+\section{Autres}
+
+\subsection{Expressions constantes}
+
+Pour optimiser les appels de fonction qui donnent toujours le même résultat, on peut les noter comme ``expressions constantes'': le compilateur va alors remplacer tous les appels par la valeur (comme le mot-clef \mintinline{kotlin}{inline} en Kotlin).
+
+\begin{minted}{cpp}
+constexpr int dix() {return 10;}
+\end{minted}
+
+Ce mot-clef est très pratique dans le cas des génériques, puisque chaque implémentation peut avoir une valeur différente, mais elles sont toutes dans le code.
 
 \appendix % Annexes, ARTICLE & BOOK
 %\part{Annexes}
