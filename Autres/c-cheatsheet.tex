@@ -4,6 +4,10 @@
 \usepackage[T1]{fontenc}
 \usepackage{../latex/clovisai}
 
+% Les parties sont sur la page suivante
+\let\oldpart\part
+\renewcommand\part{\newpage\oldpart}
+
 \makeindex
 \makeglossaries
 
@@ -395,7 +399,7 @@ int   fputc(FILE *f); // Écriture d'un caractère
 ssize_t getline (char **ligne, size_t *n, FILE *f);
 \end{minted}
 
-\part{C++}
+\part{C++: Orienté-Objet}
 
 \section{Classes simples}
 
@@ -537,7 +541,7 @@ public:
 \paragraph{Surcharge}
 Attention, si vous l'écrivez vous-même, il faut aussi redéfinir le constructeur par copie \cf{constructeur-copie} et l'opérateur `=' \cf{operator-equals}.
 
-\subsection{Opérateurs}
+\subsection{Opérateurs}\label{operators}
 
 \subsubsection{Cas général}
 
@@ -554,7 +558,7 @@ Piece tmp;
 int a = tmp[0];
 \end{minted}
 
-\subsubsection{Opérateur =\label{operator-equals}}
+\subsubsection{Opérateur =}\label{operator-equals}
 
 On prend comme exemple une classe {\tt Piece}.
 
@@ -579,6 +583,8 @@ Piece p2 = p1; /* Pas d'appel de operator= !
 Attention, si vous modifiez cet opérateur, il faut nécessairement déclarer un destructeur \cf{destructeur} et un constructeur par copie \cf{constructeur-copie}.
 
 \section{Héritage}
+
+\part{C++: Standard Template Library (STL)}
 
 \section{Génériques (templates)}
 
@@ -638,13 +644,474 @@ ajouterDixPourcent(10);
 ajouterDixPourcent(0.2f);
 \end{minted}
 
-\section{STL}
+\section{Conteneurs}\label{containers}
 
-La STL fourni plusieurs classes d'utilité ; dont les Conteneurs (ancêtre des Collections en Java).
+Les conteneurs sont des éléments de la STL permettant de stocker des données (équivalent des Collections en Java).
 
-La STL n'est pas très moderne, l'exécution concurrentielle n'est disponible que depuis 2014.
+\subsection{Commun}
 
-\section{Programmation fonctionnelle}
+Cette section décrit les fonctions qui sont disponibles pour tous les conteneurs.
+
+\subsubsection{Fonctions communes}\label{containers-func}
+\begin{tabular}{l|l}
+Fonction & Description \\
+\hline
+\mintinline{cpp}{.size();} & Taille du conteneur \\
+\mintinline{cpp}{.push_back(1);} & Ajouter `1' à la fin \\
+\mintinline{cpp}{.pop_back();} & Supprimer le dernier élément \\
+\mintinline{cpp}{.front()} & Premier élément \\
+\mintinline{cpp}{.back()} & Dernier élément \\
+\mintinline{cpp}{.erase(.begin()+12);} & Supprime l'élément d'indice 12 \\
+\mintinline{cpp}{.empty()} & Est-ce que ce conteneur est vide? (renvoie un booléen) \\
+\end{tabular}
+
+\subsubsection{Itérateurs communs}\label{containers-iterators}
+
+Plus d'informations à la section \cref{iterators}.
+
+\begin{tabular}{l|l}
+Itérateur & Description \\
+\hline
+\mintinline{cpp}{.begin()} & Début du conteneur (premier élément) \\
+\mintinline{cpp}{.end()} & Fin du conteneur (élément théorique après le dernier) \\
+\mintinline{cpp}{.rbegin()} & Itérateur qui commence par la fin et va vers le début \\
+\mintinline{cpp}{.rend()} & Itérateur qui commence par l'élément théorique précédent le premier
+\end{tabular}
+
+Chacun a un équivalent constant avec un `c' devant: {\tt cbegin()}, {\tt crend()}\dots
+
+\subsection{Array}
+
+%TODO https://www.geeksforgeeks.org/array-class-c/
+
+\subsection{Vector}\label{vector}
+
+Permet de stocker plusieurs éléments (Équivalent de \mintinline{java}{ArrayList} en Java).
+
+Les vecteurs prennent le moins de mémoire de tous les conteneurs, ils sont les plus rapides à traverser (et rechercher\dots), mais ils sont lents en modifications (ajouts, insertions).
+
+Un vecteur prend toujours un plus de place que nécessaire.
+
+\subsubsection{Constructeurs}
+
+\begin{tabular}{l|l}
+Constructeur & Description \\
+\hline
+\mintinline{cpp}{vector<int> v;} & Création d'un vecteur d'entiers \\
+\mintinline{cpp}{vector<int> v{12};} & Création d'un vecteur d'entiers de taille 12 \\
+\mintinline{cpp}{vector<int> v{12, 3};} & Création d'un vecteur contenant 12 fois la valeur `3'. \\
+\mintinline{cpp}{vector<int> v{debut, find};} & Copie le contenu entre les itérateurs `debut' et `fin'. \\
+\end{tabular}
+
+\subsubsection{Fonctions}
+Les fonctions communes à toute la STL sont listées à la section \cref{containers-func}.
+
+\begin{tabular}{l|l}
+Fonction & Description \\
+\hline
+\mintinline{cpp}{vec[2];} ou \mintinline{cpp}{vec.at(2);} & Accès à l'élément d'indice 2 \\
+\mintinline{cpp}{vec.size();} & Taille du vecteur \\
+\mintinline{cpp}{vec.max_size()} & Le nombre maximum d'élément qui peuvent être ajoutés \\
+\mintinline{cpp}{vec.capacity()} & La taille allouée par le vecteur, en nombre d'éléments \\
+\mintinline{cpp}{vec.empty()} & Est-ce que ce vecteur est vide? (renvoie un booléen) \\
+\mintinline{cpp}{vec.shrink_to_fit()} & Réduit la capacité pour qu'elle soit égale à la taille \\
+\mintinline{cpp}{vec.resize(4)} & Change la taille pour qu'il contienne 4 éléments \\
+\mintinline{cpp}{vec.reserve(4)} & Change la capacité pour qu'elle soit au moins 4 éléments \\
+\end{tabular}
+
+\paragraph{Parcourir un vector}
+\begin{minted}{cpp}
+vector<int> vec; // Code de création
+
+auto v = vec.begin();
+while( v != vec.end() ) {
+    cout << *v << endl;
+    ++v;
+}
+\end{minted}
+Plus d'informations sur les itérateurs: \cref{iterators}.
+
+\subsubsection{Itérateurs}
+Voir la section \cref{containers-iterators}.
+
+\subsection{List}\label{list}
+
+Une liste est un groupement non-contigu d'objets; chaque objet contient une référence vers le précédent et le suivant (équivalent de {\tt LinkedList} en Java).
+
+Attention ce n'est pas un équivalent de {\tt ArrayList} en Java: pour cela, voir la section \cref{vector}.
+
+Les listes sont lentes en parcours (recherche\dots) mais très rapides en modification (ajout, insertion, suppression\dots).
+Les listes allouent exactement la place dont elles ont besoin.
+
+\subsection{Map}
+
+%TODO https://www.geeksforgeeks.org/map-associative-containers-the-c-standard-template-library-stl/
+
+\subsection{Deque}
+
+\subsection{Set}
+
+%TODO https://www.geeksforgeeks.org/set-in-cpp-stl/
+
+\subsection{Stack}
+
+%TODO https://www.geeksforgeeks.org/stack-in-cpp-stl/
+
+\subsection{Queue}
+
+%TODO https://www.geeksforgeeks.org/queue-cpp-stl/
+
+\subsection{Autres}
+
+\subsubsection{Paires}
+
+\begin{minted}{cpp}
+pair<string, int> p = make_pair("Test", 32);
+p.first = "Autre test";
+p.second++;
+
+pair<string, int> p2 = make_pair("Autre", 1);
+p.swap(p2);
+\end{minted}
+
+\subsubsection{Fonctions}
+
+\begin{tabular}{l|l}
+Fonction & Description \\
+\hline
+\mintinline{cpp}{list<int> l;} & Création d'une liste d'entiers \\
+\mintinline{cpp}{.push_front(12);} & Ajoute l'élément `12' au début de la liste \\
+\mintinline{cpp}{.push_back(12);} & Ajoute l'élément `12' à la fin de la liste \\
+\mintinline{cpp}{.pop_front();} & Supprime le premier élément de la liste \\
+\mintinline{cpp}{.pop_back();} & Supprime le dernier élément de la liste \\
+\mintinline{cpp}{.insert(.begin()+2, 3, 5);} & Insère 3 fois l'élément `5' à partir de l'indice 2 \\
+\mintinline{cpp}{.clear():} & Vide la liste \\
+\mintinline{cpp}{.erase(.begin()+3);} & Supprime l'élément d'indice `3' \\
+\mintinline{cpp}{.remove(13);} & Supprime tous les éléments égaux à `13' \\
+\end{tabular}
+
+\subsubsection{Itérateurs}
+Voir la section \cref{containers-iterators}.
+
+\section{Algorithmes}
+
+\subsection{Impératifs}
+
+\subsubsection{Tri}
+
+Il est possible de trier un tableau avec la fonction {\tt sort} de {\tt algorithm}. Il faut donner le pointeur vers le premier élément (le tableau lui-même), et le pointeur vers le dernier élément.
+
+\begin{minted}{cpp}
+int tableau[5] = { 5, 4, 3, 2, 1 };
+sort(tableau, tableau + 5);
+\end{minted}
+
+On peut aussi l'utiliser sur un {\tt vector}:
+\begin{minted}{cpp}
+vector<int> vec;
+sort(vec.begin(), vec.end());
+\end{minted}
+
+La STL utilise les opérateurs {\tt <} et {\tt >} pour réaliser le tri \cf{operators}.
+
+\subsubsection{Maximum et minimum}
+
+\begin{minted}{cpp}
+vector<int> vec;
+int max = *max_element(vec.begin(), vec.end());
+int min = *min_element(vec.begin(), vec.end());
+\end{minted}
+
+\subsubsection{Somme}
+
+Permet d'accumuler les éléments entre eux.
+
+\begin{minted}{cpp}
+vector<int> vec;
+int somme = accumulate(vec.begin(), vec.end());
+\end{minted}
+
+\subsubsection{Compter}
+
+Compte le nombre d'apparitions de `x' dans un conteneur.
+
+\begin{minted}{cpp}
+vector<int> vec;
+int compte = count(vec.begin(), vec.end(), 12);
+\end{minted}
+
+\subsubsection{Suppression des doublons}
+
+\begin{minted}{cpp}
+vector<int> vec;
+vec.erase(unique(vec.begin(), vec.end()), vec.end());
+\end{minted}
+
+\subsubsection{Recherche}
+
+\paragraph{Recherche simple: trouver un itérateur}
+
+Permet de trouver l'endroit où un élément est dans le tableau:
+
+\begin{minted}{cpp}
+vector<int> vec;
+auto position = find(vec.begin(), vec.end(), 12);
+if (position != vec.end())
+    // Tout s'est bien passé
+else
+    // Pas trouvé...
+\end{minted}
+
+\paragraph{Recherche binaire: l'élément existe-t-il ?}
+
+La recherche binaire permet de chercher si un élément est présent dans le tableau.
+
+\begin{minted}{cpp}
+int tableau[4] = { 12, 0, 34, 51 };
+if (binary_search(tableau, tableau + 4, 12))
+    // Trouvé !
+else
+    // Pas dans le tableau...
+\end{minted}
+
+\subsubsection{Inverser}
+
+Change l'ordre de tous les éléments.
+
+\begin{minted}{cpp}
+vector<int> vec;
+reverse(vec.begin(), vec.end());
+\end{minted}
+
+\subsubsection{Copie}
+
+\begin{minted}{cpp}
+vector<int> origine = ...;
+vector<int> destination;
+copy_n(origine.begin(), origin.end(), destination.begin());
+\end{minted}
+
+\subsubsection{Remplir avec des éléments}
+
+\begin{minted}{cpp}
+int[20] tab = {0};
+iota(tab, tab+20, 12);
+// tab contient maintenant 20 cases qui valent toutes 12
+\end{minted}
+
+\subsection{Fonctionnels}
+
+La programmation fonctionnelle est expliquée en détail à la section \cref{func-prog}.
+
+\subsubsection{Remplacement}
+
+Copie tous les éléments d'un itérateur en les transformant.
+
+\paragraph{Exemple: multiplier par 3}
+\begin{minted}{cpp}
+vector<int> nombres { 1, 2, 3, 4 };
+vector<int> resultat;
+transform(
+    nombres.begin(),
+    nombres.end(),
+    back_inserter(resultat.begin()),
+    [](int v){ return v*3; }
+);
+\end{minted}
+
+\paragraph{Équivalent en Java}
+\begin{minted}{java}
+List<Integer> nombres = Arrays.asList( 1, 2, 3, 4 );
+List<Integer> resultat = nombres.stream()
+    .map(i -> i*3)
+    .collect(Collectors.toList());
+\end{minted}
+
+\paragraph{Équivalent en Kotlin}
+\begin{minted}{kotlin}
+val nombres = listOf( 1, 2, 3, 4 );
+val resultat = nombres.map { it*3 };
+\end{minted}
+
+\subsubsection{Filtrage}
+
+Supprimer certains éléments. Exemple: supprimer les nombres négatifs.
+
+\begin{minted}{cpp}
+vector<int> vec{ -12, 34 };
+%TODO
+\end{minted}
+
+On peut aussi utiliser:
+\begin{minted}{cpp}
+list<int> liste { -2, 3, 4, -6 };
+liste.remove_if([](int x){ return x < 0; });
+\end{minted}
+
+\subsubsection{Réduction}
+
+Il s'agit de combiner les éléments deux-à-deux, pour obtenir au final une valeur unique, par exemple pour concaténer des strings.
+
+\begin{minted}{cpp}
+vector<string> mots { "Il", "est", "l'heure" };
+string resultat = std::accumulate(
+    mots.begin(),
+    mots.end(),
+    "",
+    [](string a, string b){ return a+" "+b; }
+);
+\end{minted}
+
+\subsubsection{Test d'une condition}
+
+\paragraph{Tous les éléments valident la condition}
+\begin{minted}{cpp}
+vector<int> vec;
+bool resultat = all_of(
+    vec.begin(),
+    vec.end(),
+    [](int x){ return x > 0; } // Condition
+);
+if (resultat)
+    // Tous les éléments sont positifs
+else
+    // Au moins un élément n'est pas positif
+\end{minted}
+
+\paragraph{Au moins un élément valide la condition}
+\begin{minted}{cpp}
+vector<int> vec;
+bool resultat = any_of(
+    vec.begin(),
+    vec.end(),
+    [](int x){ return x > 0; } // Condition
+);
+if (resultat)
+    // Au moins un élément est positif
+else
+    // Aucun élément n'est positif
+\end{minted}
+
+\paragraph{Aucun élément ne valide la condition}
+\begin{minted}{cpp}
+vector<int> vec;
+bool resultat = none_of(
+    vec.begin(),
+    vec.end(),
+    [](int x){ return x > 0; } // Condition
+);
+if (resultat)
+    // Aucun élément n'est positif
+else
+    // Au moins un élément est positif
+\end{minted}
+
+\subsubsection{Partitionnement}
+
+\paragraph{Définition}
+On dit qu'un conteneur est partitionné quand tous les éléments respectant une condition sont au début, et tous ceux qui ne la respectent pas sont à la fin.
+
+Par exemple, pour la condition ``est positif'';
+\begin{itemize}
+\item {\tt 1, -2, 2} n'est pas partitionné (le 2 devrait être avant le -2)
+\item {\tt -5, 1, 2} n'est pas partitionné (il faut commencer par ceux qui valident et finir par ceux qui ne valident pas)
+\item {\tt 1, 2, -5} est partitionné
+\item {\tt 2, 1, -5} est partitionné (partitionné ne veut pas dire trié!)
+\end{itemize}
+
+\paragraph{Vérifier qu'un conteneur est partitionné}
+\begin{minted}{cpp}
+vector<int> vec;
+bool resultat = is_partitioned(
+    vec.begin(),
+    vec.end(),
+    [](int x){ return x > 0; }
+);
+if (resultat)
+    // Le vecteur est partitionné
+else
+    // Le vecteur n'est pas partitionné
+\end{minted}
+
+\paragraph{Partitionner}
+\begin{minted}{cpp}
+vector<int> vec;
+partition(
+    vec.begin(),
+    vec.end(),
+    [](int x){ return x > 0; }
+);
+\end{minted}
+
+\paragraph{Partitionner en gardant l'ordre relatif des éléments}
+\begin{minted}{cpp}
+vector<int> vec;
+stable_partition(
+    vec.begin(),
+    vec.end(),
+    [](int x){ return x > 0; }
+);
+\end{minted}
+
+\paragraph{Trouver le point de partition d'un conteneur}
+Ne fonctionne que sur un conteneur déjà partitionné.
+\begin{minted}{cpp}
+vector<int> vec;
+auto separation = partition_point(
+    vec.begin(),
+    vec.end(),
+    [](int x){ return x > 0; }
+);
+\end{minted}
+
+On peut l'utiliser pour itérer sur les deux partitions.
+
+\paragraph{Copier les partitions dans d'autres conteneurs} Ne fonctionne que sur un conteneur déjà partitionné.
+\begin{minted}{cpp}
+vector<int> vec;
+vector<int> positif;
+vector<int> negatif;
+partition_copy(
+    vec.begin(),
+    vec.end(),
+    positif.begin(),
+    negatif.begin(),
+    [](int x){ return x > 0; }
+);
+\end{minted}
+
+\section{Itérateurs}\label{iterators}
+
+\subsection{Fonctions}
+
+\begin{tabular}{l|l}
+Fonction & Description \\
+\hline
+\mintinline{cpp}{advance(it, 2)} & Décale l'itérateur de 2 \\
+\mintinline{cpp}{next(it, 3)} & Renvoie un nouvel itérateur, 3 indices plus loin \\
+\mintinline{cpp}{prev(it, 2)} & Renvoie un nouvel itérateur, 2 cases en arrière \\
+\end{tabular}
+
+\subsection{Parcourir un itérateur}
+
+\paragraph{Boucle while}
+\begin{minted}{cpp}
+auto debut, fin;
+while (debut != fin) {
+    // La valeur est dans *debut
+    ++debut;
+}
+\end{minted}
+
+\paragraph{Boucle for}
+\begin{minted}{cpp}
+auto debut, fin;
+for (auto it = debut; it != fin; it++) {
+    // La valeur est dans *it
+}
+\end{minted}
+
+\section{Programmation fonctionnelle}\label{func-prog}
 
 \subsection{Fonctions anonymes, $\lambda$-expressions}
 
@@ -666,64 +1133,6 @@ for_each(nombres.begin(), nombres.end(), [](int element){
 \begin{minted}{cpp}
 std::function<retour(parametres)> nom = [lambda]
 auto nom = [lambda]
-\end{minted}
-
-\subsection{Monads}
-
-\subsubsection{Remplacement}
-
-Copie tous les éléments d'un itérateur en les transformant.
-
-\paragraph{Exemple: multiplier par 3}
-\begin{minted}{cpp}
-vector<int> nombres { 1, 2, 3, 4 };
-vector<int> resultat;
-std::transform(
-    nombres.begin(),
-    nombres.end(),
-    back_inserter(resultat.begin()),
-    [](int v){ return v*3; }
-);
-\end{minted}
-
-\paragraph{Équivalent en Java}
-\begin{minted}{cpp}
-List<Integer> nombres = Arrays.asList( 1, 2, 3, 4 );
-List<Integer> resultat = nombres.stream()
-    .map(i -> i*3)
-    .collect(Collectors.toList());
-\end{minted}
-
-\paragraph{Équivalent en Kotlin}
-\begin{minted}{cpp}
-val nombres = listOf( 1, 2, 3, 4 );
-val resultat = nombres.map { it*3; };
-\end{minted}
-
-\subsubsection{Filtrage}
-
-Sélectionne quels éléments on souhaite dans un itérateur.
-
-\paragraph{Exemple: uniquement les nombres pairs}
-\begin{minted}{cpp}
-
-\end{minted}
-
-On utilise \mintinline{cpp}{remove_if}
-
-\subsubsection{Réduction}
-
-Il s'agit de combiner les éléments deux-à-deux, pour obtenir au final une valeur unique.
-
-\paragraph{Exemple: concaténer des strings}
-\begin{minted}{cpp}
-vector<string> mots { "Il", "est", "l'heure" };
-string resultat = std::accumulate(
-    mots.begin(),
-    mots.end(),
-    "",
-    [](string a, string b){ return a+" "+b; }
-);
 \end{minted}
 
 \subsection{Closures}
@@ -787,6 +1196,8 @@ static_assert(-5 / 2 == -2);
 static_assert(std::is_same(Type1, Type2)::value);    // Les deux types sont-ils identiques?
 statis_assert(std::is_base_of(Type1, Type2)::value); // Le premier type est-il un supertype du deuxième?
 \end{minted}
+
+\subsection{Autres types de pointeurs}
 
 \appendix % Annexes, ARTICLE & BOOK
 %\part{Annexes}
