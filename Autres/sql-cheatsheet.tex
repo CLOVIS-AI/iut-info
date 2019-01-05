@@ -44,8 +44,8 @@
 \glossaryentry{photo}{photographie}{photographies}{Table temporaire qui est supprimée à la fin de la session}
 \glossaryentry{bd}{base de données}{bases de données}{Ensemble de données structurées et liées entre elles sur support permettant un accès direct}
 \glossaryentry{contrainte}{contrainte d'intégrité}{contraintes d'intégrité}{Une condition qui doit être validée dans une table (la date de décès doit être après la date de naissance)}
-\glossaryentry{clef-primary}{clef primaire}{Clefs primaires}{Attribut ayant le rôle d'identifiant dans une \gls{bd}}
-\glossaryentry{clef-foreign}{clef étrangère}{Clefs étrangères}{Attribut faisant référence à une \gls{clef-primary}}
+\glossaryentry{clef-primary}{clef primaire}{clefs primaires}{Attribut ayant le rôle d'identifiant dans une \gls{bd}}
+\glossaryentry{clef-foreign}{clef étrangère}{clefs étrangères}{Attribut faisant référence à une \gls{clef-primary}}
 \glossaryentry{assertion}{assertion}{assertions}{Une \gls{contrainte} sur plusieurs tables}
 \glossaryentry{cluster}{cluster}{clusters}{Amas de machines spécialisées}
 \glossaryentry{curseur}{curseur}{curseurs}{Itérateur sur le résultat d'une requête}
@@ -54,11 +54,10 @@
 \glossaryentry{process}{processus}{processus}{Programme en cours d'exécution}
 \glossaryentry{privilege}{privilège}{privilèges}{Droit d'un utilisateur}
 \glossaryentry{procedure}{procédure}{procédures}{Ensemble de requêtes qui peuvent mettre à jour la base}
+\glossaryentry{fonction}{fonction}{fonctions}{Ensemble de requêtes qui peuvent mettre à jour la base, et renvoyer une valeur}
 \glossaryentry{deferable}{contrainte déférable}{contraintes déférables}{Les \glspl{contrainte} seront vérifiées à la fin de la transaction, au lieu d'êtres vérifiées au fur-et-à-mesure}
 \glossaryentry{immediat}{contrainte immédiate}{contraintes immédiates}{Les \glspl{contrainte} sont vérifiées dès qu'une action est effectuée (comportement par défaut, voir \gls{deferable})}
 
-\usemintedstyle{monokai}
-\definecolor{bg}{HTML}{282828}
 \begin{document}
 
 \title{Bases de données}
@@ -346,23 +345,33 @@ Les différents types sont:
 
 Cette section vise à compléter les informations sur la création des tables \cf{sec:table:create}.
 \begin{minted}{sql}
-[Nom] [Type] CONSTRAINT [Nom] [Type de contrainte] [Mode]
+CONSTRAINT [Nom] [Type de contrainte] [Mode]
 \end{minted}
 Pour plus d'informations sur le {\tt Mode}, voir \cref{sec:constraint:mode}.
 
 \paragraph{Créer une \gls{clef-primary}}
 \begin{minted}{sql}
-[Nom] [Type] CONSTRAINT [Nom] PRIMARY KEY [Mode]
+CONSTRAINT [Nom] PRIMARY KEY [Mode]
 \end{minted}
 Il peut y avoir plusieurs \glspl{clef-primary} dans une table.
 
 \paragraph{Créer une \gls{clef-foreign}} faisant référence à la \gls{clef-primary} {\tt T.A}
 \begin{minted}{sql}
-[Nom] [Type] CONSTRAINT [Nom] REFERENCES T ( A ) [Mode]
+CONSTRAINT [Nom] REFERENCES T ( A ) [Mode]
 \end{minted}
 Il faut absolument préciser à quelle \gls{clef-primary} on fait référence, parce qu'il peut y en avoir plusieurs dans une table.
 
-\subsection{Mode des contraintes}\label{sec:constraint:mode}
+\paragraph{Unicité} Le couple $( \text{A}, \text{B} )$ est unique
+\begin{minted}{sql}
+CONSTRAINT [Nom] UNIQUE ( A, B )
+\end{minted}
+
+\paragraph{\glslink{contrainte}{Contrainte} personnalisée}
+\begin{minted}{sql}
+CONSTRAINT [Nom] CHECK ( [Une condition, comme dans un WHERE] )
+\end{minted}
+
+\subsection{Mode des \glspl{contrainte}}\label{sec:constraint:mode}
 
 On peut modifier l'état avec:
 \begin{minted}{sql}
@@ -378,9 +387,30 @@ où l'état peut être:
 
 À noter que \gls{alter} est une opération qui crée une nouvelle transaction \cf{transaction}.
 
-\section{\glslink{procedure}{Procédures}}
+\section{Exécution de code}
 
-\section{\glslink{trigger}{Déclencheurs}}
+\subsection{\glslink{procedure}{Procédures}}
+
+\subsection{\glslink{fonction}{Fonctions}}
+
+Une fonction est une procédure qui peuvent renvoyer un résultat.
+\begin{minted}{sql}
+CREATE FUNCTION [Nom fonction] ([Param] [Mode] [Type], ...)
+    RETURN [Type retour]
+    IS
+        [Declaration de variables]
+    BEGIN
+        [Code de la fonction]
+    END [Nom fonction];
+\end{minted}
+où le {\tt MODE} est:
+\begin{itemize}
+\item[\tt IN] Le paramètre est en entrée,
+\item[\tt OUT] Le paramètre est en sortie,
+\item[\tt IN OUT] Le paramètre est en entrée et sortie.
+\end{itemize}
+
+\subsection{\glslink{trigger}{Déclencheurs}}
 
 Un déclencheur (trigger) permet d'effectuer du code lors d'un événement. Par exemple, pour lancer une procédure avant la suppression d'une réservation:
 \begin{minted}{sql}
