@@ -1,0 +1,310 @@
+\documentclass[10pt,a4paper,french]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{../latex/clovisai}
+
+\begin{document}
+
+\title{Gestion des Systèmes d'Information}
+\author{Ivan Canet}
+\maketitle
+
+\begin{abstract}
+Les objectifs de ce cours sont de comprendre les rôles des SI et des TIC dans une organisation et de les mettre en œuvre.
+\end{abstract}
+\tableofcontents
+
+\section{Introduction}
+
+\subsection{Étude de cas: Carrière fulgurante}
+
+\subsubsection{Le Système d'Informations dans le domaine bancaire}
+
+Voir \cnpref[SI]{glo:SI}.
+
+Le rôle des SI bancaire est de récolter des informations, les stocker et les sécuriser, pour les rendre disponibles aux clients ; négocier des contrats avec les partenaires pour gérer les réseaux de communication -- assurer que seules les bonnes informations sont incluses.
+
+Le \textbf{back-office} est souvent ancien et à moderniser (cf. \cnpref[Back-Office]{glo:back-office}), alors que le \textbf{front-office} est plutôt moderne (cf. \cnpref[Front-Office]{glo:front-office}).
+
+\subsubsection{La Direction des Systèmes d'Information}
+
+Voir \cnpref[DSI]{glo:DSI-la}.
+
+Le rôle de la DSI est d'anticiper les décisions de l'entreprise pour assister le MOA à piloter les projets en gérant les problèmes du quotidien du SI.
+
+\subsubsection{Le travail de Fabien}
+
+5 missions: élaborer stratégie \& politique stratégique, prendre mesures sécurité, veille techno \& juridique, gouvernance des SI, moteurs de l'évolution de l'entreprise, respect budget, cahier des charges, définir les budgets, recrutement info, choix prestataires.
+
+\subsection{Information}
+
+\subsubsection{Dans les organisations}
+
+Dans les organisations, le Système d'Information est une système qui permet aux utilisateurs (les membres de l'entreprise) d'accéder à une base de données.
+
+\begin{cquote}{Information}
+Ce qui modifie notre vision du monde, les données constituent la matière première de l'information. Elles deviennent de l'information par un processus d'interprétation qui leur donne du sens.
+\end{cquote}
+
+\begin{cquote}{Organisation}
+Unité de coordination, dotée de frontières repérables, fonctionnant de manière relativement continue en vue d'atteindre un objectif, et ceci en interaction avec l'environnement extérieur.
+\end{cquote}
+
+L'information est indispensable pour la prise de décisions, la coordination et le contrôle interne, et l'interaction avec l'environnement.
+
+La \textbf{coordination} est un type d'information qui va du haut de l'entreprise (direction) vers le bas, ou alors latéralement, d'un département à un autre.
+
+Le \textbf{contrôle} (eg. vérification) va du bas vers le haut.
+
+C'est la DSI (cf. \cnpref[DSI (la)]{glo:DSI-la}) qui gère le Système d'Informations.
+
+Dans une entreprise organisée en centre de profits, la DSI est organisée en concurrence des autres départements.
+
+\subsection{Principaux composants logiciels d'un SI en 2018}
+
+\subsubsection{La création historique des ERP}
+
+Dans les années 80, les systèmes d'informations sont intégrés en silos : le département comptable s'est équipé d'un logiciel de compatibilité, puis les fonctions RH se sont équipées pour pouvoir gérer les paies plus efficacement ; enfin, la production s'est équipée de logiciels de gestions. Ensuite, on a utilisé l'informatique pour gérer les stocks. La dernière fonction a être informatisée est souvent la fonction commerciale.
+
+On s'est alors rendu compte qu'une commande passait par chaque fonction, et qu'il fallait retranscrire les données d'un système d'information à l'autre...
+
+Depuis les années 90, on a essayé de créer des Systèmes d'Informations transversaux communs à toutes les fonctions.
+
+Les Progiciels de Gestion Intégrée (cf. \cnpref[PGI]{glo:PGI}) permettent de tout gérer dans une seule base de données ; ils permettent de standardiser les mécanismes de développement des projets pour augmenter l'efficacité de l'entreprise.
+
+\subsubsection{Processus de déploiement d'un ERP}
+
+\begin{enumerate}
+\item Première sélection documentaire : trouver la liste des ERP
+\item Cartographie des processus de l'entreprise et mise en regard avec les processus standards des progiciels : choisir ceux qui correspondent le mieux
+\item Démonstration sur données utilisateurs et analyse des résultats : l'entreprise présente l'ERP
+\item Travail sur jeux d'essais complets et négociation pré-contractuel : on a choisi celui qu'on préfère, on le teste
+\item Paramétrages et développements spécifiques : soit on paramètre l'outil, soit on adapte les processus de l'entreprise au logiciel, soit on modifie le progiciel pour qu'il s'adapte à l'entreprise (cela s'appelle le développement spécifique et c'est souvent très coûteux). Ce sont les ESN qui s'occupent de cette intégration.
+\item Reprise des données
+\item Déploiement et formation
+\end{enumerate}
+
+\subsection{Logiciels de gestion de la chaîne logistique}
+
+Ils permettent de gérer les transports, le stockage dans les entrepôts, la chaîne d'assemblage, de réaliser des commandes automatiquement.
+
+\subsection{Logiciels de la relation client}
+
+Permettent de suivre le client futur (prospect) jusqu'aux clients fidélisés, pour garder une liste de clients rentables ; de répondre au téléphone de manière personnalisée, de créer des contrats, etc.
+
+\subsection{Informatique Décisionnelle : BI}
+
+La BI (Business Intelligence) a pour but de prévoir ce qu'il va arriver grâce au passé, pour assister à la prise de décision : on récupère toutes les données disponibles sur l'entreprise (fait par l'ETL: Extract/Transform/Load) qui sont ensuite analysées.
+
+\section{SI, TI et stratégie}
+
+\subsection{Rôle stratégique des Systèmes d'Information}
+
+\subsubsection{Qu'est-ce que la stratégie ?}
+
+\begin{cquote}{Stratégie}
+L'ensemble des décisions prises par l'entreprise en fonction de l’environnement et qui l'engage à long terme;
+
+Elles ont pour objectif l'obtention d'un avantage concurrentiel.
+\end{cquote}
+
+\begin{cquote}{Avantage concurrentiel}
+Ensemble de facteurs (écart des coûts, de qualité, de notoriété) que l'entreprise chercher à valoriser pour dépasser ses concurrents.
+
+Ces facteurs sont relatifs au produit, marché et à la technologie.
+
+Ils s'appuient sur la capacité de l'entreprise à effectuer des activité différentes de ses concurrents ou des activités similaires mais de façon différente.
+\end{cquote}
+
+\paragraph{Exemple: Apple}
+Prenons Apple comme exemple:
+\begin{description}
+\item[Luxe] Le prix est très élevé (presque un SMIC pour le produit phare)
+\item[Notoriété \& Image] Efforts de commerce, buzz, fidélisation
+\item[Innovation]
+\item[Qualité] Image de qualité, mais en réalité équivalent des concurrents
+\item[Design]
+\item[Ergonomie, simplicité d'utilisation]
+\end{description}
+
+\paragraph{Exemple: Walmart}
+\begin{description}
+\item[Produit/Service] Grande distribution
+\item[Marché] Monde (point de départ: USA)
+\item[Technologie] E-Commerce
+\item[Outils] IA, RA, Reconnaissance Vocale
+\item[Objectif] Se différencier: élargir le catalogue, rendre le parcours du client plus fluide, logistique (fournir le produit au bon moment)
+\end{description}
+
+\subsubsection{Les SI permettent d'améliorer l'efficacité opérationnelle de l'entreprise}
+
+\paragraph{5 forces concurrentielles de Porter}
+Une entreprise doit positionner son offre par rapport à 5 forces :
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc}
+& Produits substituts & \\
+\\
+Négociation des fournisseurs & Concurrence directe & Négociation des clients \\
+\\
+& Menace de nouveaux entrants &
+\end{tabular}
+\end{table}
+Pour éviter les nouveaux arrivants, les concurrents peuvent créer des barrières à l'entrée (eg. pour les pharmacies il faut un doctorat et une autorisation des pharmacies proches).
+
+Pour être fort contre le pouvoir des fournisseurs, il faut essayer d'avoir un grand nombre de fournisseurs potentiels. De la même manière, il faut avoir un grand nombre de clients, ou alors avoir un prix de changement élevé (eg. Apple).
+
+On peut aussi lutter contre les produits substituts, se démarquer (meilleur rapport qualité/prix, élargir la gamme).
+
+Les systèmes d'informations sont très pratiques dans ce but, parce qu'ils peuvent permettre des services beaucoup plus personnalisés et efficaces.
+
+\paragraph{Exemples}
+\subparagraph{UPS} a organisé en premier le suivi de la commande pour se différentier, et a acheté un satellite pour organiser son SI (ce qui est une énorme barrière à l'entrée).
+
+\subparagraph{Amazon} s'est différentié avec son énorme catalogue de vente en ligne. Ils ont actuellement un pouvoir de négociation auprès des fournisseurs qui est énorme.
+
+\subparagraph{Uber} a contourné la licence des taxis grâce à son application : les avantages de la licence (parking spécialisé, autocollant, etc) ne sont pas intéressants pour Uber.
+
+\subsubsection{Stratégie des SI : alignement stratégique}
+
+L'alignement stratégique du SI est une démarche visant à faire coïncider la stratégie système d'information sur la ou les stratégies métiers de l'entreprise pour renforcer la valeur d'usage du SI ou visant à intégrer l'évolution des TI dans la démarche de réflexion stratégique.
+
+\paragraph{Exemples}
+
+\subparagraph{Le bon coin} est un portail transactionnel dont le but est de faciliter les achats entre particuliers (avec aujourd'hui 28 millions d'utilisateurs par mois). Il est actif sur le marché de l'automobile, l'emploi et l'immobilier, mais aussi les objets du quotidien (vêtements, jouets\ldots).
+
+Le site est évolutif sur l'intégration d'un chatbot (via Google Home), paiement avec validation, et le transport (mais pas de stockage).
+
+Ces évolutions lui permettent d'automatiser les transactions et de les rendre le plus simple possible.
+
+\section{Dimensions tactiques et opérationnelles}
+
+\subsection{BPMN}
+
+\subsection{Externalisation des SI}
+
+\begin{cquote}{Externalisation (\textit{Outsourcing})}
+Stratégie d'entreprise consistant à ne pas faire certaines tâches ou activités et à les déléguer à des partenaires.
+\end{cquote}
+
+Il s'agit de sous-traiter tout ou une partie des activités des systèmes d'information à un fournisseur extérieur. Le fournisseur assure dès lors la responsabilité des résultats.
+
+Les ESN sont responsables:
+\begin{itemize}
+\item La gestion des matériels \& leur gestion,
+\item La maintenance des applications existantes (TMA),
+\item Infogérance globale,
+\item BPO,
+\item Cloud, IAAS, PAAS, SaaS
+\end{itemize}
+
+
+
+
+
+\appendix
+\section{Glossaire}
+
+\begin{description}
+
+\item[B2B -- Business To Business] \label{glo:b2b} Entreprise fournissant des services ou des produits à d'autres entreprises (eg.~IBM).
+
+\item[B2C -- Business To Consumer] \label{glo:b2c} Entreprise fournissant des services ou des produits à des consommateurs finaux (eg.~Carrefour).
+
+\item[Back-Office]\label{glo:back-office} La partie du \textbf{SI} de l'entreprise utilisé exclusivement en interne par les employés, pour gérer l'entreprise. Voir \textbf{PGI}.
+
+\item[BPMN -- Business Process Modelisation Notation]\label{glo:bpmn}
+Norme de modélisation des processus utilisé en gestion (contrairement à l'UML qui est propre à l'informatique). Il permet de définir l'enchaînement des événements.
+
+\item[BPO -- Businness Process Outsourcing]\label{glo:BPO}
+Processus d'\textbf{externalisation} d'une partie de l'activité d'un client auprès d'un prestataire (ici, une \textbf{ESN}).
+
+\item[Cloud]\label{glo:cloud}
+Intégration d'un ensemble de services élémentaires, visant à confier à une \textbf{ESN} tout ou partie du \textbf{SI} d'un client. L'ESN est propriétaire du matériel et est responsable de toute la gestion, contrairement à l'\textbf{infogérance}. Voir aussi \textbf{externalisation}.
+
+\item[DevOps]\label{glo:devops}
+Être capable de créer de nouveaux produits logiciels et de les publier en production dès les semaines suivantes, presque en temps réel. Très proche de l'agilité, permet de mettre à disposition un site internet en continue (eg. Amazon).
+
+\item[DSI (le) -- Directeur Systèmes d'Information]\label{glo:DSI-le} Responsable des composants matériels et logiciels du \textbf{SI}, ainsi que les services de communication.
+
+\item[DSI (la) -- Direction des Systèmes d'Information]\label{glo:DSI-la} L'équipe du \textbf{DSI}, chargée de l'informatisation de l'entreprise et d'une partie de son management via des procédés informatiques.
+
+\item[CRM -- Client Relations Management]\label{glo:CRM}
+Terme anglais désignant les \textbf{GRC}.
+
+\item[Économie d'Échelle]\label{glo:econo-echelle} Diminution du coût moyen unitaire de production qui résulte de l’accroissement des quantités produites. Produire en grande série permet en effet de réduire le coût unitaire de production car les coûts fixes (machines, bâtiments) sont par définition identiques, quel que soit le volume de production. Voir \textbf{mutualisation}.
+
+\item[ERP -- Enterprise Resource Planning]\label{glo:ERP}
+Terme anglais désignant la \textbf{GCL}.
+
+\item[ESN -- Entreprise de Services Numériques]\label{glo:ESN} Société de services experte dans le domaine des nouvelles technologies et de l'informatique. L'objectif est d'accompagner la société cliente dans la réalisation d'un projet. Voir \textbf{SI} et \textbf{TMA}.
+
+\item[Externalisation]\label{glo:externalisation}
+Stratégie d'entreprise consistant à ne pas faire certaines tâches ou activités et à les déléguer à des partenaires.
+
+\item[Front-Office] \label{glo:front-office}  L'intégralité du \textbf{SI} de l'entreprise accessible depuis l'extérieur, l'interface avec le client, souvent moderne mais posant des questions de sécurité. Voir \textbf{GRC}.
+
+\item[GCL (SCM) -- Gestion de la Chaîne Logistique]\label{glo:GCL}
+\label{glo:SCM} Savoir-faire d'application qui vise une mise en œuvre ou une gestion opérationnelle, soit le respect de l'enchaînement des tâches ou le bon fonctionnement du système logistique tel que fixé par le cahier des charges logistique.
+
+\item[GRC -- Gestion de la Relation Client] \label{glo:GRC}
+Ensemble des outils techniques destinés à capter, traiter, analyser les informations relatives aux clients et aux prospects, dans le but de les fidéliser en leur offrant des services. Il s'agit aussi des logiciels qui permettent de traiter avec le client, vis-à-vis du plan de vente, du marketing et du service. Voir \textbf{front-office}.
+
+\item[IaaS -- Infrastructure as a Service]\label{glo:iaas}
+%TODO
+Voir \textbf{PaaS} et \textbf{SaaS}.
+
+\item[Infogérance]\label{glo:infogerance}
+Intégration d'un ensemble de services élémentaires, visant à confier à une \textbf{ESN} tout ou partie du \textbf{SI} d'un client. Le client reste propriétaire du matériel, contrairement au \textbf{Cloud}. Voir aussi \textbf{externalisation}.
+
+\item[Mutualisation]\label{glo:mutualisation}
+Mise en commun des services. Voir \textbf{économie d'échelle}.
+
+\item[Outsourcing]\label{glo:outsourcing}
+Terme anglais désignant l'\textbf{externalisation}.
+
+\item[PaaS -- Platform as a Service]\label{glo:paas}
+%TODO
+Voir aussi \textbf{IaaS} et \textbf{SaaS}.
+
+\item[PGI -- Progiciels de Gestion Intégrés] \label{glo:PGI}
+Progiciel permettant de garantir la gestion des bases de données du \textbf{SI}, permettant d'organiser les statistiques de l'entreprise, utilisé en interne de l'entreprise.
+
+Les trois leaders du domaine sont SAP Business One (Allemand), Oracle E-Business Suite et Sage.
+
+\item[Réversibilité]\label{glo:reversibilite}
+Le fait de pouvoir changer de prestataire (d'\textbf{ESN}): transfert de données\dots
+
+\item[SaaS -- Software as a Service]\label{glo:saas}
+%TODO
+Voir aussi \textbf{Iaas} et \textbf{PaaS}.
+
+\item[SLA -- Service Level Agreement]\label{glo:SLA}
+La liste des buts d'un logiciel. C'est une sorte de spécification du service rendu. %TODO
+
+\item[Seuil de rentabilité] %TODO
+
+\item[SI -- Systèmes d'Informations]\label{glo:SI}
+Ne pas confondre avec les \textbf{TIC}.
+
+\begin{cquote}{Reix}
+Ensemble organisé de ressources humaines, financières et matérielles permettant de collecter, stocker, traiter et diffuser l'information pour aider à la prise de décision, à la coordination et au contrôle au sein de l'organisation.
+\end{cquote}
+
+\begin{cquote}{Caseau}
+Assemblage de logiciels qui produisent des services pour exécuter ou assister des processus.
+\end{cquote}
+
+\item[SIRH -- Système d'Information de Ressources Humaines]\label{glo:SIRH}
+Interface de gestion des \textbf{SI} visant les salaires, les congés, le recrutement ainsi que tous les autres domaines en rapport avec les ressources humaines.
+
+\item[SN -- Services Numériques]\label{glo:SN} Prestation fournie par un être humain (représentant une \textbf{ESN}) d'apprentissage, de maintenance ou de gestion, destinée à une entreprise cliente.
+
+\item[TMA -- Tierce Maintenance Applicative]\label{glo:TMA} Contrat de maintenance mis en place entre une entreprise client et une \textbf{ESN}, pour l'un de leurs progiciels.
+
+\item[TIC -- Technologies de l'Information et de la Communication]\label{glo:TIC} Composants de nature technique que les entreprises achètent, développent ou combinent pour constituer l'infrastructure technologique de leur système d'information (matériel informatique, logiciels, stockage, communication). Ne pas confondre avec le \textbf{SI}.
+
+\end{description}
+
+\end{document}
